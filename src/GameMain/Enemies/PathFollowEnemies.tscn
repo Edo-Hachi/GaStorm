@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/GameMain/Enemies/PathFollowEnemies.gd" type="Script" id=1]
+[ext_resource path="res://src/GameMain/Enemies/Enemy_Area2D.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 20, 222, -14.5756, 49.8933, 14.5756, -49.8933, 190, 178, 48.7721, 37.2798, -48.7721, -37.2798, 167, 74, 29.992, -11.4923, -29.992, 11.4923, 75, 47, 3.92419, -34.4768, -3.92419, 34.4768, 27, 105, -20.4618, -21.8633, 20.4618, 21.8633, 46, 186, -19.621, 6.72718, 19.621, -6.72718, 131, 208, -19.9013, 55.4993, 19.9013, -55.4993, 189, 163, 17.6589, 27.189, -17.6589, -27.189, 200, 91, 0, 0, 0, 0, 131, 67 )
+}
+
+[node name="PathFollowEnemies" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="LeftPath01" type="Node2D" parent="."]
+
+[node name="Path2D" type="Path2D" parent="LeftPath01"]
+curve = SubResource( 1 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="LeftPath01/Path2D"]
+position = Vector2( 20, 222 )
+rotation = -0.253264
+loop = false
+
+[node name="Sprite" type="Sprite" parent="LeftPath01/Path2D/PathFollow2D"]
+
+[node name="RightPath01" type="Node2D" parent="."]
+visible = false
+
+[node name="Path2D" type="Path2D" parent="RightPath01"]
+position = Vector2( 246, 3 )
+scale = Vector2( -1, 1 )
+curve = SubResource( 1 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RightPath01/Path2D"]
+position = Vector2( 20, 222 )
+rotation = -0.253264
+loop = false
+
+[node name="Enemy_R01" parent="RightPath01/Path2D/PathFollow2D" instance=ExtResource( 2 )]
+visible = false

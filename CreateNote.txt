@@ -1,11 +1,10 @@
-シーン切替え
-
+#シーン切替え
 func _on_BtnStart_button_down() -> void:
 	print("btn Push")
 	get_tree().change_scene("res://Src/GamePlay.tscn")
 
 
-ポーズ処理
+#ポーズ処理
 
 	if Input.is_action_pressed("Pause"):
 		#メインノードをpause
@@ -19,14 +18,98 @@ func _on_DlgPause_tree_exited() -> void:
 		get_tree().paused = false
 
 
-以下ダイアログ側の処理
+#以下ダイアログ側の処理
 func _on_Button_pressed() -> void:
 	get_tree().paused = false
 	hide()
 
-ノード配置は以下の通り
+
+#ノード配置は以下の通り
 
 ＋DlgPause（←これが小さいとボタン押せなかったりするので注意）
 　＋ColorRect
 　　＋　Button(Pause)
 　　
+
+
+#目標座標まで勝手に移動するやつ
+	position = position.move_toward(Vector2(0,0), delta * speed)
+
+
+
+#マウスをおっかけるとかはこれ
+  var angle = get_angle_to(get_global_mouse_position())
+  velocity.x = cos(angle)
+  velocity.y = sin(angle)
+
+  global_position += velocity * speed * delta
+
+　ホーミングミサイルとかならこれでよいかも
+
+
+
+
+#親シーンを取得する
+これで自分を生成した親のオブジェクトにアクセスできる　
+	var p = find_parent("GameMain_Node2D")
+	p.set_erase_enemy(999)　　#親の set_erase_enemy()関数にアクセス
+
+ていうか一個上ならget_parent()で良かったorz
+
+
+
+ルートからの位置がわかっているなら孫からでも次のようにしてアクセスできる(ノードツリー内に限る)
+	var aa= get_node("/root/GameMain_Node2D")
+	aa.set_erase_enemy(999)
+
+
+GameMain_Node2D.gd
+
+func set_erase_enemy(var id):
+	print("set_erase_enemy hoge ",id)
+
+
+#インスタンスIDとインスタンスIDからオブジェクトを検索する方法
+#あんましつかえんかも
+生成したインスタンスを変数に保存しといてそのままシーンなりノードで使うのが一番楽
+
+var foo = "bar"
+func _ready():
+    var id = get_instance_id()
+    var inst = instance_from_id(id)
+    print(inst.foo) # Prints bar
+
+
+
+
+#wrapf(数値, 下限値, 上限値)とは
+
+数値が下限値から上限値の間で変動。下限値より下がると上限値になり、上限値を越えると下限値になる。
+wrapfのこの性質を利用して、今回はプレイヤーのｘ座標とy座標を画面のｘｙ座標内で変動させることで画面の反対から現れる動きを作っています
+
+
+
+#クラスを使ったリストの作り方
+var EnemyMatrix = []
+enum EnemyState {STAT_LOOP, STAT_PROC, STAT_ATAK, STAT_DEAD}
+
+class ENEMY_MANAGE:
+	var position : Vector2
+	var state : int
+	var lastpos : Vector2
+
+
+func _ready() -> void:
+	
+	var eman = ENEMY_MANAGE.new()
+	eman.position.x = 10
+	eman.position.y = 64
+	eman.lastpos.x = 128
+	eman.lastpos.y = 128
+	eman.state = EnemyState.STAT_LOOP
+
+	EnemyMatrix.append(eman)
+
+	var geteman : ENEMY_MANAGE
+	print(EnemyMatrix[0].state)
+	

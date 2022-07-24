@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/GameMain/GameMain_Node2D.gd" type="Script" id=1]
 [ext_resource path="res://src/GameMain/Guntret/Guntret_Area2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/GameMain/DlgPause.gd" type="Script" id=3]
+[ext_resource path="res://asset/Font/kongtext.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 11
+font_data = ExtResource( 4 )
 
 [node name="GameMain_Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -36,6 +41,31 @@ margin_top = 41.0
 margin_right = 129.0
 margin_bottom = 61.0
 text = "PAUSE"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="lblScore" type="Label" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -66.0
+margin_right = 66.0
+margin_bottom = 17.0
+custom_fonts/font = SubResource( 1 )
+text = "Score:000000"
+align = 1
+
+[node name="lblGameOver" type="Label" parent="CanvasLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -52.0
+margin_top = -42.5
+margin_right = 52.0
+margin_bottom = -25.5
+custom_fonts/font = SubResource( 1 )
+text = "GAMEOVER"
 
 [connection signal="tree_exited" from="DlgPause" to="." method="_on_DlgPause_tree_exited"]
 [connection signal="pressed" from="DlgPause/ColorRect/Button" to="DlgPause" method="_on_Button_pressed"]
