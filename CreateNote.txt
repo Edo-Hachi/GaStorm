@@ -1,0 +1,32 @@
+シーン切替え
+
+func _on_BtnStart_button_down() -> void:
+	print("btn Push")
+	get_tree().change_scene("res://Src/GamePlay.tscn")
+
+
+ポーズ処理
+
+	if Input.is_action_pressed("Pause"):
+		#メインノードをpause
+		get_tree().paused = true
+		#ダイアログ表示　ダイアログだけはイベントを昼得るように設定(PauseMode = Process)
+		$DlgPause.show_modal(true)　
+
+#ポーズダイアログを閉じた時の処理
+func _on_DlgPause_tree_exited() -> void:
+	if get_owner() != null:
+		get_tree().paused = false
+
+
+以下ダイアログ側の処理
+func _on_Button_pressed() -> void:
+	get_tree().paused = false
+	hide()
+
+ノード配置は以下の通り
+
+＋DlgPause（←これが小さいとボタン押せなかったりするので注意）
+　＋ColorRect
+　　＋　Button(Pause)
+　　

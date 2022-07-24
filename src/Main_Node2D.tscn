@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://asset/Font/Xolonium-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://asset/Font/zig.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://src/Main_Node2D.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 25
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 2 )
+
+[node name="Main_Node2D" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -60.0
+margin_top = -64.5
+margin_right = 60.0
+margin_bottom = -33.5
+custom_fonts/font = SubResource( 1 )
+text = "GaStorm"
+align = 1
+valign = 1
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -37.0
+margin_top = 27.0
+margin_right = 40.0
+margin_bottom = 50.0
+custom_fonts/font = SubResource( 2 )
+text = "Start"
+
+[connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_Button_button_down"]
