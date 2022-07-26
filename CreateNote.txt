@@ -4,6 +4,7 @@ func _on_BtnStart_button_down() -> void:
 	get_tree().change_scene("res://Src/GamePlay.tscn")
 
 
+#-----------------------------------------------------------------------------------
 #ポーズ処理
 
 	if Input.is_action_pressed("Pause"):
@@ -12,6 +13,7 @@ func _on_BtnStart_button_down() -> void:
 		#ダイアログ表示　ダイアログだけはイベントを昼得るように設定(PauseMode = Process)
 		$DlgPause.show_modal(true)　
 
+#-----------------------------------------------------------------------------------
 #ポーズダイアログを閉じた時の処理
 func _on_DlgPause_tree_exited() -> void:
 	if get_owner() != null:
@@ -24,6 +26,7 @@ func _on_Button_pressed() -> void:
 	hide()
 
 
+#-----------------------------------------------------------------------------------
 #ノード配置は以下の通り
 
 ＋DlgPause（←これが小さいとボタン押せなかったりするので注意）
@@ -32,11 +35,13 @@ func _on_Button_pressed() -> void:
 　　
 
 
+#-----------------------------------------------------------------------------------
 #目標座標まで勝手に移動するやつ
 	position = position.move_toward(Vector2(0,0), delta * speed)
 
 
 
+#-----------------------------------------------------------------------------------
 #マウスをおっかけるとかはこれ
   var angle = get_angle_to(get_global_mouse_position())
   velocity.x = cos(angle)
@@ -48,7 +53,7 @@ func _on_Button_pressed() -> void:
 
 
 
-
+#-----------------------------------------------------------------------------------
 #親シーンを取得する
 これで自分を生成した親のオブジェクトにアクセスできる　
 	var p = find_parent("GameMain_Node2D")
@@ -57,11 +62,11 @@ func _on_Button_pressed() -> void:
 ていうか一個上ならget_parent()で良かったorz
 
 
+#-----------------------------------------------------------------------------------
 
 ルートからの位置がわかっているなら孫からでも次のようにしてアクセスできる(ノードツリー内に限る)
 	var aa= get_node("/root/GameMain_Node2D")
 	aa.set_erase_enemy(999)
-
 
 GameMain_Node2D.gd
 
@@ -69,6 +74,7 @@ func set_erase_enemy(var id):
 	print("set_erase_enemy hoge ",id)
 
 
+#-----------------------------------------------------------------------------------
 #インスタンスIDとインスタンスIDからオブジェクトを検索する方法
 #あんましつかえんかも
 生成したインスタンスを変数に保存しといてそのままシーンなりノードで使うのが一番楽
@@ -81,14 +87,14 @@ func _ready():
 
 
 
-
+#-----------------------------------------------------------------------------------
 #wrapf(数値, 下限値, 上限値)とは
 
 数値が下限値から上限値の間で変動。下限値より下がると上限値になり、上限値を越えると下限値になる。
 wrapfのこの性質を利用して、今回はプレイヤーのｘ座標とy座標を画面のｘｙ座標内で変動させることで画面の反対から現れる動きを作っています
 
 
-
+#-----------------------------------------------------------------------------------
 #クラスを使ったリストの作り方
 var EnemyMatrix = []
 enum EnemyState {STAT_LOOP, STAT_PROC, STAT_ATAK, STAT_DEAD}
@@ -112,4 +118,38 @@ func _ready() -> void:
 
 	var geteman : ENEMY_MANAGE
 	print(EnemyMatrix[0].state)
+
+
+#-----------------------------------------------------------------------------------
+#クラスを無理やり2次元配列で静的宣言する
+class EnemyData:
+	var StartPos : Vector2
+	var EndPos : Vector2
+	var Speed : int = 0
+
+var EnemyMatrix = []
+
+func _ready() -> void:
+	
+	var DmyItem = EnemyData.new()
+	
+	for i in range(0, 8):
+		EnemyMatrix.append([DmyItem,DmyItem,DmyItem,DmyItem,DmyItem,DmyItem,DmyItem,DmyItem])
+	
+	#あくまでも2次元配列で領域確保しただけなので、後で実データでちゃんと上書きしとかないとダメ
+
+	var NewItem = EnemyData.new()
+	EnemyMatrix[1][0] = NewItem
+
+	NewItem = EnemyData.new()
+	EnemyMatrix[1][1] = NewItem
+
+	NewItem = EnemyData.new()
+	EnemyMatrix[7][7] = NewItem
+		
+	for j in range(0,8):
+		for i in range(0,8):
+			print(i,"/",j,":",EnemyMatrix[i][j])
+	
+
 	

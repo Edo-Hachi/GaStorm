@@ -5,7 +5,7 @@ extends Area2D
 # var a: int = 2
 # var b: String = "text"
 enum MoveTypeID  {
-	Type01,
+	Type01=0,
 	Loop01L,
 	Loop01R
 }

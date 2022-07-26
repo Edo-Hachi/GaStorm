@@ -7,6 +7,7 @@ var LoopType = LoopTypeId.Left01
 var EnemyId
 var LoopId
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$LeftPath01.visible = false

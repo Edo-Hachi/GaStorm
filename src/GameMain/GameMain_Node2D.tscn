@@ -67,5 +67,10 @@ margin_bottom = -25.5
 custom_fonts/font = SubResource( 1 )
 text = "GAMEOVER"
 
+[node name="SeqTimer" type="Timer" parent="."]
+wait_time = 0.017
+autostart = true
+
 [connection signal="tree_exited" from="DlgPause" to="." method="_on_DlgPause_tree_exited"]
 [connection signal="pressed" from="DlgPause/ColorRect/Button" to="DlgPause" method="_on_Button_pressed"]
+[connection signal="timeout" from="SeqTimer" to="." method="_on_SeqTimer_timeout"]
