@@ -14,16 +14,12 @@ var StateSeq = [
 		{"Cmd" : "Init_g"},	#グローバルタイマ
 		
 		#{"Cmd" : "Wait_s", "Time" : 3},
-		{"Cmd" : "Wait_g", "Time" : 3},
+		{"Cmd" : "Wait_g", "Time" : 1},
 		
 		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "Type" : 0},
-		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "Type" : 0},
-		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "Type" : 0},
-		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "Type" : 0},
+		{"Cmd" : "LoopEnmy", "Type" : GlobalNode.LoopType.Right01},
+		{"Cmd" : "LoopEnmy", "Type" : GlobalNode.LoopType.Left01},
+		#{"Cmd" : "LoopEnmy", "Type" : 0},
 
 		{"Cmd" : "End"}
 	]
@@ -99,9 +95,13 @@ func SeqState():
 				print("GrobalTime Process ", Seq["Time"], "Time")
 				SeqPtr+=1
 		
+		#{"Cmd" : "LoopEnmy", "Type" : GlobalNode.LoopType.Left01},
+		
 		"LoopEnmy":
 			print("LoopEnemyType:", Seq["Type"])
-			LoopEnemySpawn(0)
+			#var aa : int = Seq["Type"]
+			LoopEnemySpawn(Seq["Type"])
+			#LoopEnemySpawn(0)
 
 			SeqPtr+=1
 			
@@ -113,7 +113,7 @@ func SeqState():
 
 
 #--------------------------------------------
-func LoopEnemySpawn(var LoopType):
+func LoopEnemySpawn(var LoopType : int):
 	var EnemyManage = ENEMY_MANAGE.new()
 	
 	var ListMax = EnemyManageList.size()
@@ -133,7 +133,6 @@ func LoopEnemySpawn(var LoopType):
 	var enid = ScnEnemy.get_instance_id()
 	ScnEnemy.SetEnemyId(enid)
 	add_child(ScnEnemy)
-	
 	
 	EnemyManage.EnemyId = enid
 	EnemyManage.LoopId = loopid
