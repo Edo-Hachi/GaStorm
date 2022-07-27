@@ -1,3 +1,7 @@
+#ビューポートサイズ取得
+screen_size = get_viewport_rect().size
+
+
 #シーン切替え
 func _on_BtnStart_button_down() -> void:
 	print("btn Push")

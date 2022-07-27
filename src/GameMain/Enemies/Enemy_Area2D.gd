@@ -25,7 +25,16 @@ var EnemyID
 func SetEnemyId(var enemyid):
 	EnemyID = enemyid
 	#$AnimatedSprite.animation = "Green"
-	$AnimatedSprite.animation = "Red"
+
+func SetEnemyColor(var enemyColor : int):
+	match enemyColor:
+		GlobalNode.EnemyColor.Green:
+			$AnimatedSprite.animation = "Green"
+		GlobalNode.EnemyColor.Red:
+			$AnimatedSprite.animation = "Red"
+		GlobalNode.EnemyColor.Purple:
+			$AnimatedSprite.animation = "Puraple"
+			
 
 
 func funcMoveType01(delta : float):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/GameMain/Enemies/PathFollowEnemies.gd" type="Script" id=1]
 [ext_resource path="res://asset/Image/Enemy/EnemyHidden.png" type="Texture" id=2]
@@ -8,36 +8,39 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 20, 222, -14.5756, 49.8933, 14.5756, -49.8933, 190, 178, 48.7721, 37.2798, -48.7721, -37.2798, 167, 74, 29.992, -11.4923, -29.992, 11.4923, 75, 47, 3.92419, -34.4768, -3.92419, 34.4768, 27, 105, -20.4618, -21.8633, 20.4618, 21.8633, 46, 186, -19.621, 6.72718, 19.621, -6.72718, 131, 208, -19.9013, 55.4993, 19.9013, -55.4993, 189, 163, 17.6589, 27.189, -17.6589, -27.189, 200, 91, 0, 0, 0, 0, 131, 67 )
 }
 
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 212, 212, 0, 0, 0, 0, 97, 201, 0, 0, 0, 0, 63, 146, 0, 0, 0, 0, 75, 76, 0, 0, 0, 0, 127, 42, 0, 0, 0, 0, 199, 86, 0, 0, 0, 0, 188, 163, 0, 0, 0, 0, 125, 196, 0, 0, 0, 0, 61, 188, 0, 0, 0, 0, 42, 108, 0, 0, 0, 0, 75, 52, 0, 0, 0, 0, 209, 21 )
+}
+
 [node name="PathFollowEnemies" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="LeftPath01" type="Node2D" parent="."]
 visible = false
 
-[node name="Path2D" type="Path2D" parent="LeftPath01"]
+[node name="L01_Path2D" type="Path2D" parent="LeftPath01"]
 curve = SubResource( 1 )
 
-[node name="PathFollow2D" type="PathFollow2D" parent="LeftPath01/Path2D"]
+[node name="L01_PathFollow2D" type="PathFollow2D" parent="LeftPath01/L01_Path2D"]
 position = Vector2( 20, 222 )
 rotation = 0.0264305
 loop = false
 
-[node name="EnemyHidden" type="Sprite" parent="LeftPath01/Path2D/PathFollow2D"]
+[node name="L01_Sprite" type="Sprite" parent="LeftPath01/L01_Path2D/L01_PathFollow2D"]
 position = Vector2( -0.0528564, -1.9993 )
 texture = ExtResource( 2 )
 
 [node name="RightPath01" type="Node2D" parent="."]
 
-[node name="Path2D" type="Path2D" parent="RightPath01"]
-position = Vector2( 253, 0 )
-scale = Vector2( -1, 1 )
-curve = SubResource( 1 )
+[node name="R01_Path2D" type="Path2D" parent="RightPath01"]
+curve = SubResource( 2 )
 
-[node name="PathFollow2D" type="PathFollow2D" parent="RightPath01/Path2D"]
-position = Vector2( 20, 222 )
-rotation = 0.0264305
+[node name="R01_PathFollow2D" type="PathFollow2D" parent="RightPath01/R01_Path2D"]
+position = Vector2( 212, 212 )
+rotation = -3.04623
 loop = false
 
-[node name="EnemyHidden" type="Sprite" parent="RightPath01/Path2D/PathFollow2D"]
-position = Vector2( -0.0264282, -0.999649 )
+[node name="EnemyHidden" type="Sprite" parent="."]
+position = Vector2( 212, 212 )
 texture = ExtResource( 2 )

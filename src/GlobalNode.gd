@@ -11,11 +11,13 @@ var PlayerScore = 0
 var GameMainSceneID = 0
 
 enum LoopType {Left01=0, Right01}
+enum EnemyColor {Green=0, Red, Purple} 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
-	
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
