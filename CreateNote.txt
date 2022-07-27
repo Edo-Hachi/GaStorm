@@ -150,6 +150,12 @@ func _ready() -> void:
 	for j in range(0,8):
 		for i in range(0,8):
 			print(i,"/",j,":",EnemyMatrix[i][j])
+
+#-----------------------------------------------------------------------------------
+#配列サイズ取得
+EnemyList.size()
+
+
 	
 
 	

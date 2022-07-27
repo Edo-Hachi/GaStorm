@@ -13,6 +13,8 @@ var LoopId
 func _ready() -> void:
 	#$LeftPath01.visible = true
 	#$RightPath01.visible = true
+	
+	
 	pass
 	
 
@@ -35,8 +37,22 @@ func SetEnemyId(var enid):
 
 func SetLoopId(var lpid):
 	LoopId = lpid
+
+#func SetEnemyType(var type):
+	
 	
 func _process(delta: float) -> void:
+
+	#$LeftPath01/Path2D/PathFollow2D/EnemyGreen.visible = false
+	#$RightPath01/Path2D/PathFollow2D/EnemyGreen.visible = false
+
+	#issue
+	#パスを動作するスプライトがPathFollow2Dにアタッチされて、Visibleでないと
+	#LoeftPathとRightPathが別々にならない
+	#RightPathもLeftPassの動きになってしまう
+	
+
+
 	match LoopType:
 		GlobalNode.LoopType.Left01:
 			#print("LoopType01Move")
@@ -50,7 +66,7 @@ func _process(delta: float) -> void:
 				get_parent().UpdateEnemyPos(EnemyId, $LeftPath01/Path2D/PathFollow2D.position)
 			
 		GlobalNode.LoopType.Right01:
-			print("Loop Right 1 Move ==============")
+			#print("Loop Right 1 Move ==============")
 			#$RightPath01.visible = true
 			#if 1 <= $RightPath01/RightPath2D/RightPathFollow2D.unit_offset:
 			if 1 <= $RightPath01/Path2D/PathFollow2D.unit_offset:

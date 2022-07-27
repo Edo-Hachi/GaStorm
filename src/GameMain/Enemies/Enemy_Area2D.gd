@@ -24,6 +24,9 @@ var EnemyID
 
 func SetEnemyId(var enemyid):
 	EnemyID = enemyid
+	#$AnimatedSprite.animation = "Green"
+	$AnimatedSprite.animation = "Red"
+
 
 func funcMoveType01(delta : float):
 	var velocity = Vector2()

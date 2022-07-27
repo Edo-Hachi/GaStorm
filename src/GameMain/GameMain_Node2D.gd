@@ -17,8 +17,8 @@ var StateSeq = [
 		{"Cmd" : "Wait_g", "Time" : 1},
 		
 		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "Type" : GlobalNode.LoopType.Right01},
 		{"Cmd" : "LoopEnmy", "Type" : GlobalNode.LoopType.Left01},
+		{"Cmd" : "LoopEnmy", "Type" : GlobalNode.LoopType.Right01},
 		#{"Cmd" : "LoopEnmy", "Type" : 0},
 
 		{"Cmd" : "End"}
@@ -122,6 +122,13 @@ func LoopEnemySpawn(var LoopType : int):
 	var ScnLoop = EnemyLoopScene.instance()	#ループ
 	var ScnEnemy = EnemyScene.instance()	#エネミー
 	
+
+	#エネミー生成------------------------------------------
+	var enid = ScnEnemy.get_instance_id()
+	ScnEnemy.SetEnemyId(enid)
+	#ScnEnemy.AnimatedSprite.animation = "Green"
+	add_child(ScnEnemy)
+	#エネミー生成------------------------------------------
 	
 	var loopid = ScnLoop.get_instance_id()
 	ScnLoop.SetLoopType(LoopType)
@@ -129,10 +136,6 @@ func LoopEnemySpawn(var LoopType : int):
 	ScnLoop.SetLoopId(loopid)
 	add_child(ScnLoop)
 	
-	#エネミー生成
-	var enid = ScnEnemy.get_instance_id()
-	ScnEnemy.SetEnemyId(enid)
-	add_child(ScnEnemy)
 	
 	EnemyManage.EnemyId = enid
 	EnemyManage.LoopId = loopid
@@ -195,10 +198,24 @@ func _process(delta: float) -> void:
 	#--------------------------------------------------------------
 	if Input.is_action_pressed("SpawnEnemy"):
 		if debug_spawn == 0:
-			SeqEnable = true
-			print("Seq Start")
-			#LoopEnemySpawn(0)
-			debug_spawn = 1
+			#エネミー生成------------------------------------------
+			var ScnEnemy = EnemyScene.instance()	#エネミー
+			
+			var enid = ScnEnemy.get_instance_id()
+			ScnEnemy.SetEnemyId(enid)
+			ScnEnemy.position = Vector2(128, 128)
+			#ScnEnemy.AnimatedSprite.animation = "Green"
+			add_child(ScnEnemy)
+			#エネミー生成------------------------------------------
+
+		debug_spawn = 1
+			
+#-------------------------------
+#			SeqEnable = true
+#			print("Seq Start")
+#			#LoopEnemySpawn(0)
+#			debug_spawn = 1
+#-------------------------------
 	
 	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
 		_GameOverTimer+=1
