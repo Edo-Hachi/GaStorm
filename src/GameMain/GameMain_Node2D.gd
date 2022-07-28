@@ -167,6 +167,13 @@ func UpdateEnemyPos(var EnemyObj, var pos:Vector2):
 func LoopEnemyOver(var EnemyId, var pos : Vector2):
 	print("LoopOver")
 	
+	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
+	if EnemyId.Alive == false:	#破壊されていたらオブジェクトをガベコレ
+		EnemyId.queue_free()
+	else:
+		#グリッド所定位置へ移動　
+		pass
+		
 	pass
 
 func LoopEnemyDead():

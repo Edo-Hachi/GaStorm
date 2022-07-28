@@ -1,6 +1,8 @@
 #Enemy_Area2D
 extends Area2D
 
+
+
 # Declare member variables here. Examples:
 # var a: int = 2
 # var b: String = "text"
@@ -21,6 +23,7 @@ var MoveSeq = 0
 #var velocity = Vector2()
 
 var EnemyID
+var Alive = true
 
 func SetEnemyId(var enemyid):
 	EnemyID = enemyid
@@ -52,6 +55,8 @@ func funcMoveType01(delta : float):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Alive = true
+
 	pass
 	#MoveType = MoveTypeID.Type01
 	#FlameCounter = 0
@@ -75,3 +80,15 @@ func _process(delta: float) -> void:
 #			funcMoveType01(delta)
 	
 	pass
+
+
+func _on_EnemyObject_area_entered(area: Area2D) -> void:
+#	var explode = EnemyExplodeScene.instance()
+#	explode.position = position
+#	get_parent().add_child(explode)
+	
+	#自機、ショットに当たった場合は自分（エネミー）削除フラグを立てる
+	Alive = false	
+	visible = false
+	#コリジョンも不使用にする disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)

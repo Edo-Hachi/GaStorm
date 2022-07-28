@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://asset/Font/Xolonium-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://asset/Font/zig.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://src/Main_Node2D.gd" type="Script" id=3]
+[ext_resource path="res://src/GameMain/BackGround/BackGroundStars.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 25
@@ -11,8 +12,10 @@ font_data = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 2 )
 
-[node name="Main_Node2D" type="Node2D"]
+[node name="MainScene" type="Node2D"]
 script = ExtResource( 3 )
+
+[node name="BackGroundStars" parent="." instance=ExtResource( 4 )]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

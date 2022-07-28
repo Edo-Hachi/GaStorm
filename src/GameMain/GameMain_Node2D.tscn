@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/GameMain/GameMain_Node2D.gd" type="Script" id=1]
 [ext_resource path="res://src/GameMain/Guntret/Guntret_Area2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/GameMain/DlgPause.gd" type="Script" id=3]
 [ext_resource path="res://asset/Font/kongtext.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://src/GameMain/BackGround/BackGroundStars.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/GameMain/Enemies/EnemyGrid.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 11
@@ -16,6 +18,11 @@ script = ExtResource( 1 )
 margin_right = 256.0
 margin_bottom = 256.0
 color = Color( 0.0235294, 0.0470588, 0.247059, 1 )
+
+[node name="BackGroundStars" parent="ColorRect" instance=ExtResource( 5 )]
+
+[node name="EnemyGrid" parent="ColorRect" instance=ExtResource( 6 )]
+position = Vector2( 64, 32 )
 
 [node name="Guntret" parent="." instance=ExtResource( 2 )]
 

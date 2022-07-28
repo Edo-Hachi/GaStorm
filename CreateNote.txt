@@ -160,6 +160,10 @@ func _ready() -> void:
 EnemyList.size()
 
 
+#-----------------------------------------------------------------------------------
+新規に生成したクラスをListに辞書を関連付けして登録する方法
+https://www.youtube.com/watch?v=jvhWbEIZWjo
+
 	
 
 	

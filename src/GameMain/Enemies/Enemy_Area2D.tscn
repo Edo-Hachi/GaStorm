@@ -20,7 +20,9 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=2]
 radius = 6.0
 
-[node name="Enemy_Area2D" type="Area2D"]
+[node name="EnemyObject" type="Area2D"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -29,3 +31,5 @@ animation = "Green"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
+
+[connection signal="area_entered" from="." to="." method="_on_EnemyObject_area_entered"]
