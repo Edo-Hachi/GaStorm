@@ -7,6 +7,10 @@ var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
 var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 
+
+#ループあとの移動エネミーリスト
+var DebugMoveEnemyList = []
+
 #----------------------------------------------------------------------------
 #EnemyMatrix Initalize
 #Enemy Matrix Controler
@@ -186,15 +190,19 @@ func UpdateEnemyPos(var EnemyObj, var pos:Vector2):
 	EnemyObj.position = pos
 	
 func LoopEnemyOver(var EnemyId, var pos : Vector2):
-	print("LoopOver")
 	
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
 	if EnemyId.Alive == false:	#ループ処理から戻ってきたタイミングで破壊されていたらならエネミーのオブジェクトをガベコレ
 		EnemyId.queue_free()
 	else:
+		print("LoopOver and Next Move State")
 		#グリッド所定位置へ移動　
 		#var MoveToPos : Vector2()
-		#EnemyId.position = position.move_toward(Vector2(0,0), delta * speed)
+		#EnemyId.position = position.move_toward(Vector2(128,250), 50)
+		#EnemyId.position = Vector2(128, 250)
+		
+		DebugMoveEnemyList.append(EnemyId)
+		print(DebugMoveEnemyList.size())
 		pass
 		
 	pass
@@ -274,6 +282,12 @@ func _process(delta: float) -> void:
 			get_tree().change_scene("res://src/Main_Node2D.tscn")
 		
 
+	#ループが終わったエネミーを隊列位置に移動するテストコード
+	for i in DebugMoveEnemyList.size():
+		#print("Update Move Enemy Count:",DebugMoveEnemyList[i])
+		DebugMoveEnemyList[i].position = DebugMoveEnemyList[i].position.move_toward(Vector2(128,250), 50 * delta)
+
+
 #ポーズダイアログを閉じた時の処理
 func _on_DlgPause_tree_exited() -> void:
 	if get_owner() != null:
@@ -281,6 +295,7 @@ func _on_DlgPause_tree_exited() -> void:
  
 
 # 1/60 で呼ばれます
+#各タイマカウントを更新し、シーケンス処理を呼び出します
 func _on_SeqTimer_timeout() -> void:
 	SeqTimerFps += 1#フレーム
 	

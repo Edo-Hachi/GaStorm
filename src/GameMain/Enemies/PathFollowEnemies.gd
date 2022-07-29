@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 				get_parent().LoopEnemyOver(EnemyId, $LeftPath01/L01_Path2D/L01_PathFollow2D.position)
 				queue_free()
 			else:
-				$LeftPath01/L01_Path2D/L01_PathFollow2D.unit_offset += 0.1 * delta
+				$LeftPath01/L01_Path2D/L01_PathFollow2D.unit_offset += 0.5 * delta
 				
 				get_parent().UpdateEnemyPos(EnemyId, $LeftPath01/L01_Path2D/L01_PathFollow2D.position)
 			
@@ -73,5 +73,5 @@ func _process(delta: float) -> void:
 				get_parent().LoopEnemyOver(EnemyId, $RightPath01/R01_Path2D/R01_PathFollow2D.position)
 				queue_free()
 			else:
-				$RightPath01/R01_Path2D/R01_PathFollow2D.unit_offset += 0.1 * delta
+				$RightPath01/R01_Path2D/R01_PathFollow2D.unit_offset += 0.5 * delta
 				get_parent().UpdateEnemyPos(EnemyId, $RightPath01/R01_Path2D/R01_PathFollow2D.position)
