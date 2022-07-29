@@ -164,6 +164,17 @@ EnemyList.size()
 新規に生成したクラスをListに辞書を関連付けして登録する方法
 https://www.youtube.com/watch?v=jvhWbEIZWjo
 
+#-----------------------------------------------------------------------------------
+#パーティクル
+https://www.youtube.com/c/PlayWithFurcifer
+https://www.youtube.com/watch?v=F1Fyj3Lh_Pc
 	
+https://github.com/PlayWithFurcifer/godot-particle-systems-guide.git
+
+#レイキャストによる直線視界のチェック、レーザーの発射
+
+https://www.youtube.com/watch?v=ajk4RcR0R4g
+この方はたくさんチュートリアル動画あげてくださってる
+
 
 	

@@ -7,6 +7,37 @@ var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
 var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 
+#----------------------------------------------------------------------------
+#EnemyMatrix Initalize
+#Enemy Matrix Controler
+var MatrixCol = 8
+var MatrixRow = 5
+var EnemyMatrix = []
+func InitEnemyMatrix():
+	var offsetX=64 + 8
+	var offsetY=48 + 8
+	var SPW = 16
+	var SPH = 16
+	
+	var ypos=0
+	for y in MatrixRow:
+		for x in MatrixCol:
+			
+			var StrIndex = "%s_%s"
+			var WldX = offsetX + x * SPW
+			var WldY = offsetY + y * SPH
+			var StrX = x
+			var StrY = y
+			
+			var tmpIndex = StrIndex % [StrX, StrY]
+			EnemyMatrix.append({"Index":tmpIndex, "Col":x, "Row":y, "WldX":WldX, "WldY":WldY})	
+
+#配列Col,Rowから1次元配列インデックスを返す
+#var  MatrixCol = 8
+#var  MatrixRow = 5
+func Pos2Index(var x , var y):
+	return x + (MatrixCol * y)
+
 
 var StateSeq = [
 		{"Cmd" : "Init_s"},	#1秒
@@ -17,37 +48,35 @@ var StateSeq = [
 		{"Cmd" : "Wait_g", "Time" : 1},
 		
 		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green},
+		
+		{"Cmd" : "LoopEnmy", "LoopType":GlobalNode.LoopType.Left01, "Color":GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1)},
 		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1) },
 		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1)},
 		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1)},
 
 		{"Cmd" : "Wait_g", "Time" : 4},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
 		
 		#{"Cmd" : "LoopEnmy", "Type" : 0},
 
 		{"Cmd" : "End"}
 	]
+	
 var SeqTimerGbl = 0 #グローバルタイマ
 var SeqTimerSec = 0	#シーンシーケンスの制御タイマ(1秒)
 var SeqTimerFps = 0#フレーム
 var SeqPtr = 0	#シーケンス参照ポインタ
 var SeqEnable = false
 
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
-var _GameOverTimer : float = 0.0
 
+var _GameOverTimer : float = 0.0
 
 var debug_spawn = 0
 
 enum ENEMY_STAT {LOOP, MOVE, PORC, ATAK, DEAD}
-
 
 var EnemyManageList = []
 class ENEMY_MANAGE:
@@ -130,18 +159,11 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
 	#オブジェクト生成	
 	var ScnLoop = EnemyLoopScene.instance()	#ループ
 	var ScnEnemy = EnemyScene.instance()	#エネミー
-	#var ScnLoop = EnemyLoopScene.i .new() # .instance()	#ループ
-	#var ScnEnemy = EnemyScene.new() #instance()	#エネミー
-	
 
 	#エネミー生成------------------------------------------
-	
-	#debug 生成するエネミーの色タイプを設定できるように修正
-	
 	var enid = ScnEnemy.get_instance_id()
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
-	
 	add_child(ScnEnemy)
 	#エネミー生成------------------------------------------
 	
@@ -162,16 +184,17 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
 
 func UpdateEnemyPos(var EnemyObj, var pos:Vector2):
 	EnemyObj.position = pos
-	#print(EnemyObj)
 	
 func LoopEnemyOver(var EnemyId, var pos : Vector2):
 	print("LoopOver")
 	
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
-	if EnemyId.Alive == false:	#破壊されていたらオブジェクトをガベコレ
+	if EnemyId.Alive == false:	#ループ処理から戻ってきたタイミングで破壊されていたらならエネミーのオブジェクトをガベコレ
 		EnemyId.queue_free()
 	else:
 		#グリッド所定位置へ移動　
+		#var MoveToPos : Vector2()
+		#EnemyId.position = position.move_toward(Vector2(0,0), delta * speed)
 		pass
 		
 	pass
@@ -192,6 +215,9 @@ func LoopEnemyDead():
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#print("Call Ready")
+	
+	InitEnemyMatrix()
+		
 	$Guntret.position.x = GlobalNode.ScreenWidth / 2
 	$Guntret.position.y = GlobalNode.ScreenHeight -32
 	GlobalNode.PlayerScore = 0
@@ -220,7 +246,7 @@ func _process(delta: float) -> void:
 		_GameOverTimer = 0
 	
 	
-	#--------------------------------------------------------------
+#debug--------------------------------------------------------------
 	if Input.is_action_pressed("SpawnEnemy"):
 		if debug_spawn == 0:
 			debug_spawn = 1
@@ -239,6 +265,7 @@ func _process(delta: float) -> void:
 			#LoopEnemySpawn(0)
 			debug_spawn = 1
 #-------------------------------
+#debug--------------------------------------------------------------
 	
 	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
 		_GameOverTimer+=1
