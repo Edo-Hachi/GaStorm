@@ -17,7 +17,6 @@ _data = {
 script = ExtResource( 1 )
 
 [node name="LeftPath01" type="Node2D" parent="."]
-visible = false
 
 [node name="L01_Path2D" type="Path2D" parent="LeftPath01"]
 curve = SubResource( 1 )
@@ -32,6 +31,7 @@ position = Vector2( -0.0528564, -1.9993 )
 texture = ExtResource( 2 )
 
 [node name="RightPath01" type="Node2D" parent="."]
+visible = false
 
 [node name="R01_Path2D" type="Path2D" parent="RightPath01"]
 curve = SubResource( 2 )
@@ -41,6 +41,7 @@ position = Vector2( 212, 212 )
 rotation = -3.04623
 loop = false
 
-[node name="EnemyHidden" type="Sprite" parent="."]
-position = Vector2( 212, 212 )
+[node name="EnemyHidden" type="Sprite" parent="RightPath01/R01_Path2D/R01_PathFollow2D"]
+rotation = 3.04623
+scale = Vector2( 1, 1 )
 texture = ExtResource( 2 )

@@ -4,7 +4,8 @@ extends Node2D
 
 var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
 
-var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
+#var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
+var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies02.tscn")
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 
 
@@ -55,11 +56,11 @@ var StateSeq = [
 		
 		{"Cmd" : "LoopEnmy", "LoopType":GlobalNode.LoopType.Left01, "Color":GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1)},
 		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1) },
-		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1)},
-		{"Cmd" : "Wait_f", "Time" : 3},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1)},
+#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1) },
+#		{"Cmd" : "Wait_f", "Time" : 3},
+#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1)},
+#		{"Cmd" : "Wait_f", "Time" : 3},
+#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1)},
 
 		{"Cmd" : "Wait_g", "Time" : 4},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
@@ -173,6 +174,7 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
 	
 	#ループ生成-------------------------------------------
 	var loopid = ScnLoop.get_instance_id()
+	
 	ScnLoop.SetLoopType(LoopType)
 	ScnLoop.SetEnemyId(ScnEnemy)
 	ScnLoop.SetLoopId(loopid)
@@ -194,7 +196,7 @@ func LoopEnemyOver(var EnemyId, var pos : Vector2):
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
 	if EnemyId.Alive == false:	#ループ処理から戻ってきたタイミングで破壊されていたらならエネミーのオブジェクトをガベコレ
 		EnemyId.queue_free()
-	else:
+	else:	
 		print("LoopOver and Next Move State")
 		#グリッド所定位置へ移動　
 		#var MoveToPos : Vector2()
