@@ -52,21 +52,24 @@ var StateSeq = [
 		#{"Cmd" : "Wait_s", "Time" : 3},
 		{"Cmd" : "Wait_g", "Time" : 1},
 		
-		{"Cmd" : "Wait_f", "Time" : 3},
-		
+		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType":GlobalNode.LoopType.Left01, "Color":GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1)},
-		{"Cmd" : "Wait_f", "Time" : 3},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1) },
-#		{"Cmd" : "Wait_f", "Time" : 3},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1)},
-#		{"Cmd" : "Wait_f", "Time" : 3},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1) },
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1)},
 
-		{"Cmd" : "Wait_g", "Time" : 4},
+		{"Cmd" : "Wait_g", "Time" : 2},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
+		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
 		
-		#{"Cmd" : "LoopEnmy", "Type" : 0},
-
 		{"Cmd" : "End"}
 	]
 	
@@ -174,13 +177,9 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
 	
 	#ループ生成-------------------------------------------
 	var loopid = ScnLoop.get_instance_id()
-	
-	ScnLoop.SetLoopType(LoopType)
-	ScnLoop.SetEnemyId(ScnEnemy)
-	ScnLoop.SetLoopId(loopid)
+	ScnLoop.InitLoopEnemies(ScnEnemy,loopid, LoopType)
 	add_child(ScnLoop)
 	#ループ生成-------------------------------------------
-	
 	
 	EnemyManage.EnemyId = enid
 	EnemyManage.LoopId = loopid
@@ -188,8 +187,9 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
 	EnemyManage.EnemyObl = ScnEnemy
 	EnemyManage.State = ENEMY_STAT.LOOP
 
-func UpdateEnemyPos(var EnemyObj, var pos:Vector2):
-	EnemyObj.position = pos
+#func UpdateEnemyPos(var EnemyObj, var pos:Vector2, var rot):
+#	EnemyObj.position = pos
+#	EnemyObj.rotation_degrees = rot
 	
 func LoopEnemyOver(var EnemyId, var pos : Vector2):
 	

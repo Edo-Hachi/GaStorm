@@ -83,6 +83,7 @@ func _process(delta: float) -> void:
 
 
 func _on_EnemyObject_area_entered(area: Area2D) -> void:
+	print("Object Hit")
 #	var explode = EnemyExplodeScene.instance()
 #	explode.position = position
 #	get_parent().add_child(explode)
