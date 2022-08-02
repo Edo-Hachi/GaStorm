@@ -39,6 +39,11 @@ func _on_Button_pressed() -> void:
 　　
 
 
+#物理演算とかが終わったあとに安全にオブジェクトのコライダーをオフにする
+$CollisionShape2D.set_deferred("disabled", true)
+#$CollisionShape2D.disabled = true
+
+
 #-----------------------------------------------------------------------------------
 #目標座標まで勝手に移動するやつ
 	position = position.move_toward(Vector2(0,0), delta * speed)
@@ -177,4 +182,35 @@ https://www.youtube.com/watch?v=ajk4RcR0R4g
 この方はたくさんチュートリアル動画あげてくださってる
 
 
-	
+
+#スプリングジョイント2D説明
+https://www.youtube.com/watch?v=p6HaqSVbkUw
+バネでオブジェクト接続してバインバインさせられる
+あとスライド、ピン固定もある
+たとえば、跳び箱のジャンプ台みたいなバネ効果のあるオブジェクトを生成できる
+
+#スケルタルアニメーション
+https://docs.godotengine.org/ja/stable/tutorials/animation/cutout_animation.html#doc-cutout-animation
+https://docs.godotengine.org/ja/stable/tutorials/animation/2d_skeletons.html
+公式動画
+https://www.youtube.com/watch?v=Cqp3PJQIrUc
+
+#レイキャストによる、向きのチェック
+https://kidscancode-org.translate.goog/blog/2018/03/godot3_visibility_raycasts/?_x_tr_sch=http&_x_tr_sl=en&_x_tr_tl=ja&_x_tr_hl=en&_x_tr_pto=wapp
+
+#シェーダーによる背景あにめ
+波の表現など
+https://www.youtube.com/watch?v=xoyk_A0RSpI
+https://www.youtube.com/watch?v=U91nqeUe1qQ
+
+ラスタースクロールとかもこれでできそう
+
+
+#戦闘スプライトをしっぽが追いかけるデモ
+ホーミングレーザーとかつかえる
+https://www.youtube.com/watch?v=v1iFfCq3_Ao
+
+
+#10分でトップダウンシューティングを作るチュートリアル
+https://www.youtube.com/watch?v=HycyFNQfqI0
+
