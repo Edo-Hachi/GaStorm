@@ -1,20 +1,44 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://asset/Image/Enemy/EnemyHidden.png" type="Texture" id=1]
 [ext_resource path="res://src/GameMain/Enemies/PathFollowEnemies02.gd" type="Script" id=2]
+[ext_resource path="res://asset/Image/Guntret/Guntret01.png" type="Texture" id=3]
+[ext_resource path="res://src/GameMain/Enemies/EnemyGrid.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Curve2D" id=2]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 230, 0, 0, 0, 0, 141, 183, 0, 0, 0, 0, 193, 121, 0, 0, 0, 0, 163, 51, 0, 0, 0, 0, 72, 37, 0, 0, 0, 0, 43, 120, 0, 0, 0, 0, 93, 177, 0, 0, 0, 0, 161, 142 )
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 230, -39.0137, 18.9158, 39.0137, -18.9158, 124, 194, -3.5467, 31.4474, 3.5467, -31.4474, 193, 121, 29.3194, 16.5513, -29.3194, -16.5513, 163, 51, 20.5709, -14.6597, -20.5709, 14.6597, 72, 37, -5.67473, -25.2998, 5.67473, 25.2998, 43, 120, -25.5363, -0.472894, 25.5363, 0.472894, 93, 177, 0.236447, 24.354, -0.236447, -24.354, 159, 129 )
 }
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 233, 218, 0, 0, 0, 0, 69, 199, 0, 0, 0, 0, 31, 100, 0, 0, 0, 0, 62, 32, 0, 0, 0, 0, 173, 23, 0, 0, 0, 0, 210, 92, 0, 0, 0, 0, 198, 161, 0, 0, 0, 0, 106, 125, 0, 0, 0, 0, 95, 74 )
+"points": PoolVector2Array( -5.20183, -0.945787, 5.20183, 0.945787, 246, 232, 31.344, 28.4585, -31.344, -28.4585, 95.9286, 170.416, 2.55869, 20.5166, -2.55869, -20.5166, 55.3482, 113.502, -19.1902, 20.5166, 19.1902, -20.5166, 76.9911, 55.6555, -11.0877, -7.9419, 11.0877, 7.9419, 166.268, 36.0622, 1.06612, -44.5629, -1.06612, 44.5629, 205, 110, 17.4844, -7.28008, -17.4844, 7.28008, 161.759, 165.751, 9.12069, 7.59378, -9.12069, -7.59378, 112, 157, 8.31575, 22.7227, -8.31575, -22.7227, 93, 128 )
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -3, 104, -22.9676, 0.314625, 22.9676, -0.314625, 73, 83, -14.8962, -16.7877, 14.8962, 16.7877, 177, 105, -5.20739, -20.8257, 5.20739, 20.8257, 203, 146, 10.0734, -19.2566, -10.0734, 19.2566, 201, 193, 16.3704, 1.22048, -16.3704, -1.22048, 132, 205, 13.241, 8.74853, -13.241, -8.74853, 65, 179, 3.42543, 9.65644, -3.42543, -9.65644, 48, 156, -13.7139, 10.8766, 13.7139, -10.8766, 64, 100, -42.335, -21.0481, 42.335, 21.0481, 145, 85 )
+}
+
+[sub_resource type="Curve2D" id=4]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 260, 101, 24.9733, 2.18021, -24.9733, -2.18021, 184, 79, 19.0273, -7.92805, -19.0273, 7.92805, 107, 86, 10.3065, -15.2615, -10.3065, 15.2615, 64, 117, 1.78381, -15.2615, -1.78381, 15.2615, 49, 159, -10.1083, -9.71186, 10.1083, 9.71186, 61, 194, -19.2255, 2.57662, 19.2255, -2.57662, 116, 201, -23.1895, 10.5047, 23.1895, -10.5047, 171, 188, -10.1083, 19.0273, 10.1083, -19.0273, 206, 158, 10.3065, 12.4867, -10.3065, -12.4867, 202, 104, 31.514, 0.991006, -31.514, -0.991006, 150, 73, 0, 0, 0, 0, 111, 77 )
 }
 
 [node name="EnemyPath" type="Node"]
 script = ExtResource( 2 )
+
+[node name="Guntret01" type="Sprite" parent="."]
+visible = false
+position = Vector2( 128, 224 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="EnemyGrid" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 64, 32 )
 
 [node name="LeftPath01" type="Node2D" parent="."]
 visible = false
@@ -27,7 +51,7 @@ curve = SubResource( 2 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="LeftPath01/Path2D"]
 position = Vector2( 0, 230 )
-rotation = -0.321755
+rotation = -0.204343
 loop = false
 
 [node name="EnemyHidden" type="Sprite" parent="LeftPath01/Path2D/PathFollow2D"]
@@ -41,14 +65,51 @@ __meta__ = {
 }
 
 [node name="Path2D" type="Path2D" parent="RightPath01"]
+position = Vector2( 4, 0 )
 curve = SubResource( 1 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="RightPath01/Path2D"]
-position = Vector2( 233, 218 )
-rotation = -3.02625
+position = Vector2( 246, 232 )
+rotation = -2.82755
 loop = false
 
 [node name="EnemyHidden" type="Sprite" parent="RightPath01/Path2D/PathFollow2D"]
+position = Vector2( 1.92264, -0.550964 )
+rotation = -1.5708
+texture = ExtResource( 1 )
+
+[node name="LeftPath02" type="Node2D" parent="."]
 visible = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Path2D" type="Path2D" parent="LeftPath02"]
+curve = SubResource( 3 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="LeftPath02/Path2D"]
+position = Vector2( -3, 104 )
+rotation = -0.363291
+loop = false
+
+[node name="EnemyHidden" type="Sprite" parent="LeftPath02/Path2D/PathFollow2D"]
+rotation = -1.5708
+texture = ExtResource( 1 )
+
+[node name="RightPath02" type="Node2D" parent="."]
+visible = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Path2D" type="Path2D" parent="RightPath02"]
+curve = SubResource( 4 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RightPath02/Path2D"]
+position = Vector2( 260, 101 )
+rotation = -2.77903
+loop = false
+
+[node name="EnemyHidden" type="Sprite" parent="RightPath02/Path2D/PathFollow2D"]
 rotation = -1.5708
 texture = ExtResource( 1 )

@@ -10,7 +10,7 @@ var PlayerScore = 0
 
 var GameMainSceneID = 0
 
-enum LoopType {Left01=0, Right01}
+enum LoopType {Left01=0, Right01, Left02, Right02}
 enum EnemyColor {Green=0, Red, Purple} 
 
 # Called when the node enters the scene tree for the first time.

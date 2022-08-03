@@ -18,6 +18,12 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype):
 		GlobalNode.LoopType.Right01:
 			LoopPathObj = $RightPath01/Path2D/PathFollow2D
 
+		GlobalNode.LoopType.Left02:
+			LoopPathObj = $LeftPath02/Path2D/PathFollow2D
+			
+		GlobalNode.LoopType.Right02:
+			LoopPathObj = $RightPath02/Path2D/PathFollow2D
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
