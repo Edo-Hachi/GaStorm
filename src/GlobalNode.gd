@@ -17,6 +17,9 @@ enum EnemyColor {Green=0, Red, Purple}
 func _ready() -> void:
 	pass
 
+func InitData(var fuga):
+	PlayerScore = fuga
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

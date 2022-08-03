@@ -61,6 +61,9 @@ func _process(delta: float) -> void:
 			
 			if 1 <= $LeftPath01/L01_Path2D/L01_PathFollow2D.unit_offset:
 				get_parent().LoopEnemyOver(EnemyId, $LeftPath01/L01_Path2D/L01_PathFollow2D.position)
+
+				get_parent().LoopEnemyOver(EnemyId, $LeftPath01/L01_Path2D/L01_PathFollow2D.position, EnemyId.)
+
 				queue_free()
 			else:
 				$LeftPath01/L01_Path2D/L01_PathFollow2D.unit_offset += 0.5 * delta

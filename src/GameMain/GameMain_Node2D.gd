@@ -9,18 +9,24 @@ var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies02.tsc
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 
 
-#ループあとの移動エネミーリスト
-var DebugMoveEnemyList = []
+class ENEMY_MATRIX:
+	var Col : int
+	var Row : int
+	var WorldX : float
+	var WorldY : float
+	var State : int
+	
+	
+	
+	
 
 #----------------------------------------------------------------------------
-#EnemyMatrix Initalize
-#Enemy Matrix Controler
 var MatrixCol = 8
 var MatrixRow = 5
 var EnemyMatrix = []
 func InitEnemyMatrix():
 	var offsetX=64 + 8
-	var offsetY=48 + 8
+	var offsetY=32 + 8
 	var SPW = 16
 	var SPH = 16
 	
@@ -28,14 +34,17 @@ func InitEnemyMatrix():
 	for y in MatrixRow:
 		for x in MatrixCol:
 			
-			var StrIndex = "%s_%s"
-			var WldX = offsetX + x * SPW
-			var WldY = offsetY + y * SPH
-			var StrX = x
-			var StrY = y
+			var WldX : float = offsetX + x * SPW
+			var WldY : float = offsetY + y * SPH
+			#EnemyMatrix.append({"Col":x, "Row":y, "WldX":WldX, "WldY":WldY})	
+			var mtmp = ENEMY_MATRIX.new()
+			mtmp.Col = x
+			mtmp.Row = y
+			mtmp.WorldX = WldX
+			mtmp.WorldY = WldY
 			
-			var tmpIndex = StrIndex % [StrX, StrY]
-			EnemyMatrix.append({"Index":tmpIndex, "Col":x, "Row":y, "WldX":WldX, "WldY":WldY})	
+			EnemyMatrix.append(mtmp)
+			
 
 #配列Col,Rowから1次元配列インデックスを返す
 #var  MatrixCol = 8
@@ -61,14 +70,15 @@ var StateSeq = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1)},
 
-		{"Cmd" : "Wait_g", "Time" : 2},
+		{"Cmd" : "Wait_s", "Time" : 1},
+		{"Cmd" : "Wait_g", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(6,1)},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(5,1)},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1)},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,1)},
 		
 		{"Cmd" : "End"}
 	]
@@ -86,17 +96,7 @@ var debug_spawn = 0
 
 enum ENEMY_STAT {LOOP, MOVE, PORC, ATAK, DEAD}
 
-var EnemyManageList = []
-class ENEMY_MANAGE:
-	var EnemyId
-	var LoopId
-	
-	var LoopObj : Object
-	var EnemyObl : Object
-	
-	var StartPosition : Vector2
-	var LastPosition : Vector2
-	var State : int
+
 	
 
 func SeqState():
@@ -140,15 +140,8 @@ func SeqState():
 			if SeqTimerGbl == Seq["Time"]:
 				print("GrobalTime Process ", Seq["Time"], "Time")
 				SeqPtr+=1
-		
-		#{"Cmd" : "LoopEnmy", "Type" : GlobalNode.LoopType.Left01},
-		
 		"LoopEnmy":
-			#print("LoopEnemyType:", Seq["LoopType"])
-			#var aa : int = Seq["Type"]
-			LoopEnemySpawn(Seq["LoopType"], Seq["Color"])
-			#LoopEnemySpawn(0)
-
+			LoopEnemySpawn(Seq["LoopType"], Seq["Color"], Seq["Matrix"])
 			SeqPtr+=1
 			
 		"End":
@@ -159,11 +152,8 @@ func SeqState():
 
 
 #--------------------------------------------
-func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
-	var EnemyManage = ENEMY_MANAGE.new()
-	
-	var ListMax = EnemyManageList.size()
-	
+func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2) -> void:
+
 	#オブジェクト生成	
 	var ScnLoop = EnemyLoopScene.instance()	#ループ
 	var ScnEnemy = EnemyScene.instance()	#エネミー
@@ -172,6 +162,11 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
 	var enid = ScnEnemy.get_instance_id()
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
+	
+	#ここもっとスマートにかけない？ debug
+	var tmp :ENEMY_MATRIX =	EnemyMatrix[Pos2Index(Matrix.x, Matrix.y)]
+	ScnEnemy.SetEnemyMatrix(Matrix, Vector2(tmp.WorldX, tmp.WorldY))
+	
 	add_child(ScnEnemy)
 	#エネミー生成------------------------------------------
 	
@@ -181,45 +176,25 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int):
 	add_child(ScnLoop)
 	#ループ生成-------------------------------------------
 	
-	EnemyManage.EnemyId = enid
-	EnemyManage.LoopId = loopid
-	EnemyManage.LoopObj = ScnLoop
-	EnemyManage.EnemyObl = ScnEnemy
-	EnemyManage.State = ENEMY_STAT.LOOP
-
-#func UpdateEnemyPos(var EnemyObj, var pos:Vector2, var rot):
-#	EnemyObj.position = pos
-#	EnemyObj.rotation_degrees = rot
-	
-func LoopEnemyOver(var EnemyId, var pos : Vector2):
+func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
+		
 	
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
 	if EnemyId.Alive == false:	#ループ処理から戻ってきたタイミングで破壊されていたらならエネミーのオブジェクトをガベコレ
 		EnemyId.queue_free()
 	else:	
 		print("LoopOver and Next Move State")
+		
 		#グリッド所定位置へ移動　
 		#var MoveToPos : Vector2()
-		#EnemyId.position = position.move_toward(Vector2(128,250), 50)
-		#EnemyId.position = Vector2(128, 250)
+		#EnemyId.position = position.move_toward(ToPos, 0.05)
+		#EnemyId.position = ToPos
 		
-		DebugMoveEnemyList.append(EnemyId)
-		print(DebugMoveEnemyList.size())
+		#DebugMoveEnemyList.append(EnemyId)
+		#print(DebugMoveEnemyList.size())
 		pass
 		
 	pass
-
-func LoopEnemyDead():
-	pass
-
-
-#	var EnemyId : int
-#	var StartPosition : Vector2
-#	var LastPosition : Vector2
-#	var State : int
-#
-#	var LoopObj
-#	var EnemyObl	
 
 
 # Called when the node enters the scene tree for the first time.
@@ -271,7 +246,7 @@ func _process(delta: float) -> void:
 			
 #-------------------------------
 			SeqEnable = true
-			print("Seq Start")
+			#print("Seq Start")
 			#LoopEnemySpawn(0)
 			debug_spawn = 1
 #-------------------------------
@@ -285,9 +260,9 @@ func _process(delta: float) -> void:
 		
 
 	#ループが終わったエネミーを隊列位置に移動するテストコード
-	for i in DebugMoveEnemyList.size():
-		#print("Update Move Enemy Count:",DebugMoveEnemyList[i])
-		DebugMoveEnemyList[i].position = DebugMoveEnemyList[i].position.move_toward(Vector2(128,250), 50 * delta)
+#	for i in DebugMoveEnemyList.size():
+#		#print("Update Move Enemy Count:",DebugMoveEnemyList[i])
+#		DebugMoveEnemyList[i].position = DebugMoveEnemyList[i].position.move_toward(Vector2(128,250), 50 * delta)
 
 
 #ポーズダイアログを閉じた時の処理

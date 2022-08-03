@@ -214,3 +214,18 @@ https://www.youtube.com/watch?v=v1iFfCq3_Ao
 #10分でトップダウンシューティングを作るチュートリアル
 https://www.youtube.com/watch?v=HycyFNQfqI0
 
+
+#タイマについて(ていうか、色々とTipsが入っているのでしっかり中身をチェックしたい。スプライトのパーティクル破壊なんかもこの動画でやってる)
+https://www.youtube.com/watch?v=n505BEFqPnw
+
+get_tree().create_timer()だけで色々良いらしい
+
+
+var timer
+timer = get_tree().create_timer(3, false) #falseにしないとポーズした時に止まってくれない
+yield(timer , "timeout")
+
+これでタイムアウトを待てば良いらしい
+
+#ヴァンパイアサバイバーを数10行で書こうってネタ
+https://www.youtube.com/watch?v=LgvLbahJOTA
