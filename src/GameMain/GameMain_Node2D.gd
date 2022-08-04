@@ -9,21 +9,20 @@ var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies02.tsc
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 
 
+#----------------------------------------------------------------------------
+#エネミーを隊列で並べる時のグリッド座標情報
 class ENEMY_MATRIX:
 	var Col : int
 	var Row : int
 	var WorldX : float
 	var WorldY : float
 	var State : int
-	
-	
-	
-	
 
 #----------------------------------------------------------------------------
 var MatrixCol = 8
 var MatrixRow = 5
 var EnemyMatrix = []
+
 func InitEnemyMatrix():
 	var offsetX=64 + 8
 	var offsetY=32 + 8
@@ -53,7 +52,7 @@ func Pos2Index(var x , var y):
 	return x + (MatrixCol * y)
 
 
-var StateSeq = [
+var StateSeq01 = [
 		{"Cmd" : "Init_s"},	#1秒
 		{"Cmd" : "Init_f"},	#フレーム単位
 		{"Cmd" : "Init_g"},	#グローバルタイマ
@@ -70,7 +69,7 @@ var StateSeq = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,1)},
 
-		{"Cmd" : "Wait_s", "Time" : 4},
+		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,1)},
@@ -102,6 +101,50 @@ var StateSeq = [
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,3)},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,3)},
+
+		{"Cmd" : "Wait_s", "Time" : 3},
+
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,4)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,4)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,4)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,4)},
+
+		{"Cmd" : "Wait_s", "Time" : 3},
+
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,4)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,4)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,4)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,4)},
+
+		{"Cmd" : "Wait_s", "Time" : 3},
+
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(2,2)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,2)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,3)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,3)},
+
+		{"Cmd" : "Wait_s", "Time" : 3},
+
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(5,2)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,2)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,3)},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,3)},
 		
 		{"Cmd" : "End"}
 	]
@@ -110,26 +153,23 @@ var SeqTimerGbl = 0 #グローバルタイマ
 var SeqTimerSec = 0	#シーンシーケンスの制御タイマ(1秒)
 var SeqTimerFps = 0#フレーム
 var SeqPtr = 0	#シーケンス参照ポインタ
-var SeqEnable = false
+var SeqEnable = false	#シーケンス実行中フラグ
 
+var Sequence = StateSeq01	#実行するシーケンスの辞書リスト
 
 var _GameOverTimer : float = 0.0
 
 var debug_spawn = 0
 
-enum ENEMY_STAT {LOOP, MOVE, PORC, ATAK, DEAD}
-
-
-	
-
+#シーケンスパーサ
 func SeqState():
 	if SeqEnable==false:
 		return
 	
 	var Seq
 	
-	if SeqPtr < StateSeq.size():
-		Seq = StateSeq[SeqPtr]
+	if SeqPtr < Sequence.size():
+		Seq = Sequence[SeqPtr]
 	else:
 		print("Error:Swq Pointer OverRun!")
 		return
@@ -166,6 +206,13 @@ func SeqState():
 		"LoopEnmy":
 			LoopEnemySpawn(Seq["LoopType"], Seq["Color"], Seq["Matrix"])
 			SeqPtr+=1
+		
+#		"FormationStart":
+#			print("Formation Stat")
+#			get_tree().call_group("Enemies", "SetEnemyState")
+			
+			
+			
 			
 		"End":
 			SeqEnable=false
@@ -185,7 +232,9 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	var enid = ScnEnemy.get_instance_id()
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
+	ScnEnemy.SetEnemyState(GlobalNode.EnemyStateID.STAT_LOOP)
 	
+
 	#ここもっとスマートにかけない？ debug
 	var tmp :ENEMY_MATRIX =	EnemyMatrix[Pos2Index(Matrix.x, Matrix.y)]
 	ScnEnemy.SetEnemyMatrix(Matrix, Vector2(tmp.WorldX, tmp.WorldY))
@@ -200,25 +249,14 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	#ループ生成-------------------------------------------
 	
 func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
-		
 	
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
 	if EnemyId.Alive == false:	#ループ処理から戻ってきたタイミングで破壊されていたらならエネミーのオブジェクトをガベコレ
 		EnemyId.queue_free()
-	else:	
-		print("LoopOver and Next Move State")
-		
-		#グリッド所定位置へ移動　
-		#var MoveToPos : Vector2()
-		#EnemyId.position = position.move_toward(ToPos, 0.05)
-		#EnemyId.position = ToPos
-		
-		#DebugMoveEnemyList.append(EnemyId)
-		#print(DebugMoveEnemyList.size())
-		pass
-		
-	pass
-
+	else:
+		#ループの終わったエネミーはホームポジションへ
+		#print("loop Over Set Home")
+		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -9,7 +9,7 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$AnimatedSprite.play("default")	
-	print("Explode create")
+	#print("Explode create")
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	visible = false
