@@ -20,6 +20,9 @@ enum EnemyStateID {
 		STAT_ATTACK		#攻撃中
 }
 
+var FormationMoveFlg = 0 # hold 1=move_outside 2=move_inner
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass

@@ -49,6 +49,17 @@ $CollisionShape2D.set_deferred("disabled", true)
 	position = position.move_toward(Vector2(0,0), delta * speed)
 
 
+#-----------------------------------------------------------------------------------
+#フィールド座標でのYソート
+
+ワールド（Node2D）に所属する茂みなどのフィールドオブジェクトに自動的にYソートを付加し、
+コライダーにしたがってキャラクタの表示順序を自動でソートし直してくれる。
+メッチャ便利
+
+https://www.youtube.com/watch?v=UfKMgHbaGow&list=PL9FzW-m48fn2SlrW0KoLT4n5egNdX-W9a&index=4
+12；29
+
+
 
 #-----------------------------------------------------------------------------------
 #マウスをおっかけるとかはこれ
