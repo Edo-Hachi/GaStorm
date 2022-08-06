@@ -2,6 +2,8 @@
 extends Node2D
 
 func _ready() -> void:
+	$BackGroundStars.StarSpeed = 10
+	
 	#GlobalNode.GState = GlobalNode.GState.TITLE
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 

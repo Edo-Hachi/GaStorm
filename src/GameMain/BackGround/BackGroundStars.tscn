@@ -3,6 +3,7 @@
 [ext_resource path="res://src/GameMain/BackGround/BackGroundStars.gd" type="Script" id=1]
 
 [node name="BackGroundStars" type="Node2D"]
+light_mask = 0
 script = ExtResource( 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]

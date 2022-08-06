@@ -15,6 +15,11 @@ font_data = ExtResource( 2 )
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 3 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 256.0
+margin_bottom = 256.0
+color = Color( 0, 0, 0.0784314, 1 )
+
 [node name="BackGroundStars" parent="." instance=ExtResource( 4 )]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

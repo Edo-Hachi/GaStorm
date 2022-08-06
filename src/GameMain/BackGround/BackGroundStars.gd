@@ -14,48 +14,58 @@ var StarList = []
 
 const STARMAX = 100
 
+export var StarSpeed = 5 #小さくすると速くなるよ
+export var StarDirection = 1 #-1にすると逆スクロールだよ　
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
 	#debug
 	randomize()
 	
-	var _star
-	var _wh
-	var _colr
-	var _colg
-	var _colb
+#	var _star
+#	var _wh
+#	var _colr
+#	var _colg
+#	var _colb
 	
 	for i in range(0, STARMAX):
-		_star = STAR.new()
+		var star = STAR.new()
 		
-		_star.Pos = Vector2(randi()%256+1, randi()%256+1)
+		star.Pos = Vector2(randi()%256+1, randi()%256+1)
 		#_wh = randi()%2+1
-		_wh = 1 # rand_range(1,1)
-		_star.WH = Vector2(_wh, _wh)
-		_star.Speed = randi()%8 + 0.2
-		_colr = randi()%30 * _star.Speed + 0.2
-		_colg = randi()%30 * _star.Speed + 0.2
-		_colb = randi()%30 * _star.Speed + 0.2
-		_star.StarColor = Color(_colr, _colg, _colb)
+		var _wh = 1 # rand_range(1,1)
+		star.WH = Vector2(_wh, _wh)
+		#_star.Speed = randi()%8 + 0.1
+		star.Speed = rand_range(0, 10)
+
+		var _colr = randi()%20 * star.Speed
+		var _colg = randi()%20 * star.Speed
+		var _colb = randi()%20 * star.Speed
 		
-		StarList.append(_star)	
-	pass # Replace with function body.
+		star.StarColor = Color8(_colr, _colg, _colb)
+		
+		StarList.append(star)	
 
 func _draw() -> void:
 	var _rect
 	
 	for i in StarList.size():
-		StarList[i].Pos.y += (StarList[i].Speed / 3)+0.5
-		if 256 < StarList[i].Pos.y:
-			StarList[i].Pos.x = randi() % 256 + 1
-			StarList[i].Pos.y = -8
 		
+		#StarList[i].Pos.y += (StarList[i].Speed / 3)+0.5
+		#StarList[i].Pos.y += (StarList[i].Speed / StarSpeed)+0.5
+		StarList[i].Pos.y += (StarList[i].Speed / StarSpeed) * StarDirection
+		
+		if (256 + 32) < StarList[i].Pos.y:
+			StarList[i].Pos.x = randi() % 256 + 1
+			StarList[i].Pos.y = -32
+
+		if StarList[i].Pos.y < -32:
+			StarList[i].Pos.x = randi() % 256 + 1
+			StarList[i].Pos.y = (256 + 32)
+			
 		_rect = Rect2(StarList[i].Pos, StarList[i].WH)
 		draw_rect(_rect, StarList[i].StarColor, true)
-#func _update():
-#	pass:
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _process(delta: float) -> void:
 	update()

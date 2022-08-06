@@ -1,13 +1,6 @@
 #Enemy_Area2D
 extends Area2D
 
-
-#signal StatFormation()
-
-
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
 enum MoveTypeID  {
 	Type01=0,
 	Loop01L,
@@ -29,14 +22,7 @@ var Matrix : Vector2	#隊列位置
 var MatrixWorldPos : Vector2	#隊列位置実座標
 
 #エネミーの行動ステート　
-#enum EnemyStateID {
-#		STAT_LOOP=0,	#現れた時のループ
-#		STAT_GOHOME=1,	#ホームポジションへの移動
-#		STAT_FORMATION = 2,
-#		STAT_ATTACK=3		#攻撃中
-#	}
 var EnemyState = GlobalNode.EnemyStateID.STAT_LOOP
-
 
 func SetEnemyId(var enemyid):
 	EnemyID = enemyid

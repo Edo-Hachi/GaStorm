@@ -3,9 +3,7 @@
 extends Node2D
 
 var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
-
-#var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
-var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies02.tscn")
+var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 
 var FormationEnemyTimer = 0
@@ -278,6 +276,8 @@ func set_erase_enemy(var id):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
+	$BgColor/BackGroundStars.StarDirection = 1
+	$BgColor/BackGroundStars.StarSpeed = 5
 	#debug
 #	var myid = get_tree()
 #	GlobalNode.GameMainSceneID = get_tree()
