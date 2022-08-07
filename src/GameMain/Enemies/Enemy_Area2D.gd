@@ -75,6 +75,7 @@ func _process(delta: float) -> void:
 			if position == MatrixWorldPos:
 				EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
 				rotation = 0
+				#get_parent().AppendEnemy(EnemyID)
 
 				#print("Touchaku")
 			pass
@@ -136,6 +137,8 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 	visible = false
 	#コリジョンも不使用にする disabled = true
 	$CollisionShape2D.set_deferred("disabled", true)
+
+	get_parent().DeleteEnemy()
 
 
 #func _on_EnemyObject_StatFormation() -> void:

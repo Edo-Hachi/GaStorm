@@ -36,6 +36,7 @@ func _process(delta: float) -> void:
 			
 	if 1<= LoopPathObj.unit_offset:
 		EnemyId.rotation_degrees = 0
+
 		get_parent().LoopEnemyOver(EnemyId, LoopPathObj.position, EnemyId.MatrixWorldPos)
 		
 		queue_free()

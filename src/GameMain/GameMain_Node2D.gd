@@ -51,7 +51,9 @@ func Pos2Index(var x , var y):
 #----------------------------------------------------------------------------
 #エネミーを隊列で並べる時のグリッド座標情報
 
-
+#画面上のエネミー管理リスト
+var EnemyList = []
+var LoopSeqEnd = false
 
 	
 var SeqTimerGbl = 0 #グローバルタイマ
@@ -76,7 +78,7 @@ func SeqState():
 	
 	var Seq
 	
-	if SeqPtr < EnemySequence.size():
+	if SeqPtr <= EnemySequence.size():
 		Seq = EnemySequence[SeqPtr]
 	else:
 		print("Error:Swq Pointer OverRun!")
@@ -117,12 +119,12 @@ func SeqState():
 		
 		"FormationFlg":
 			GlobalNode.FormationMoveFlg = Seq["Flg"]
+			SeqPtr+=1
 			
 		"End":
 			SeqEnable=false
-			#print("End")
-	
-	#SeqPtr+=1
+			LoopSeqEnd = true
+			#print("Sqe End")
 
 
 #--------------------------------------------
@@ -144,6 +146,10 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	ScnEnemy.SetEnemyMatrix(Matrix, Vector2(tmp.WorldX, tmp.WorldY))
 	
 	add_child(ScnEnemy)
+	
+	#エネミー管理リストに追加
+	AppendEnemy(ScnEnemy)
+
 	#エネミー生成------------------------------------------
 	
 	#ループ生成-------------------------------------------
@@ -157,10 +163,29 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
 	if EnemyId.Alive == false:	#ループ処理から戻ってきたタイミングで破壊されていたらならエネミーのオブジェクトをガベコレ
 		EnemyId.queue_free()
+		
+		#エネミーの生成リストから削除
+		#DeleteEnemy()
 	else:
 		#ループの終わったエネミーはホームポジションへ
 		#print("loop Over Set Home")
 		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)
+		
+		#画面上のエネミーをアクティブリストに追加(ホームポジションに落ち着いたエネミーをリストに追加しないと数あわないかも　)
+#		EnemyList.append(EnemyId)
+#		print("Active Enemy :",EnemyList.size() )
+
+#エネミー管理リストへ追加
+func AppendEnemy(var EnemyId):
+		EnemyList.append(EnemyId)
+		print("Active Enemy :",EnemyList.size() )
+	
+#エネミー削除（エネミークラスからも呼ばれる）
+func DeleteEnemy():
+	EnemyList.pop_front()
+	print("Enemy Delete:",EnemyList.size(), " SeqFlg=" ,LoopSeqEnd)
+	if EnemyList.size() == 0 and LoopSeqEnd==true:
+		print("Stage Clear!!")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -218,6 +243,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("SpawnEnemy"):
 		if debug_spawn == 0:
 			debug_spawn = 1
+			LoopSeqEnd = false #debug ループスポーン開始フラグ
+			
 			#エネミー生成------------------------------------------
 #			var ScnEnemy = EnemyScene.instance()	#エネミー
 #			var enid = ScnEnemy.get_instance_id()
