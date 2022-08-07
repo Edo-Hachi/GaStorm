@@ -6,10 +6,12 @@ var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
 var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 
-var FormationEnemyTimer = 0
 
 #----------------------------------------------------------------------------
 #エネミーを隊列で並べる時のグリッド座標情報
+var MatrixCol = 8
+var MatrixRow = 5
+
 class ENEMY_MATRIX:
 	var Col : int
 	var Row : int
@@ -17,9 +19,6 @@ class ENEMY_MATRIX:
 	var WorldY : float
 	var State : int
 
-#----------------------------------------------------------------------------
-var MatrixCol = 8
-var MatrixRow = 5
 var EnemyMatrix = []
 
 func InitEnemyMatrix():
@@ -42,7 +41,6 @@ func InitEnemyMatrix():
 			mtmp.WorldY = WldY
 			
 			EnemyMatrix.append(mtmp)
-			
 
 #配列Col,Rowから1次元配列インデックスを返す
 #var  MatrixCol = 8
@@ -50,106 +48,11 @@ func InitEnemyMatrix():
 func Pos2Index(var x , var y):
 	return x + (MatrixCol * y)
 
+#----------------------------------------------------------------------------
+#エネミーを隊列で並べる時のグリッド座標情報
 
-var StateSeq01 = [
-		{"Cmd" : "Init_s"},	#1秒
-		{"Cmd" : "Init_f"},	#フレーム単位
-		{"Cmd" : "Init_g"},	#グローバルタイマ
-		
-		#{"Cmd" : "Wait_s", "Time" : 3},
-		{"Cmd" : "Wait_g", "Time" : 1},
-		
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1)},
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1)},
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1)},
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,1)},
 
-		{"Cmd" : "Wait_s", "Time" : 3},
 
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,1)},
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,1)},
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,1)},
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,1)},
-
-#		{"Cmd" : "Wait_s", "Time" : 3},
-#
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,3)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,3)},
-#
-#		{"Cmd" : "Wait_s", "Time" : 3},
-#
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(0,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,3)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,3)},
-#
-#		{"Cmd" : "Wait_s", "Time" : 3},
-#
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,4)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,4)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,4)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,4)},
-#
-#		{"Cmd" : "Wait_s", "Time" : 3},
-#
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,4)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,4)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,4)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,4)},
-#
-#		{"Cmd" : "Wait_s", "Time" : 3},
-#
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(2,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,3)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,3)},
-#
-#		{"Cmd" : "Wait_s", "Time" : 3},
-#
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(5,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,2)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,3)},
-#		{"Cmd" : "Wait_f", "Time" : 5},
-#		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,3)},
-		
-		{"Cmd" : "Wait_s", "Time" : 5},
-		{"Cmd" : "FormationFlg", "Flg" : 1},
-
-		{"Cmd" : "End"}
-	]
 	
 var SeqTimerGbl = 0 #グローバルタイマ
 var SeqTimerSec = 0	#シーンシーケンスの制御タイマ(1秒)
@@ -157,9 +60,12 @@ var SeqTimerFps = 0#フレーム
 var SeqPtr = 0	#シーケンス参照ポインタ
 var SeqEnable = false	#シーケンス実行中フラグ
 
-var Sequence = StateSeq01	#実行するシーケンスの辞書リスト
+var EnemySequence # = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 
 var _GameOverTimer : float = 0.0
+
+var FormationEnemyTimer = 0	#エネミーの隊列アニメ
+
 
 var debug_spawn = 0
 
@@ -170,8 +76,8 @@ func SeqState():
 	
 	var Seq
 	
-	if SeqPtr < Sequence.size():
-		Seq = Sequence[SeqPtr]
+	if SeqPtr < EnemySequence.size():
+		Seq = EnemySequence[SeqPtr]
 	else:
 		print("Error:Swq Pointer OverRun!")
 		return
@@ -191,19 +97,19 @@ func SeqState():
 		
 		"Wait_s":
 			if SeqTimerSec == Seq["Time"]:
-				print("Sec Process ", Seq["Time"], "sec")
+				#print("Sec Process ", Seq["Time"], "sec")
 				SeqTimerSec=0
 				SeqPtr+=1
 		
 		"Wait_f":
 			if SeqTimerFps == Seq["Time"]:
-				print("Fps Process ", Seq["Time"], "Fps")
+				#print("Fps Process ", Seq["Time"], "Fps")
 				SeqTimerFps=0
 				SeqPtr+=1
 			
 		"Wait_g":
 			if SeqTimerGbl == Seq["Time"]:
-				print("GrobalTime Process ", Seq["Time"], "Time")
+				#print("GrobalTime Process ", Seq["Time"], "Time")
 				SeqPtr+=1
 		"LoopEnmy":
 			LoopEnemySpawn(Seq["LoopType"], Seq["Color"], Seq["Matrix"])
@@ -267,6 +173,9 @@ func _ready() -> void:
 	$Guntret.position.y = GlobalNode.ScreenHeight -32
 	GlobalNode.PlayerScore = 0
 	GlobalNode.GameMainSceneID = get_owner()
+
+	EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
+
 
 func set_erase_enemy(var id):
 	pass

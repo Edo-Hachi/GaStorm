@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/GameMain/GameMain_Node2D.gd" type="Script" id=1]
 [ext_resource path="res://src/GameMain/Guntret/Guntret_Area2D.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://src/GameMain/Enemies/EnemyGrid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/GameMain/Guntret/RestGuntret.tscn" type="PackedScene" id=7]
 [ext_resource path="res://asset/Font/Amazing Views.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://src/GameMain/EnemyScript.tscn" type="PackedScene" id=9]
 
 [sub_resource type="DynamicFont" id=2]
 size = 10
@@ -83,8 +84,10 @@ text = "GAMEOVER"
 wait_time = 0.017
 autostart = true
 
-[node name="Node2D" parent="." instance=ExtResource( 7 )]
+[node name="RestGuntret" parent="." instance=ExtResource( 7 )]
 position = Vector2( 10, 247 )
+
+[node name="EnemyScript" parent="." instance=ExtResource( 9 )]
 
 [connection signal="tree_exited" from="DlgPause" to="." method="_on_DlgPause_tree_exited"]
 [connection signal="pressed" from="DlgPause/ColorRect/Button" to="DlgPause" method="_on_Button_pressed"]

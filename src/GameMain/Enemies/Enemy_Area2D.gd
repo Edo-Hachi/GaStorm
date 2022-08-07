@@ -57,7 +57,7 @@ func SetPositon(var x, var y):
 #	position.y = y
 
 func SetEnemyState(var stat):
-	print("SetEnemyState Called")
+	#print("SetEnemyState Called")
 	EnemyState = stat
 	#EnemyState = EnemyStateID.STAT_FORMATION
 
