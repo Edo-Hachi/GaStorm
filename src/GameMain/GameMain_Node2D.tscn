@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/GameMain/GameMain_Node2D.gd" type="Script" id=1]
-[ext_resource path="res://src/GameMain/Guntret/Guntret_Area2D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/GameMain/Guntret/Guntret.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/GameMain/DlgPause.gd" type="Script" id=3]
 [ext_resource path="res://asset/Font/aerial.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://src/GameMain/BackGround/BackGroundStars.tscn" type="PackedScene" id=5]
