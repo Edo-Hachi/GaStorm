@@ -17,11 +17,15 @@ const STARMAX = 100
 export var StarSpeed = 5 #小さくすると速くなるよ
 export var StarDirection = 1 #-1にすると逆スクロールだよ　
 
+func SetStarSpeed(var spd, var direction):
+	StarSpeed = spd
+	StarDirection = direction
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
 	#debug
-	randomize()
+	#randomize()
 	
 #	var _star
 #	var _wh

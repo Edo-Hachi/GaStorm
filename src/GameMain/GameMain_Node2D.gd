@@ -1,5 +1,26 @@
 #GameMain_Node2D
 
+#ゲーム開始前のシーンアニメ、面クリア時のアニメとか
+
+
+#エネミーの左右移動　もうちょっとシンプルなコードに
+#エネミーの硬さ
+#爆発のエフェクト
+
+
+#音
+#BGM
+#画面ゆらせる？
+#自機の移動処理をkineticに変更
+
+#==========================================
+#完了タスク
+#==========================================
+#1面のクリア（エネミーのアクティブリストで実装）
+#ステージクリア処理
+#星の速度調整、バックスクロール
+
+
 extends Node2D
 
 var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
@@ -69,9 +90,10 @@ var _GameOverTimer : float = 0.0
 var FormationEnemyTimer = 0	#エネミーの隊列アニメ
 
 
-var debug_spawn = 0
+#var debug_spawn = 0
 
 #シーケンスパーサ
+#SeqTimerタイマノードからから呼ばれてます
 func SeqState():
 	if SeqEnable==false:
 		return
@@ -140,16 +162,14 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	ScnEnemy.SetEnemyColor(EnemyColor)
 	ScnEnemy.SetEnemyState(GlobalNode.EnemyStateID.STAT_LOOP)
 	
-
-	#ここもっとスマートにかけない？ debug
+	#ここもっとスマートにかけない？
 	var tmp :ENEMY_MATRIX =	EnemyMatrix[Pos2Index(Matrix.x, Matrix.y)]
 	ScnEnemy.SetEnemyMatrix(Matrix, Vector2(tmp.WorldX, tmp.WorldY))
-	
 	add_child(ScnEnemy)
 	
-	#エネミー管理リストに追加
+	#エネミー管理リストに追加(ステージ上の残エネミー数の管理にしか今のところ使ってない。無駄っぽい)
+	
 	AppendEnemy(ScnEnemy)
-
 	#エネミー生成------------------------------------------
 	
 	#ループ生成-------------------------------------------
@@ -187,6 +207,15 @@ func DeleteEnemy():
 	if EnemyList.size() == 0 and LoopSeqEnd==true:
 		print("Stage Clear!!")
 
+#GameStartInit
+func GameStartInit():
+	#シーケンス実行開始
+	EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
+	SeqPtr=0
+	SeqTimerFps=0
+	SeqEnable = true
+	
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#print("Call Ready")
@@ -199,23 +228,27 @@ func _ready() -> void:
 	GlobalNode.PlayerScore = 0
 	GlobalNode.GameMainSceneID = get_owner()
 
+
+	#シーケンス実行開始
 	EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
-
-
-func set_erase_enemy(var id):
-	pass
-	#print("set_erase_enemy hoge ",id)
-
+	SeqPtr=0
+	SeqTimerFps=0
+	SeqEnable = true
+	
+	#これでBGの星の操作できます　
+	#get_parent().get_node("BackGroundStars").SetStarSpeed(5,-1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
-	$BgColor/BackGroundStars.StarDirection = 1
-	$BgColor/BackGroundStars.StarSpeed = 5
-	#debug
-#	var myid = get_tree()
-#	GlobalNode.GameMainSceneID = get_tree()
-#	GlobalNode.GameMainSceneID
+	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
+		return
+		
+	#BackGroundStarsMove!!
+	#$BgColor/BackGroundStars.StarDirection = 1
+	#$BgColor/BackGroundStars.StarSpeed = 5
+
+	#debug------------------------------
+	# Enemy Move Left2Right test
 	if GlobalNode.FormationMoveFlg != 0:
 		FormationEnemyTimer+=1
 		if GlobalNode.FormationMoveFlg == 1:
@@ -226,24 +259,22 @@ func _process(delta: float) -> void:
 			if 60 < FormationEnemyTimer:
 				GlobalNode.FormationMoveFlg = 1
 				FormationEnemyTimer=0
+	#debug------------------------------
 		
-
 	
+	#Pause r--------------------------------------------------------------
 	if Input.is_action_pressed("Pause"):
 		get_tree().paused = true
 		$DlgPause.visible = true
 		$DlgPause.show_modal(true)
 	
-	if Input.is_action_pressed("GameOver"):
-		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
-		_GameOverTimer = 0
 	
 	
 #debug--------------------------------------------------------------
-	if Input.is_action_pressed("SpawnEnemy"):
-		if debug_spawn == 0:
-			debug_spawn = 1
-			LoopSeqEnd = false #debug ループスポーン開始フラグ
+#	if Input.is_action_pressed("SpawnEnemy"):
+#		if debug_spawn == 0:
+#			debug_spawn = 1
+#			LoopSeqEnd = false #debug ループスポーン開始フラグ
 			
 			#エネミー生成------------------------------------------
 #			var ScnEnemy = EnemyScene.instance()	#エネミー
@@ -255,25 +286,23 @@ func _process(delta: float) -> void:
 
 			
 #-------------------------------
-			SeqEnable = true
+			#SeqEnable = true
 			#print("Seq Start")
 			#LoopEnemySpawn(0)
-			debug_spawn = 1
+			#Edebug_spawn = 1
 #-------------------------------
 #debug--------------------------------------------------------------
-	
+	if Input.is_action_pressed("GameOver"):
+		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
+		_GameOverTimer = 0
+#debug--------------------------------------------------------------
+	#Game Over--------------------------------------------------------------
 	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
 		_GameOverTimer+=1
 		$CanvasLayer/lblGameOver.visible = true
 		if (60 * 5) < _GameOverTimer:
 			get_tree().change_scene("res://src/Main_Node2D.tscn")
-		
-
-	#ループが終わったエネミーを隊列位置に移動するテストコード
-#	for i in DebugMoveEnemyList.size():
-#		#print("Update Move Enemy Count:",DebugMoveEnemyList[i])
-#		DebugMoveEnemyList[i].position = DebugMoveEnemyList[i].position.move_toward(Vector2(128,250), 50 * delta)
-
+	#Game Over--------------------------------------------------------------
 
 #ポーズダイアログを閉じた時の処理
 func _on_DlgPause_tree_exited() -> void:
