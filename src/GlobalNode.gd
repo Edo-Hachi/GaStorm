@@ -20,6 +20,11 @@ enum EnemyStateID {
 		STAT_ATTACK		#攻撃中
 }
 
+#Color Name Like a Pico8 Colors)
+var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolivegreen", "darkgray", "cornsilk", "red", "darkorange", "yellow", "green",
+					 "deepskyblue",  "dimgray", "hotpink",  "lightsalmon"]
+var Colormax = ColorName.size()
+
 var FormationMoveFlg = 0 # hold 1=move_outside 2=move_inner
 
 

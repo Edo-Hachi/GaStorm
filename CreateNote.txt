@@ -10,7 +10,7 @@ func _on_BtnStart_button_down() -> void:
 
 #-----------------------------------------------------------------------------------
 #ポーズ処理
-
+https://qiita.com/2dgames_jp/items/3df03851d8e7a4622e40
 	if Input.is_action_pressed("Pause"):
 		#メインノードをpause
 		get_tree().paused = true
