@@ -26,8 +26,10 @@
 extends Node2D
 
 var GameMainScen = preload("res://src/GameMain/GameMain_Node2D.tscn")
+var GameScene
 #var gamemain
 
+#Init All of Game Status
 func _ready() -> void:
 	randomize()
 
@@ -35,19 +37,24 @@ func _ready() -> void:
 	
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 	
-	#gamemain = GameMainScen.instance()
-	#add_child(gamemain)
+	GameScene = GameMainScen.instance()
+	add_child(GameScene)
+
+#
+func GameTitleInit():
+	GlobalNode.GameState = GlobalNode.GState.TITLE
+	$CanvasLayer/TitleNode.visible = true
+	$BackGroundStars.StarSpeed = 10
 	
 
 func _process(delta: float) -> void:
-	#update()	#_drawを再描画
-
+	
+	#Flash StartGame Text
 	var col = OS.get_ticks_usec()
-	#print (col)
 	if col % 3 == 0:
 		col = OS.get_ticks_usec() % GlobalNode.Colormax
 		$CanvasLayer/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
-	
+		
 	if Input.is_action_pressed("BTN_START"):
 		GameStart()
 	if Input.is_action_pressed("BTN_QUIT"):
@@ -58,10 +65,9 @@ func _process(delta: float) -> void:
 func GameStart():
 	GlobalNode.GameState = GlobalNode.GState.GAMEPLAY
 	
-	#get_tree().change_scene("res://src/GameMain/GameMain_Node2D.tscn")
-	var gamescn = GameMainScen.instance()
-	add_child(gamescn)
-	gamescn.GameStartInit()
+#	var gamescn = GameMainScen.instance()
+#	add_child(gamescn)
+	GameScene.GameStartInit()
 	
 	$CanvasLayer/TitleNode.visible = false
 	
@@ -73,9 +79,10 @@ func GameQuit():
 	get_tree().quit()
 	
 #Start Button Down スタートボタン押下	
-func _on_Button_button_down() -> void:
+func _on_BtnStart_button_down() -> void:
 	GameStart()
 
 #Quit Button Down 終了ボタン押下
 func _on_BtnQuit_button_down() -> void:
 	GameQuit()
+

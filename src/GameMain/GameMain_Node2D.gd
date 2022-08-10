@@ -207,6 +207,7 @@ func _ready() -> void:
 
 
 	#シーケンス実行開始
+	
 	EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 	SeqPtr=0
 	SeqTimerFps=0
@@ -219,7 +220,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
 		return
-		
 	#BackGroundStarsMove!!
 	#$BgColor/BackGroundStars.StarDirection = 1
 	#$BgColor/BackGroundStars.StarSpeed = 5
@@ -261,25 +261,18 @@ func _process(delta: float) -> void:
 #			add_child(ScnEnemy)
 			#エネミー生成------------------------------------------
 
-			
-#-------------------------------
-			#SeqEnable = true
-			#print("Seq Start")
-			#LoopEnemySpawn(0)
-			#Edebug_spawn = 1
-#-------------------------------
 #debug--------------------------------------------------------------
 	if Input.is_action_pressed("GameOver"):
 		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
-		_GameOverTimer = 0
-#debug--------------------------------------------------------------
-	#Game Over--------------------------------------------------------------
-	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
-		_GameOverTimer+=1
 		$CanvasLayer/lblGameOver.visible = true
-		if (60 * 5) < _GameOverTimer:
-			get_tree().change_scene("res://src/Main_Node2D.tscn")
-	#Game Over--------------------------------------------------------------
+		
+		var timer = get_tree().create_timer(3) #falseにしないとポーズした時に止まってくれない
+		yield(timer , "timeout")
+		GlobalNode.GameState == GlobalNode.GState.TITLE
+		get_parent().GameTitleInit()
+#debug--------------------------------------------------------------
+
+
 
 #ポーズダイアログを閉じた時の処理
 func _on_DlgPause_tree_exited() -> void:
@@ -290,6 +283,9 @@ func _on_DlgPause_tree_exited() -> void:
 # 1/60 で呼ばれます
 #各タイマカウントを更新し、シーケンス処理を呼び出します
 func _on_SeqTimer_timeout() -> void:
+	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
+		return
+
 	SeqTimerFps += 1#フレーム
 	
 	if 59 < SeqTimerFps:
