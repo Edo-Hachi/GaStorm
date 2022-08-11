@@ -69,6 +69,7 @@ valign = 1
 
 [node name="GastormTitle" type="Sprite" parent="CanvasLayer/TitleNode"]
 position = Vector2( 127, 82 )
+rotation = 0.0538235
 texture = ExtResource( 5 )
 
 [connection signal="button_down" from="CanvasLayer/TitleNode/BtnStart" to="." method="_on_BtnStart_button_down"]

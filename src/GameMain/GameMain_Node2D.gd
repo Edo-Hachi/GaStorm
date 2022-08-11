@@ -117,7 +117,9 @@ func SeqState():
 			SeqPtr+=1
 		
 		"FormationFlg":
-			GlobalNode.FormationMoveFlg = Seq["Flg"]
+			GlobalNode.EnemyFormation = Seq["Flg"]
+			FormationEnemyTimer = 0
+			#print(GlobalNode.EnemyFormation)
 			SeqPtr+=1
 			
 		"End":
@@ -137,7 +139,12 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	var enid = ScnEnemy.get_instance_id()
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
+
+#debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
+	#var EnemyFormation # hold 1=move_outside 2=move_inner
+	#enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_HOME, MOVE_OUTSIDE, ATTACK}
 	ScnEnemy.SetEnemyState(GlobalNode.EnemyStateID.STAT_LOOP)
+#debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
 	
 	#ここもっとスマートにかけない？
 	var tmp :ENEMY_MATRIX =	EnemyMatrix[Pos2Index(Matrix.x, Matrix.y)]
@@ -154,7 +161,8 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	ScnLoop.InitLoopEnemies(ScnEnemy,loopid, LoopType)
 	add_child(ScnLoop)
 	#ループ生成-------------------------------------------
-	
+
+#FollowPath2D Seq Over!!	
 func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 	
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
@@ -165,8 +173,11 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 		#DeleteEnemy()
 	else:
 		#ループの終わったエネミーはホームポジションへ
-		#print("loop Over Set Home")
+#debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
+	#var EnemyFormation # hold 1=move_outside 2=move_inner
+	#enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_HOME, MOVE_OUTSIDE, ATTACK}
 		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)
+#debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
 		
 		#画面上のエネミーをアクティブリストに追加(ホームポジションに落ち着いたエネミーをリストに追加しないと数あわないかも　)
 #		EnemyList.append(EnemyId)
@@ -175,7 +186,7 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 #エネミー管理リストへ追加
 func AppendEnemy(var EnemyId):
 		EnemyList.append(EnemyId)
-		print("Active Enemy :",EnemyList.size() )
+		#print("Active Enemy :",EnemyList.size() )
 	
 #エネミー削除（エネミークラスからも呼ばれる）
 func DeleteEnemy():
@@ -191,7 +202,7 @@ func GameStartInit():
 	SeqPtr=0
 	SeqTimerFps=0
 	SeqEnable = true
-	
+	FormationEnemyTimer = 0 #EnemyMoveTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -220,22 +231,29 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
 		return
-	#BackGroundStarsMove!!
-	#$BgColor/BackGroundStars.StarDirection = 1
-	#$BgColor/BackGroundStars.StarSpeed = 5
+	
+	#debug
+	#GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_OUTSIDEだったら
+	#タイマカウンタを加算して、適当なタイミングでMove_INSIDE	に切り替える　
+	
+	if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE:
+		FormationEnemyTimer += 1
+		if 60 < FormationEnemyTimer:
+			GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_INSIDE
 
+		
 	#debug------------------------------
 	# Enemy Move Left2Right test
-	if GlobalNode.FormationMoveFlg != 0:
-		FormationEnemyTimer+=1
-		if GlobalNode.FormationMoveFlg == 1:
-			if  30 < FormationEnemyTimer:
-				GlobalNode.FormationMoveFlg = 2
-		
-		elif GlobalNode.FormationMoveFlg == 2:
-			if 60 < FormationEnemyTimer:
-				GlobalNode.FormationMoveFlg = 1
-				FormationEnemyTimer=0
+#	if GlobalNode.FormationMoveFlg != 0:
+#		FormationEnemyTimer+=1
+#		if GlobalNode.FormationMoveFlg == 1:
+#			if  30 < FormationEnemyTimer:
+#				GlobalNode.FormationMoveFlg = 2
+#
+#		elif GlobalNode.FormationMoveFlg == 2:
+#			if 60 < FormationEnemyTimer:
+#				GlobalNode.FormationMoveFlg = 1
+#				FormationEnemyTimer=0
 	#debug------------------------------
 		
 	

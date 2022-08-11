@@ -13,19 +13,23 @@ var GameMainSceneID = 0
 enum LoopType {Left01=0, Right01, Left02, Right02}
 enum EnemyColor {Green=0, Red, Purple} 
 
+#こっちを廃止予定　ーーーーーーーーーーーーーーーーーーーーーーー　
 enum EnemyStateID {
 		STAT_LOOP=0,	#現れた時のループ
 		STAT_GOHOME,	#ホームポジションへの移動
 		STAT_FORMATION,
 		STAT_ATTACK		#攻撃中
 }
+#こっちを廃止予定　ーーーーーーーーーーーーーーーーーーーーーーー　
 
 #Color Name Like a Pico8 Colors)
 var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolivegreen", "darkgray", "cornsilk", "red", "darkorange", "yellow", "green",
 					 "deepskyblue",  "dimgray", "hotpink",  "lightsalmon"]
 var Colormax = ColorName.size()
 
-var FormationMoveFlg = 0 # hold 1=move_outside 2=move_inner
+#Enemy Move State
+var EnemyFormation # hold 1=move_outside 2=move_inner
+enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_HOME, MOVE_OUTSIDE, MOVE_INSIDE, ATTACK01}
 
 
 # Called when the node enters the scene tree for the first time.

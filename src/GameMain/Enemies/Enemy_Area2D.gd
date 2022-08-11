@@ -63,6 +63,10 @@ func SetEnemyState(var stat):
 
 func _process(delta: float) -> void:
 	
+#var EnemyFormation # hold 1=move_outside 2=move_inner
+#enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_OUTSIDE, MOVE_INSIDE, ATTACK}
+
+	
 	match EnemyState:
 		GlobalNode.EnemyStateID.STAT_LOOP:
 			pass	#=0,	#現れた時のループ
@@ -80,12 +84,14 @@ func _process(delta: float) -> void:
 				#print("Touchaku")
 			pass
 		GlobalNode.EnemyStateID.STAT_FORMATION:
-			if GlobalNode.FormationMoveFlg == 0:
+			if GlobalNode.EnemyFormation == 0:
 				return
 			
 			var matx : int = Matrix.x
-
-			if GlobalNode.FormationMoveFlg == 1: #to outside
+			
+			#print ("Enemy Move", GlobalNode.EnemyFormation)
+			
+			if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE: #to outside
 				match matx:
 					0:
 						position.x -= 20 * delta
@@ -104,28 +110,6 @@ func _process(delta: float) -> void:
 					7:
 						position.x += 20 * delta
 				
-			elif GlobalNode.FormationMoveFlg == 2: #to_inner
-				position = position.move_toward(MatrixWorldPos, 40 * delta)
-			#rotation += 30
-				#Speed += 5
-
-#				match matx:
-#					0:
-#						position.x += 40 * delta
-#					1:
-#						position.x += 30 * delta
-#					2:
-#						position.x += 20 * delta
-#					3:
-#						position.x += 10 * delta
-#					4:
-#						position.x -= 10 * delta
-#					5:
-#						position.x -= 20 * delta
-#					6:
-#						position.x -= 30 * delta
-#					7:
-#						position.x -= 40 * delta
 					
 			pass
 		GlobalNode.EnemyStateID.STAT_ATTACK:		#攻撃中
