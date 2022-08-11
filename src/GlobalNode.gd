@@ -28,8 +28,8 @@ var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolive
 var Colormax = ColorName.size()
 
 #Enemy Move State
-var EnemyFormation # hold 1=move_outside 2=move_inner
-enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_HOME, MOVE_OUTSIDE, MOVE_INSIDE, ATTACK01}
+#var EnemyFormation # hold 1=move_outside 2=move_inner
+#enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_HOME, MOVE_OUTSIDE, MOVE_INSIDE, ATTACK01}
 
 
 # Called when the node enters the scene tree for the first time.

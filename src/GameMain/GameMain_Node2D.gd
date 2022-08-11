@@ -236,10 +236,10 @@ func _process(delta: float) -> void:
 	#GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_OUTSIDEだったら
 	#タイマカウンタを加算して、適当なタイミングでMove_INSIDE	に切り替える　
 	
-	if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE:
-		FormationEnemyTimer += 1
-		if 60 < FormationEnemyTimer:
-			GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_INSIDE
+#	if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE:
+#		FormationEnemyTimer += 1
+#		if 60 < FormationEnemyTimer:
+#			GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_INSIDE
 
 		
 	#debug------------------------------

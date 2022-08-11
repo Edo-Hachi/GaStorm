@@ -20,6 +20,7 @@ var EnemyID	#ObjectID
 var Alive = true
 var Matrix : Vector2	#隊列位置
 var MatrixWorldPos : Vector2	#隊列位置実座標
+var Life : int = 1
 
 #エネミーの行動ステート　
 var EnemyState = GlobalNode.EnemyStateID.STAT_LOOP
@@ -32,10 +33,13 @@ func SetEnemyColor(var enemyColor : int):
 	match enemyColor:
 		GlobalNode.EnemyColor.Green:
 			$AnimatedSprite.animation = "Green"
+			Life = 1
 		GlobalNode.EnemyColor.Red:
 			$AnimatedSprite.animation = "Red"
+			Life = 2
 		GlobalNode.EnemyColor.Purple:
 			$AnimatedSprite.animation = "Puraple"
+			Life = 3
 			
 func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 	Matrix = matrix
@@ -84,31 +88,31 @@ func _process(delta: float) -> void:
 				#print("Touchaku")
 			pass
 		GlobalNode.EnemyStateID.STAT_FORMATION:
-			if GlobalNode.EnemyFormation == 0:
-				return
-			
-			var matx : int = Matrix.x
-			
-			#print ("Enemy Move", GlobalNode.EnemyFormation)
-			
-			if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE: #to outside
-				match matx:
-					0:
-						position.x -= 20 * delta
-					1:
-						position.x -= 15 * delta
-					2:
-						position.x -= 10 * delta
-					3:
-						position.x -= 5 * delta
-					4:
-						position.x += 5 * delta
-					5:
-						position.x += 10 * delta
-					6:
-						position.x += 15 * delta
-					7:
-						position.x += 20 * delta
+#			if GlobalNode.EnemyFormation == 0:
+#				return
+#
+#			var matx : int = Matrix.x
+#
+#			#print ("Enemy Move", GlobalNode.EnemyFormation)
+#
+#			if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE: #to outside
+#				match matx:
+#					0:
+#						position.x -= 20 * delta
+#					1:
+#						position.x -= 15 * delta
+#					2:
+#						position.x -= 10 * delta
+#					3:
+#						position.x -= 5 * delta
+#					4:
+#						position.x += 5 * delta
+#					5:
+#						position.x += 10 * delta
+#					6:
+#						position.x += 15 * delta
+#					7:
+#						position.x += 20 * delta
 				
 					
 			pass
@@ -117,12 +121,14 @@ func _process(delta: float) -> void:
 
 func _on_EnemyObject_area_entered(area: Area2D) -> void:
 	#自機、ショットに当たった場合は自分（エネミー）削除フラグを立てる
-	Alive = false	
-	visible = false
-	#コリジョンも不使用にする disabled = true
-	$CollisionShape2D.set_deferred("disabled", true)
+	Life -= 1
+	if Life < 0:
+		Alive = false	
+		visible = false
+		#コリジョンも不使用にする disabled = true
+		$CollisionShape2D.set_deferred("disabled", true)
 
-	get_parent().DeleteEnemy()
+		get_parent().DeleteEnemy()
 
 
 #func _on_EnemyObject_StatFormation() -> void:
