@@ -1,17 +1,18 @@
 extends Node
 
 var StateSeq01 = [
-		{"Cmd" : "Init_s"},	#1秒
-		{"Cmd" : "Init_f"},	#フレーム単位
-		{"Cmd" : "Init_g"},	#グローバルタイマ
+		{"Cmd" : "Init_s"},	#1秒タイマ初期化
+		{"Cmd" : "Init_f"},	#フレーム単位初期化
+		{"Cmd" : "Init_g"},	#グローバルタイマ初期化
 		
 		#EnemyFormationState {MOVE_STOP = 0, MOVE_OUTSIDE, 	MOVE_INSIDE}
 		#{"Cmd" : "FormationFlg", "Flg" : GlobalNode.EnemyFormationState.MOVE_STOP},	#フォーメーションアニメ停止
-
-		#{"Cmd" : "Wait_s", "Time" : 3},
-		{"Cmd" : "Wait_g", "Time" : 1},
+		{"Cmd" : "MsgStageStart", "Num" : 1}, #ステージ開始テキスト描画
 		
-		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "Wait_s", "Time" : 3},
+		#{"Cmd" : "Wait_g", "Time" : },
+		
+		#{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1)},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1)},

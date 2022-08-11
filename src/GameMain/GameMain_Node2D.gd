@@ -121,6 +121,13 @@ func SeqState():
 			FormationEnemyTimer = 0
 			#print(GlobalNode.EnemyFormation)
 			SeqPtr+=1
+		
+		"MsgStageStart":
+			$CanvasStart.DrawParsec(Seq["Num"])
+			$CanvasStart/Node2D.visible = true
+			SeqPtr+=1
+		#{"Cmd" : "MsgStageStart", "Num" : 1},
+
 			
 		"End":
 			SeqEnable=false
@@ -203,6 +210,9 @@ func GameStartInit():
 	SeqTimerFps=0
 	SeqEnable = true
 	FormationEnemyTimer = 0 #EnemyMoveTimer
+	
+	$Guntret.visible = true
+	$RestGuntret.visible = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -282,7 +292,7 @@ func _process(delta: float) -> void:
 #debug--------------------------------------------------------------
 	if Input.is_action_pressed("GameOver"):
 		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
-		$CanvasLayer/lblGameOver.visible = true
+		$CanvasGameover/Node2D.visible = true
 		
 		var timer = get_tree().create_timer(3) #falseにしないとポーズした時に止まってくれない
 		yield(timer , "timeout")
