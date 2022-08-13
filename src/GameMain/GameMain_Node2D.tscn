@@ -27,13 +27,11 @@ font_data = ExtResource( 4 )
 script = ExtResource( 1 )
 
 [node name="BgColor" type="ColorRect" parent="."]
-visible = false
 margin_right = 256.0
 margin_bottom = 256.0
 color = Color( 0, 0, 0.0784314, 1 )
 
 [node name="BackGroundStars" parent="BgColor" instance=ExtResource( 5 )]
-visible = false
 
 [node name="EnemyGrid" parent="BgColor" instance=ExtResource( 6 )]
 visible = false
@@ -103,6 +101,7 @@ valign = 1
 clip_text = true
 
 [node name="CanvasGameover" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="lblGameOver" type="Label" parent="CanvasGameover"]
 margin_left = 67.0

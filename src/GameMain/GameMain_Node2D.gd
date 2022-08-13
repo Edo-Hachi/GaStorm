@@ -70,6 +70,10 @@ var FormationEnemyTimer = 0	#エネミーの隊列アニメ
 const GuntretHomePosX = GlobalNode.ScreenWidth / 2
 const GuntretHomePosY = GlobalNode.ScreenHeight -32
 
+#ステージクリアアニメーションのY速度
+const DEFSTARSPEED = 5
+var StageClearGuntret_SpdY = 10
+var StageClearBgStarSpd = DEFSTARSPEED #default =5
 
 #var debug_spawn = 0
 
@@ -141,6 +145,7 @@ func SeqState():
 			
 			#敵が0だったらステージクリアに
 			if EnemyList.size() == 0:
+				StageClearGuntret_SpdY = 10
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
 				$CanvasStageClear.visible = true
 	
@@ -213,6 +218,7 @@ func DeleteEnemy():
 	if EnemyList.size() == 0 and LoopSeqEnd==true:
 		#StageClear
 		#print("Stage Clear!!")
+		StageClearGuntret_SpdY = 10
 		GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
 		$CanvasStageClear.visible = true
 	
@@ -226,6 +232,9 @@ func GameStartInit():
 	SeqTimerFps=0
 	SeqEnable = true
 	FormationEnemyTimer = 0 #EnemyMoveTimer
+
+	StageClearBgStarSpd=DEFSTARSPEED
+	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 	
 	$Guntret.visible = true
 	$RestGuntret.visible = true
@@ -242,6 +251,10 @@ func _ready() -> void:
 	$Guntret.position.y = GuntretHomePosY
 	GlobalNode.PlayerScore = 0
 	GlobalNode.GameMainSceneID = get_owner()
+	
+	#hoge
+	StageClearBgStarSpd=DEFSTARSPEED
+	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 
 	#シーケンス実行開始
@@ -252,7 +265,9 @@ func _ready() -> void:
 	SeqEnable = true
 	
 	#これでBGの星の操作できます　
-	#get_parent().get_node("BackGroundStars").SetStarSpeed(5,-1)
+	#get_parent().get_node("BackGroundStars").SetStarSpeed(1,-1)
+	#$BgColor/BackGroundStars.SetStarSpeed(1,-1)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -261,14 +276,32 @@ func _process(delta: float) -> void:
 	
 	match GlobalNode.SubState:
 		GlobalNode.SUBSTATE.STAGE_START:
+			StageClearBgStarSpd=DEFSTARSPEED
+			$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 			#print("StageStart")
 			pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
 			if $Guntret.position == Vector2(GuntretHomePosX, GuntretHomePosY):
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR02
+				
+			if 0.5 < StageClearBgStarSpd:
+				StageClearBgStarSpd-=0.1
+				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
+		
 		GlobalNode.SUBSTATE.STAGE_CLEAR02:
-			$Guntret.position.y -= 10
+			$Guntret.position.y -= StageClearGuntret_SpdY * delta
+			StageClearGuntret_SpdY += 10
+			
+			if 0.5 < StageClearBgStarSpd:
+				StageClearBgStarSpd-=0.1
+				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
+			
+			if $Guntret.position.y < -64:
+				print("next Stage")
+				
+				#nextStageStart
+				pass
 			#debug ホームポジションに戻ったら、背景BGをワープっぽくして、自機を画面場外まで加速移動させる
 			#print("Process StageClear")
 			

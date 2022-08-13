@@ -25,11 +25,12 @@ margin_right = 256.0
 margin_bottom = 256.0
 color = Color( 0, 0, 0.0784314, 1 )
 
-[node name="BackGroundStars" parent="." instance=ExtResource( 4 )]
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TitleNode" type="Node2D" parent="CanvasLayer"]
+
+[node name="BackGroundStars" parent="CanvasLayer/TitleNode" instance=ExtResource( 4 )]
+scale = Vector2( 1, 0.993575 )
 
 [node name="BtnStart" type="Button" parent="CanvasLayer/TitleNode"]
 margin_left = 78.0

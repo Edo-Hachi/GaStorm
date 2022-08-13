@@ -41,8 +41,9 @@ var GameScene
 #Init All of Game Status
 func _ready() -> void:
 	randomize()
-
-	$BackGroundStars.StarSpeed = 10
+	
+	$CanvasLayer/TitleNode/BackGroundStars.SetStarSpeed(10,1)
+	#$BackGroundStars.StarSpeed = 10
 	
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 	
@@ -53,7 +54,7 @@ func _ready() -> void:
 func GameTitleInit():
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 	$CanvasLayer/TitleNode.visible = true
-	$BackGroundStars.StarSpeed = 10
+	$CanvasLayer/TitleNode/BackGroundStars.SetStarSpeed(10,1)
 	
 
 func _process(delta: float) -> void:

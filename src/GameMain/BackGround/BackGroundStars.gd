@@ -56,8 +56,6 @@ func _draw() -> void:
 	
 	for i in StarList.size():
 		
-		#StarList[i].Pos.y += (StarList[i].Speed / 3)+0.5
-		#StarList[i].Pos.y += (StarList[i].Speed / StarSpeed)+0.5
 		StarList[i].Pos.y += (StarList[i].Speed / StarSpeed) * StarDirection
 		
 		if (256 + 32) < StarList[i].Pos.y:
