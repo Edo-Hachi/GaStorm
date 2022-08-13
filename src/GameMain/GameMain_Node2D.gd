@@ -128,7 +128,7 @@ func SeqState():
 		
 		"MsgStageStart":
 			$CanvasStart.DrawParsec(Seq["Num"])
-			$CanvasStart/Node2D.visible = true
+			$CanvasStart.visible = true
 			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 			SeqPtr+=1
 		#{"Cmd" : "MsgStageStart", "Num" : 1},
@@ -209,7 +209,7 @@ func AppendEnemy(var EnemyId):
 #エネミー削除（エネミークラスからも呼ばれる）
 func DeleteEnemy():
 	EnemyList.pop_front()
-	print("Enemy Delete:",EnemyList.size(), " SeqFlg=" ,LoopSeqEnd)
+	#print("Enemy Delete:",EnemyList.size(), " SeqFlg=" ,LoopSeqEnd)
 	if EnemyList.size() == 0 and LoopSeqEnd==true:
 		#StageClear
 		#print("Stage Clear!!")

@@ -16,9 +16,9 @@ func _process(delta: float) -> void:
 	var col = OS.get_ticks_usec()
 	if col % 5 == 0:
 		col = OS.get_ticks_usec() % GlobalNode.Colormax
-		$Node2D/lblReady.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
-		$Node2D/lblParsec.text = "Parsec / %02d" % Parsec
+		$lblReady.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
+		$lblParsec.text = "Parsec / %02d" % Parsec
 	
 	ViewTimer+=1
 	if 60 * 2 < ViewTimer:	#2秒で消す
-		$Node2D.visible = false
+		visible = false

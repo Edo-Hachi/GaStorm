@@ -11,7 +11,6 @@
 [ext_resource path="res://src/GameMain/StageStart.gd" type="Script" id=10]
 
 [sub_resource type="DynamicFont" id=3]
-size = 11
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=4]
@@ -78,29 +77,25 @@ position = Vector2( 10, 247 )
 
 [node name="CanvasStart" type="CanvasLayer" parent="."]
 visible = false
+offset = Vector2( 128, 0 )
+transform = Transform2D( 1, 0, 0, 1, 128, 0 )
 script = ExtResource( 10 )
 
-[node name="Node2D" type="Node2D" parent="CanvasStart"]
-visible = false
-
-[node name="lblParsec" type="Label" parent="CanvasStart/Node2D"]
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 63.0
-margin_top = 94.0
-margin_right = 189.0
-margin_bottom = 108.0
+[node name="lblParsec" type="Label" parent="CanvasStart"]
+margin_left = -78.0
+margin_top = 79.0
+margin_right = 80.0
+margin_bottom = 99.0
 custom_fonts/font = SubResource( 3 )
 text = "Parsec / 00"
 align = 1
 valign = 1
 
-[node name="lblReady" type="Label" parent="CanvasStart/Node2D"]
-margin_left = 77.0
-margin_top = 120.0
-margin_right = 169.0
-margin_bottom = 134.0
+[node name="lblReady" type="Label" parent="CanvasStart"]
+margin_left = -43.0
+margin_top = 125.0
+margin_right = 49.0
+margin_bottom = 145.0
 custom_fonts/font = SubResource( 3 )
 text = "READY!!"
 align = 1
@@ -108,15 +103,11 @@ valign = 1
 clip_text = true
 
 [node name="CanvasGameover" type="CanvasLayer" parent="."]
-visible = false
 
-[node name="Node2D" type="Node2D" parent="CanvasGameover"]
-position = Vector2( 128, 0 )
-
-[node name="lblGameOver" type="Label" parent="CanvasGameover/Node2D"]
-margin_left = -61.0
+[node name="lblGameOver" type="Label" parent="CanvasGameover"]
+margin_left = 67.0
 margin_top = 89.0
-margin_right = 62.0
+margin_right = 190.0
 margin_bottom = 109.0
 custom_fonts/font = SubResource( 4 )
 text = "GAMEOVER"
