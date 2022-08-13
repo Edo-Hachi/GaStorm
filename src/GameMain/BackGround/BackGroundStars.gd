@@ -38,8 +38,11 @@ func _ready() -> void:
 		
 		star.Pos = Vector2(randi()%256+1, randi()%256+1)
 		#_wh = randi()%2+1
-		var _wh = 1 # rand_range(1,1)
-		star.WH = Vector2(_wh, _wh)
+		var _w = randi()%3 + 1 # rand_range(1,1)
+		var _h = randi()%3 + 1 # rand_range(1,1)
+		if _h < _w:
+			_w = _h
+		star.WH = Vector2(_w, _h)
 		#_star.Speed = randi()%8 + 0.1
 		star.Speed = rand_range(0, 10)
 
