@@ -38,7 +38,6 @@ visible = false
 position = Vector2( 64, 32 )
 
 [node name="Guntret" parent="." instance=ExtResource( 2 )]
-visible = false
 
 [node name="DlgPause" type="Popup" parent="."]
 pause_mode = 2

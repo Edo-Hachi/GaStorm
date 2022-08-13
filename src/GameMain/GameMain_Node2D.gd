@@ -59,7 +59,13 @@ var SeqTimerFps = 0#フレーム
 var SeqPtr = 0	#シーケンス参照ポインタ
 var SeqEnable = false	#シーケンス実行中フラグ
 
-var EnemySequence # = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
+#----------------------------------------------------------------------------
+#エネミー出現シーケンス情報
+var EnemySequence #実行中のシーケンス
+var EnemySeqList = [] #実行するシーケンスの辞書リスト
+var EnemySeqStageNum = 0	#実行中のステージ番号
+#$EnemyScript.StateSeq01, $EnemyScript.StateSeq02]
+#----------------------------------------------------------------------------
 
 var _GameOverTimer : float = 0.0
 
@@ -215,7 +221,7 @@ func AppendEnemy(var EnemyId):
 func DeleteEnemy():
 	EnemyList.pop_front()
 	#print("Enemy Delete:",EnemyList.size(), " SeqFlg=" ,LoopSeqEnd)
-	if EnemyList.size() == 0 and LoopSeqEnd==true:
+	if EnemyList.size() == 0 and LoopSeqEnd==true: #hoge
 		#StageClear
 		#print("Stage Clear!!")
 		StageClearGuntret_SpdY = 10
@@ -227,17 +233,24 @@ func DeleteEnemy():
 #GameStartInit
 func GameStartInit():
 	#シーケンス実行開始
-	EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
+	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
+	EnemySeqStageNum = 0
+	EnemySequence = EnemySeqList[EnemySeqStageNum]
 	SeqPtr=0
 	SeqTimerFps=0
 	SeqEnable = true
 	FormationEnemyTimer = 0 #EnemyMoveTimer
+
+
+	LoopSeqEnd=false
 
 	StageClearBgStarSpd=DEFSTARSPEED
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 	
 	$Guntret.visible = true
 	$RestGuntret.visible = true
+	
+	EnemyList.clear()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -256,10 +269,13 @@ func _ready() -> void:
 	StageClearBgStarSpd=DEFSTARSPEED
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
-
-	#シーケンス実行開始
+	#シーケンスリスト作成（なんかスマートに書けないかな？）
+	EnemySeqList.append($EnemyScript.StateSeq01)
+	EnemySeqList.append($EnemyScript.StateSeq02)
+#$EnemyScript.StateSeq01, $EnemyScript.StateSeq02]
 	
-	EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
+	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
+	
 	SeqPtr=0
 	SeqTimerFps=0
 	SeqEnable = true
@@ -297,9 +313,44 @@ func _process(delta: float) -> void:
 				StageClearBgStarSpd-=0.1
 				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 			
-			if $Guntret.position.y < -64:
+			#if $Guntret.position.y < -64:
+			if $Guntret.position.y < -2048:
+
+				$Guntret.position.y = GuntretHomePosY
+				#----------------------------------------------------------------
 				print("next Stage")
 				
+				if 1 <= EnemySeqStageNum:
+					return
+				EnemySeqStageNum += 1
+				EnemySequence = EnemySeqList[EnemySeqStageNum]
+
+				SeqEnable = false #debug
+				
+				SeqPtr=0
+				SeqTimerFps=0
+				FormationEnemyTimer = 0 #EnemyMoveTimer
+				StageClearBgStarSpd=DEFSTARSPEED
+				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
+	
+				#$Guntret.visible = true
+				$Guntret.position.x = GuntretHomePosX
+				$Guntret.position.y = GuntretHomePosY
+				
+				EnemyList.clear()
+				LoopSeqEnd=false
+
+				SeqEnable = true #debug
+				
+				$CanvasStageClear.visible = false
+				#print("Guntret y = ", $Guntret.position.y)
+				
+				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
+
+
+				#----------------------------------------------------------------
+
+
 				#nextStageStart
 				pass
 			#debug ホームポジションに戻ったら、背景BGをワープっぽくして、自機を画面場外まで加速移動させる

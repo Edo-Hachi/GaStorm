@@ -44,7 +44,9 @@ func _process(delta: float) -> void:
 	var rot = rotation_degrees
 		
 	#Shot Bullet	
-	if Input.is_action_pressed("Shot"):
+		#input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+
+	if Input.is_action_pressed("Shot") or Input.get_action_strength("ui_accept"):
 		if ShotBack <= 0:
 			var Bullet = BulletScene.instance()
 			Bullet.position = position
