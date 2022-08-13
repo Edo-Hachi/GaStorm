@@ -52,7 +52,6 @@ func Pos2Index(var x , var y):
 #画面上のエネミー管理リスト
 var EnemyList = []
 var LoopSeqEnd = false
-
 	
 var SeqTimerGbl = 0 #グローバルタイマ
 var SeqTimerSec = 0	#シーンシーケンスの制御タイマ(1秒)
@@ -65,6 +64,11 @@ var EnemySequence # = $EnemyScript.StateSeq01	#実行するシーケンスの辞
 var _GameOverTimer : float = 0.0
 
 var FormationEnemyTimer = 0	#エネミーの隊列アニメ
+
+
+#自機のホームポジション
+const GuntretHomePosX = GlobalNode.ScreenWidth / 2
+const GuntretHomePosY = GlobalNode.ScreenHeight -32
 
 
 #var debug_spawn = 0
@@ -125,14 +129,21 @@ func SeqState():
 		"MsgStageStart":
 			$CanvasStart.DrawParsec(Seq["Num"])
 			$CanvasStart/Node2D.visible = true
+			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 			SeqPtr+=1
 		#{"Cmd" : "MsgStageStart", "Num" : 1},
 
 			
 		"End":
+			#print("Sqe End")
 			SeqEnable=false
 			LoopSeqEnd = true
-			#print("Sqe End")
+			
+			#敵が0だったらステージクリアに
+			if EnemyList.size() == 0:
+				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
+				$CanvasStageClear.visible = true
+	
 
 
 #--------------------------------------------
@@ -200,7 +211,12 @@ func DeleteEnemy():
 	EnemyList.pop_front()
 	print("Enemy Delete:",EnemyList.size(), " SeqFlg=" ,LoopSeqEnd)
 	if EnemyList.size() == 0 and LoopSeqEnd==true:
-		print("Stage Clear!!")
+		#StageClear
+		#print("Stage Clear!!")
+		GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
+		$CanvasStageClear.visible = true
+	
+	#bug SeqEndのタイミングで残エネミーが０の場合もステージクリアにする必要あり
 
 #GameStartInit
 func GameStartInit():
@@ -220,9 +236,10 @@ func _ready() -> void:
 	
 	InitEnemyMatrix()
 	FormationEnemyTimer = 0
-		
-	$Guntret.position.x = GlobalNode.ScreenWidth / 2
-	$Guntret.position.y = GlobalNode.ScreenHeight -32
+
+	#自機のホームポジション
+	$Guntret.position.x = GuntretHomePosX
+	$Guntret.position.y = GuntretHomePosY
 	GlobalNode.PlayerScore = 0
 	GlobalNode.GameMainSceneID = get_owner()
 
@@ -242,6 +259,21 @@ func _process(delta: float) -> void:
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
 		return
 	
+	match GlobalNode.SubState:
+		GlobalNode.SUBSTATE.STAGE_START:
+			#print("StageStart")
+			pass
+		GlobalNode.SUBSTATE.STAGE_CLEAR:
+			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
+			if $Guntret.position == Vector2(GuntretHomePosX, GuntretHomePosY):
+				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR02
+		GlobalNode.SUBSTATE.STAGE_CLEAR02:
+			$Guntret.position.y -= 10
+			#debug ホームポジションに戻ったら、背景BGをワープっぽくして、自機を画面場外まで加速移動させる
+			#print("Process StageClear")
+			
+			
+		
 	#debug
 	#GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_OUTSIDEだったら
 	#タイマカウンタを加算して、適当なタイミングでMove_INSIDE	に切り替える　
@@ -313,7 +345,9 @@ func _on_DlgPause_tree_exited() -> void:
 func _on_SeqTimer_timeout() -> void:
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
 		return
-
+	
+	#print("Call Seq Timer")
+	
 	SeqTimerFps += 1#フレーム
 	
 	if 59 < SeqTimerFps:

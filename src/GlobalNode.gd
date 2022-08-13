@@ -3,8 +3,13 @@ extends Node
 const ScreenWidth = 256
 const ScreenHeight = 256
 
+#ゲームステート	
 enum GState {TITLE = 0, GAMEPLAY, GAMEOVER}
 var GameState : int  = GState.TITLE
+
+#ゲームサブステート(GState.SUBSTATE)
+enum SUBSTATE {STAGE_START=0, STAGE_CLEAR, STAGE_CLEAR02}
+var SubState : int = SUBSTATE.STAGE_START
 
 var PlayerScore = 0
 
