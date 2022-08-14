@@ -3,6 +3,7 @@ extends Node2D
 var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
 var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
+var EnemyBulletScn = preload("res://src/GameMain/Enemies/EnemyBullet.tscn")
 
 
 #----------------------------------------------------------------------------
@@ -81,7 +82,8 @@ const DEFSTARSPEED = 5
 var StageClearGuntret_SpdY = 10
 var StageClearBgStarSpd = DEFSTARSPEED #default =5
 
-#var debug_spawn = 0
+#debug
+var debug_spawn = 0
 
 #シーケンスパーサ
 #SeqTimerタイマノードからから呼ばれてます
@@ -229,6 +231,15 @@ func DeleteEnemy():
 		$CanvasStageClear.visible = true
 	
 	#bug SeqEndのタイミングで残エネミーが０の場合もステージクリアにする必要あり
+
+func ShotEnemyBullet(var EnemyPos : Vector2):
+	var ScnBullet = EnemyBulletScn.instance()
+	add_child(ScnBullet)
+	ScnBullet.SetPos(EnemyPos)
+#	ScnBullet.SetDegrees(45)
+	#ScnBullet.SetToword(Vector2(200,100))
+	ScnBullet.SetToword($Guntret.position)
+		
 
 #GameStartInit
 func GameStartInit():
@@ -392,9 +403,19 @@ func _process(delta: float) -> void:
 	
 	
 #debug--------------------------------------------------------------
-#	if Input.is_action_pressed("SpawnEnemy"):
+	if Input.is_action_pressed("SpawnEnemy"):
+		print("Enemy")
 #		if debug_spawn == 0:
 #			debug_spawn = 1
+			
+		var ScnBullet = EnemyBulletScn.instance()
+		add_child(ScnBullet)
+		ScnBullet.SetPos(Vector2(100,10))
+#		ScnBullet.SetDegrees(45)
+		#ScnBullet.SetToword(Vector2(200,100))
+		ScnBullet.SetToword($Guntret.position)
+
+			
 #			LoopSeqEnd = false #debug ループスポーン開始フラグ
 			
 			#エネミー生成------------------------------------------
