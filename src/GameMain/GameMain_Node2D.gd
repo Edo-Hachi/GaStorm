@@ -211,16 +211,8 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 		#エネミーの生成リストから削除
 		#DeleteEnemy()
 	else:
-		#ループの終わったエネミーはホームポジションへ
-#debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
-	#var EnemyFormation # hold 1=move_outside 2=move_inner
-	#enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_HOME, MOVE_OUTSIDE, ATTACK}
+		#ループ終了後、ホームポジションへ移動させる　
 		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)
-#debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
-		
-		#画面上のエネミーをアクティブリストに追加(ホームポジションに落ち着いたエネミーをリストに追加しないと数あわないかも　)
-#		EnemyList.append(EnemyId)
-#		print("Active Enemy :",EnemyList.size() )
 
 #エネミー管理リストへ追加
 func AppendEnemy(var EnemyId):
@@ -240,6 +232,7 @@ func DeleteEnemy():
 	
 	#bug SeqEndのタイミングで残エネミーが０の場合もステージクリアにする必要あり
 
+#エネミーからの弾発射依頼メッセージ
 func ShotEnemyBullet(var EnemyPos : Vector2):
 	var ScnBullet = EnemyBulletScn.instance()
 	add_child(ScnBullet)
@@ -247,7 +240,20 @@ func ShotEnemyBullet(var EnemyPos : Vector2):
 #	ScnBullet.SetDegrees(45)
 	#ScnBullet.SetToword(Vector2(200,100))
 	ScnBullet.SetToword($Guntret.position)
+
+#-------------------------------------------------------------		
+#エネミーがホームポジションに戻ったかチェックする
+func CheckEnemyReturnToHomeState():
+	var ReturnHomeNum = 0
+	for i in range(0, EnemyList.size()):
+		var Enmy = EnemyList[i]
+		ReturnHomeNum += Enmy.GetHomeState()
+	
+	if ReturnHomeNum==0 && LoopSeqEnd == true: 
+		print("All Enemy Return Home", ReturnHomeNum)	
+		#この条件が立ったら、エネミーにフォーメーション移動を投げる
 		
+#-------------------------------------------------------------		
 
 #GameStartInit
 func GameStartInit():
@@ -311,14 +317,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
-		
-		#エネミーのリストを調べて、全エネミーのEnemyStateが
-		#GlobalNode.EnemyStateID.STAT_FORMATION
-		#になっていたら、編隊でのアニメーション処理を行う
-		
-		#GlobalNodeに実行フラグを設けて、オフセット移動、ホームポジションへの戻りを
-		#制御する
-		
 		return
 	
 	match GlobalNode.SubState:
@@ -332,7 +330,16 @@ func _process(delta: float) -> void:
 			#debug 最終的には、Window.Height+32あたりからホームポジションにフレームインするアニメーションを実装したい　
 		
 		GlobalNode.SUBSTATE.STAGE_PLAY:
-				pass
+	
+		#エネミーのリストを調べて、全エネミーのEnemyStateが
+		#GlobalNode.EnemyStateID.STAT_FORMATION
+		#になっていたら、編隊でのアニメーション処理を行う
+		
+		#GlobalNodeに実行フラグを設けて、オフセット移動、ホームポジションへの戻りを
+		#制御する
+			#生成中のエネミーがすべてホームポジションに戻ったかチェックしてる	
+			CheckEnemyReturnToHomeState()
+			pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
 			if $Guntret.position == Vector2(GuntretHomePosX, GuntretHomePosY):

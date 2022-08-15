@@ -23,6 +23,8 @@ var Matrix : Vector2	#隊列位置
 var MatrixWorldPos : Vector2	#隊列位置実座標
 var Life : int = 1
 
+var ReturnToHome = 0
+
 #エネミーの行動ステート　
 var EnemyState = GlobalNode.EnemyStateID.STAT_LOOP
 
@@ -50,7 +52,7 @@ func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Alive = true
-	pass
+	ReturnToHome = 1	#ホームポジションに戻ってない　
 
 func SetMoveType(var movetype):
 #	MoveType = movetype
@@ -66,6 +68,11 @@ func SetEnemyState(var stat):
 	EnemyState = stat
 	#EnemyState = EnemyStateID.STAT_FORMATION
 
+#ホームポジションへの移動完了状態を返す
+#HomePosition = 0  Move = 1
+func GetHomeState() -> int:
+	return ReturnToHome
+	
 func _process(delta: float) -> void:
 	
 #var EnemyFormation # hold 1=move_outside 2=move_inner
@@ -77,7 +84,7 @@ func _process(delta: float) -> void:
 		GlobalNode.EnemyStateID.STAT_LOOP:
 			#適当に弾をばらまく　
 			if 10 < position.y:
-				if randi() % 50 == 0:
+				if randi() % 100 == 0:
 					get_parent().ShotEnemyBullet(position)
 			
 		#ホームポジションへの移動
@@ -92,6 +99,8 @@ func _process(delta: float) -> void:
 			if position == MatrixWorldPos:
 				EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
 				rotation = 0
+				ReturnToHome = 0	#ホームポジションに戻ったら0セット
+				
 				#get_parent().AppendEnemy(EnemyID)
 
 				#print("Touchaku")
