@@ -12,7 +12,8 @@ var MoveType = MoveTypeID.Type01
 var FlameCounter = 0	#随時更新　
 var localCounter = 0	#タイマ計測用
 
-var Speed = 10
+var Speed = 150
+#var Speed = 20
 
 var MoveSeq = 0
 
@@ -84,7 +85,9 @@ func _process(delta: float) -> void:
 			#print("Call Go Home")
 			position = position.move_toward(MatrixWorldPos, Speed * delta)
 			rotation += 30
-			Speed += 5
+			if 30 <= Speed:
+			#Speed += 5
+				Speed -= 2
 			
 			if position == MatrixWorldPos:
 				EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION

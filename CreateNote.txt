@@ -240,3 +240,14 @@ yield(timer , "timeout")
 
 #ヴァンパイアサバイバーを数10行で書こうってネタ
 https://www.youtube.com/watch?v=LgvLbahJOTA
+
+
+#スピード調整曲線係数
+x += (TargetX - x) / n
+
+nを変えるとxがTargetXに近づくにつれゆっくりとTargetX値に近づくようになる
+ただし、最終的に極端に遅くなるのでどこかのしきい値を超えたらx = TargetXしてやる必要がある
+if abs(x - TargetX) < 0.5 then
+  x = TargetS
+みたいな感じ
+
