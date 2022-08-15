@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 	
 	$AnimatedSprite.offset.y = ShotBack
 	if 0 <= ShotBack:
-		ShotBack-=0.5
+		ShotBack-=0.25
 	
 	var rot = rotation_degrees
 		
