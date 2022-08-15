@@ -144,7 +144,15 @@ func SeqState():
 			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 			SeqPtr+=1
 		#{"Cmd" : "MsgStageStart", "Num" : 1},
+		
+		"BgStarScroll":
+			#export var StarSpeed = 5 #小さくすると速くなるよ
+			#export var StarDirection = 1 #-1にすると逆スクロールだよ　
+			$BgColor/BackGroundStars.SetStarSpeed(Seq["Spd"], Seq["Dir"])
+			SeqPtr+=1
 
+			
+			
 			
 		"End":
 			#print("Sqe End")
@@ -262,6 +270,9 @@ func GameStartInit():
 	$RestGuntret.visible = true
 	
 	EnemyList.clear()
+	
+	GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -281,9 +292,10 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-	EnemySeqList.append($EnemyScript.StateSeq01)
-	EnemySeqList.append($EnemyScript.StateSeq02)
-#$EnemyScript.StateSeq01, $EnemyScript.StateSeq02]
+	#EnemySeqList.append($EnemyScript.StateSeq01)
+	#EnemySeqList.append($EnemyScript.StateSeq02)
+	#EnemySeqList.append($EnemyScript.StateSeq03)
+	EnemySeqList.append($EnemyScript.StateSeq04)
 	
 	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 	
@@ -299,6 +311,14 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
+		
+		#エネミーのリストを調べて、全エネミーのEnemyStateが
+		#GlobalNode.EnemyStateID.STAT_FORMATION
+		#になっていたら、編隊でのアニメーション処理を行う
+		
+		#GlobalNodeに実行フラグを設けて、オフセット移動、ホームポジションへの戻りを
+		#制御する
+		
 		return
 	
 	match GlobalNode.SubState:
@@ -306,7 +326,13 @@ func _process(delta: float) -> void:
 			StageClearBgStarSpd=DEFSTARSPEED
 			$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 			#print("StageStart")
-			pass
+			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
+			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_PLAY
+			
+			#debug 最終的には、Window.Height+32あたりからホームポジションにフレームインするアニメーションを実装したい　
+		
+		GlobalNode.SUBSTATE.STAGE_PLAY:
+				pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
 			if $Guntret.position == Vector2(GuntretHomePosX, GuntretHomePosY):
@@ -328,14 +354,16 @@ func _process(delta: float) -> void:
 			if $Guntret.position.y < -2048:
 
 				$Guntret.position.y = GuntretHomePosY
-				#----------------------------------------------------------------
-				print("next Stage")
 				
+#----------------------------------------------------------------
+				print("next Stage")
+				#debug ０，１面しかまだないのでここで弾いてます　
 				if 1 <= EnemySeqStageNum:
 					return
+#----------------------------------------------------------------
+				
 				EnemySeqStageNum += 1
 				EnemySequence = EnemySeqList[EnemySeqStageNum]
-
 				SeqEnable = false #debug
 				
 				SeqPtr=0
@@ -343,63 +371,24 @@ func _process(delta: float) -> void:
 				FormationEnemyTimer = 0 #EnemyMoveTimer
 				StageClearBgStarSpd=DEFSTARSPEED
 				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
-	
-				#$Guntret.visible = true
+				
 				$Guntret.position.x = GuntretHomePosX
-				$Guntret.position.y = GuntretHomePosY
+				$Guntret.position.y = GlobalNode.ScreenHeight + 16 #GuntretHomePosY
 				
 				EnemyList.clear()
 				LoopSeqEnd=false
-
-				SeqEnable = true #debug
+				SeqEnable = true
 				
 				$CanvasStageClear.visible = false
-				#print("Guntret y = ", $Guntret.position.y)
 				
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
-
-
 				#----------------------------------------------------------------
-
-
-				#nextStageStart
-				pass
-			#debug ホームポジションに戻ったら、背景BGをワープっぽくして、自機を画面場外まで加速移動させる
-			#print("Process StageClear")
-			
-			
-		
-	#debug
-	#GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_OUTSIDEだったら
-	#タイマカウンタを加算して、適当なタイミングでMove_INSIDE	に切り替える　
-	
-#	if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE:
-#		FormationEnemyTimer += 1
-#		if 60 < FormationEnemyTimer:
-#			GlobalNode.EnemyFormation = GlobalNode.EnemyFormationState.MOVE_INSIDE
-
-		
-	#debug------------------------------
-	# Enemy Move Left2Right test
-#	if GlobalNode.FormationMoveFlg != 0:
-#		FormationEnemyTimer+=1
-#		if GlobalNode.FormationMoveFlg == 1:
-#			if  30 < FormationEnemyTimer:
-#				GlobalNode.FormationMoveFlg = 2
-#
-#		elif GlobalNode.FormationMoveFlg == 2:
-#			if 60 < FormationEnemyTimer:
-#				GlobalNode.FormationMoveFlg = 1
-#				FormationEnemyTimer=0
-	#debug------------------------------
-		
 	
 	#Pause r--------------------------------------------------------------
 	if Input.is_action_pressed("Pause"):
 		get_tree().paused = true
 		$DlgPause.visible = true
 		$DlgPause.show_modal(true)
-	
 	
 	
 #debug--------------------------------------------------------------

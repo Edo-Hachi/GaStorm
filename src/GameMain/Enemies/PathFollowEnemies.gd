@@ -30,10 +30,10 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	LoopPathObj.unit_offset += 0.5	 * delta
+	LoopPathObj.unit_offset += 0.5 * delta
 	EnemyId.position = LoopPathObj.position
 	EnemyId.rotation_degrees = LoopPathObj.rotation_degrees - 90
-			
+	
 	if 1<= LoopPathObj.unit_offset:
 		EnemyId.rotation_degrees = 0
 

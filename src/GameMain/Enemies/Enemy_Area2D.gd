@@ -74,13 +74,11 @@ func _process(delta: float) -> void:
 	match EnemyState:
 		#出現ループ中処理
 		GlobalNode.EnemyStateID.STAT_LOOP:
-			if position.y < 100:
+			#適当に弾をばらまく　
+			if 10 < position.y:
 				if randi() % 50 == 0:
 					get_parent().ShotEnemyBullet(position)
-			pass	#=0,	#現れた時のループ
 			
-			
-#					get_parent().LoopEnemyOver(EnemyId, LoopPathObj.position, EnemyId.MatrixWorldPos)
 		#ホームポジションへの移動
 		GlobalNode.EnemyStateID.STAT_GOHOME:
 			#print("Call Go Home")
@@ -96,6 +94,8 @@ func _process(delta: float) -> void:
 				#print("Touchaku")
 		#隊列編成時処理
 		GlobalNode.EnemyStateID.STAT_FORMATION:
+			#if GlobalNode.EnFrmState == HOME:
+				
 #			if GlobalNode.EnemyFormation == 0:
 #				return
 #
