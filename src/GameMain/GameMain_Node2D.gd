@@ -254,6 +254,9 @@ func CheckEnemyReturnToHomeState():
 	var ReturnHomeNum = 0
 	for i in range(0, EnemyList.size()):
 		var Enmy = EnemyList[i]
+		if Enmy:
+			return
+		#is_nan(Enmy)
 		ReturnHomeNum += Enmy.GetHomeState()
 	
 	if ReturnHomeNum==0 && LoopSeqEnd == true && GlobalNode.EnemyFormationFinished==false: 
@@ -310,9 +313,9 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-	#EnemySeqList.append($EnemyScript.StateSeq01)
-	#EnemySeqList.append($EnemyScript.StateSeq02)
-	#EnemySeqList.append($EnemyScript.StateSeq03)
+#	EnemySeqList.append($EnemyScript.StateSeq01)
+#	EnemySeqList.append($EnemyScript.StateSeq02)
+#	EnemySeqList.append($EnemyScript.StateSeq03)
 	EnemySeqList.append($EnemyScript.StateSeq04)
 	
 	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
@@ -378,8 +381,8 @@ func _process(delta: float) -> void:
 #----------------------------------------------------------------
 				print("next Stage")
 				#debug ０，１面しかまだないのでここで弾いてます　
-				if 1 <= EnemySeqStageNum:
-					return
+				#if 1 <= EnemySeqStageNum:
+				#	return
 #----------------------------------------------------------------
 				
 				EnemySeqStageNum += 1

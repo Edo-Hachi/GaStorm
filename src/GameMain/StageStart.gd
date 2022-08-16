@@ -18,7 +18,10 @@ func _process(delta: float) -> void:
 		col = OS.get_ticks_usec() % GlobalNode.Colormax
 		$lblReady.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 		$lblParsec.text = "Parsec / %02d" % Parsec
-	
+
+		#自機を画面外からホームポジションへ
+		#BGのスクロール速度も弄れたらいじる
+			
 	ViewTimer+=1
 	if 60 * 2 < ViewTimer:	#2秒で消す
 		visible = false

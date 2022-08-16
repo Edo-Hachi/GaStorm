@@ -12,8 +12,8 @@ var MoveType = MoveTypeID.Type01
 var FlameCounter = 0	#随時更新　
 var localCounter = 0	#タイマ計測用
 
-var Speed = 150
-#var Speed = 20
+#var Speed = 150
+var Speed = 20
 
 var MoveSeq = 0
 
@@ -36,13 +36,13 @@ func SetEnemyColor(var enemyColor : int):
 	match enemyColor:
 		GlobalNode.EnemyColor.Green:
 			$AnimatedSprite.animation = "Green"
-			Life = 1
+			Life = 0
 		GlobalNode.EnemyColor.Red:
 			$AnimatedSprite.animation = "Red"
-			Life = 2
+			Life = 0
 		GlobalNode.EnemyColor.Purple:
 			$AnimatedSprite.animation = "Puraple"
-			Life = 3
+			Life = 0
 			
 func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 	Matrix = matrix
@@ -97,9 +97,9 @@ func _process(delta: float) -> void:
 			#print("Call Go Home")
 			position = position.move_toward(MatrixWorldPos, Speed * delta)
 			rotation += 30
-			if 30 <= Speed:
-			#Speed += 5
-				Speed -= 2
+			#if 30 <= Speed:
+			Speed += 5
+				#Speed -= 2
 			
 			if position == MatrixWorldPos:
 				#EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
