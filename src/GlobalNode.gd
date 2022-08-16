@@ -26,7 +26,8 @@ enum EnemyStateID {
 		STAT_ATTACK		#攻撃中
 }
 
-#隊列を組んでいる時のエネミーの動作ステート　
+#隊列を組んでいる時のエネミーの動作ステート
+var EnemyFormationFinished = false	#Loop完了後に全エネミーがホームポジションに戻るとtrueになる　
 enum EnFrmStateID{
 	HOME = 0,
 	OUTER

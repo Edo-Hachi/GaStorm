@@ -23,9 +23,9 @@ var Matrix : Vector2	#隊列位置
 var MatrixWorldPos : Vector2	#隊列位置実座標
 var Life : int = 1
 
-var ReturnToHome = 0
+var ReturnToHomeState = 0
 
-#エネミーの行動ステート　
+#エネミーの行動ステート
 var EnemyState = GlobalNode.EnemyStateID.STAT_LOOP
 
 func SetEnemyId(var enemyid):
@@ -52,7 +52,7 @@ func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Alive = true
-	ReturnToHome = 1	#ホームポジションに戻ってない　
+	ReturnToHomeState = 1	#ホームポジションに戻ってない　
 
 func SetMoveType(var movetype):
 #	MoveType = movetype
@@ -71,8 +71,13 @@ func SetEnemyState(var stat):
 #ホームポジションへの移動完了状態を返す
 #HomePosition = 0  Move = 1
 func GetHomeState() -> int:
-	return ReturnToHome
-	
+	return ReturnToHomeState
+
+#フォーメーションアニメーション開始（GameMainでの全エネミーホームポジション達成条件成立から投げられてくる）
+func ActivateFormation():
+	EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
+	pass
+
 func _process(delta: float) -> void:
 	
 #var EnemyFormation # hold 1=move_outside 2=move_inner
@@ -82,7 +87,7 @@ func _process(delta: float) -> void:
 	match EnemyState:
 		#出現ループ中処理
 		GlobalNode.EnemyStateID.STAT_LOOP:
-			#適当に弾をばらまく　
+			#適当に弾をばらまく
 			if 10 < position.y:
 				if randi() % 100 == 0:
 					get_parent().ShotEnemyBullet(position)
@@ -97,15 +102,26 @@ func _process(delta: float) -> void:
 				Speed -= 2
 			
 			if position == MatrixWorldPos:
-				EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
+				#EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
 				rotation = 0
-				ReturnToHome = 0	#ホームポジションに戻ったら0セット
+				ReturnToHomeState = 0	#ホームポジションに戻ったら0セット
 				
 				#get_parent().AppendEnemy(EnemyID)
 
 				#print("Touchaku")
+		
 		#隊列編成時処理
 		GlobalNode.EnemyStateID.STAT_FORMATION:
+			
+			if GlobalNode.EnemyFormationFinished == true:
+				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
+					#print("Enemy Sub State Home")
+					#GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.OUTER:
+					pass
+				elif GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.OUTER:
+					#print("Enemy Sub State Outer")
+					pass
+
 			#if GlobalNode.EnFrmState == HOME:
 				
 #			if GlobalNode.EnemyFormation == 0:

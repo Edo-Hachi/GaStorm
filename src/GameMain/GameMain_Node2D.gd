@@ -26,7 +26,7 @@ func InitEnemyMatrix():
 	var SPW = 16
 	var SPH = 16
 	
-	var ypos=0
+	#var ypos=0
 	for y in MatrixRow:
 		for x in MatrixCol:
 			
@@ -142,6 +142,9 @@ func SeqState():
 			$CanvasStart.DrawParsec(Seq["Num"])
 			$CanvasStart.visible = true
 			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
+
+			GlobalNode.EnemyFormationFinished = false #すべてのエネミーがloop後にホームポジションに戻るとこのフラグがtrueになる
+
 			SeqPtr+=1
 		#{"Cmd" : "MsgStageStart", "Num" : 1},
 		
@@ -211,8 +214,12 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 		#エネミーの生成リストから削除
 		#DeleteEnemy()
 	else:
-		#ループ終了後、ホームポジションへ移動させる　
+		#ループ終了後、ホームポジションへ移動させる
 		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)
+
+		#エネミーがすべてホームポジションに戻ったかチェック
+		#CheckEnemyReturnToHomeState()
+
 
 #エネミー管理リストへ追加
 func AppendEnemy(var EnemyId):
@@ -249,10 +256,14 @@ func CheckEnemyReturnToHomeState():
 		var Enmy = EnemyList[i]
 		ReturnHomeNum += Enmy.GetHomeState()
 	
-	if ReturnHomeNum==0 && LoopSeqEnd == true: 
-		print("All Enemy Return Home", ReturnHomeNum)	
+	if ReturnHomeNum==0 && LoopSeqEnd == true && GlobalNode.EnemyFormationFinished==false: 
+		#print("All Enemy Return Home", ReturnHomeNum)
+		GlobalNode.EnemyFormationFinished = true
 		#この条件が立ったら、エネミーにフォーメーション移動を投げる
-		
+		for i in range(0, EnemyList.size()):
+			var Enmy = EnemyList[i]
+			Enmy.ActivateFormation()
+
 #-------------------------------------------------------------		
 
 #GameStartInit
@@ -268,6 +279,7 @@ func GameStartInit():
 
 
 	LoopSeqEnd=false
+	GlobalNode.EnemyFormationFinished = false
 
 	StageClearBgStarSpd=DEFSTARSPEED
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
@@ -337,7 +349,8 @@ func _process(delta: float) -> void:
 		
 		#GlobalNodeに実行フラグを設けて、オフセット移動、ホームポジションへの戻りを
 		#制御する
-			#生成中のエネミーがすべてホームポジションに戻ったかチェックしてる	
+			#生成中のエネミーがすべてホームポジションに戻ったかチェックしてる
+			#if GlobalNode.EnemyFormationFinished == false:
 			CheckEnemyReturnToHomeState()
 			pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
