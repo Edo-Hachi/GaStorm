@@ -28,11 +28,14 @@ enum EnemyStateID {
 
 #隊列を組んでいる時のエネミーの動作ステート
 var EnemyFormationFinished = false	#Loop完了後に全エネミーがホームポジションに戻るとtrueになる　
+
+#エネミーのホームポジションアニメフラグ
 enum EnFrmStateID{
-	HOME = 0,
+	STOP = 0,
+	HOME,
 	OUTER
 }
-var EnFrmState = EnFrmStateID.HOME
+var EnFrmState = EnFrmStateID.STOP
 
 #Color Name Like a Pico8 Colors)
 var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolivegreen", "darkgray", "cornsilk", "red", "darkorange", "yellow", "green",

@@ -8,7 +8,8 @@ var StateSeq01 = [
 		{"Cmd" : "BgStarScroll", "Spd" : 5, "Dir": 1},
 		
 		{"Cmd" : "MsgStageStart", "Num" : 1}, #ステージ開始テキスト描画
-		
+		{"Cmd" : "EnmyFormationActive", "Flg" : false}, #エネミーフォーメイションスタンバイ　 
+
 		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1)},
@@ -95,8 +96,11 @@ var StateSeq01 = [
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,3)},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,3)},
-		
+#
+		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "Wait_s", "Time" : 4},
+
+		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
 
 		{"Cmd" : "End"}
 ]

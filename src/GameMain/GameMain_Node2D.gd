@@ -85,6 +85,9 @@ var StageClearBgStarSpd = DEFSTARSPEED #default =5
 #debug
 var debug_spawn = 0
 
+#Frame Counter
+var fps = 0
+
 #シーケンスパーサ
 #SeqTimerタイマノードからから呼ばれてます
 func SeqState():
@@ -142,9 +145,11 @@ func SeqState():
 			$CanvasStart.DrawParsec(Seq["Num"])
 			$CanvasStart.visible = true
 			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
+			
+			GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.STOP
 
-			GlobalNode.EnemyFormationFinished = false #すべてのエネミーがloop後にホームポジションに戻るとこのフラグがtrueになる
-
+			#GlobalNode.EnemyFormationFinished = false #すべてのエネミーがloop後にホームポジションに戻るとこのフラグがtrueになる
+			
 			SeqPtr+=1
 		#{"Cmd" : "MsgStageStart", "Num" : 1},
 		
@@ -153,14 +158,24 @@ func SeqState():
 			#export var StarDirection = 1 #-1にすると逆スクロールだよ　
 			$BgColor/BackGroundStars.SetStarSpeed(Seq["Spd"], Seq["Dir"])
 			SeqPtr+=1
-
-			
-			
+		
+		#エネミーのフォーメーション配置完了
+		"EnmyFormationActive":
+			GlobalNode.EnemyFormationFinished = Seq["Flg"] #エネミーのフォーメーション遷移　完了(trye)／未完了(false)　
+			#print("Enemy Form Seq=", GlobalNode.EnemyFormationFinished)
+			SeqPtr+=1
+		
+		#フォーメーションのアニメ開始／停止
+		"EnmyFormationAnim":
+			GlobalNode.EnFrmState = Seq["Flg"]
+			#print("Enemy Form Animation", GlobalNode.EnFrmState)
+			SeqPtr+=1
 			
 		"End":
 			#print("Sqe End")
 			SeqEnable=false
 			LoopSeqEnd = true
+			
 			
 			#敵が0だったらステージクリアに
 			if EnemyList.size() == 0:
@@ -250,22 +265,24 @@ func ShotEnemyBullet(var EnemyPos : Vector2):
 
 #-------------------------------------------------------------		
 #エネミーがホームポジションに戻ったかチェックする
-func CheckEnemyReturnToHomeState():
-	var ReturnHomeNum = 0
-	for i in range(0, EnemyList.size()):
-		var Enmy = EnemyList[i]
-		if Enmy:
-			return
-		#is_nan(Enmy)
-		ReturnHomeNum += Enmy.GetHomeState()
-	
-	if ReturnHomeNum==0 && LoopSeqEnd == true && GlobalNode.EnemyFormationFinished==false: 
-		#print("All Enemy Return Home", ReturnHomeNum)
-		GlobalNode.EnemyFormationFinished = true
-		#この条件が立ったら、エネミーにフォーメーション移動を投げる
-		for i in range(0, EnemyList.size()):
-			var Enmy = EnemyList[i]
-			Enmy.ActivateFormation()
+#func CheckEnemyReturnToHomeState():
+#	var ReturnHomeNum = 0
+#	for i in range(0, EnemyList.size()):
+#		var Enmy = EnemyList[i]
+#		if Enmy:
+#			return
+#		#is_nan(Enmy)
+#		ReturnHomeNum += Enmy.GetHomeState()
+#
+#	if ReturnHomeNum==0 && LoopSeqEnd == true && GlobalNode.EnemyFormationFinished==false: 
+#		#print("All Enemy Return Home", ReturnHomeNum)
+#		#GlobalNode.EnemyFormationFinished = true
+#		#この条件が立ったら、エネミーにフォーメーション移動を投げる
+#		for i in range(0, EnemyList.size()):
+#			var Enmy = EnemyList[i]
+#			Enmy.ActivateFormation()
+
+#GlobalNode.EnemyStateID.STAT_FORMATION
 
 #-------------------------------------------------------------		
 
@@ -313,10 +330,10 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-#	EnemySeqList.append($EnemyScript.StateSeq01)
+	EnemySeqList.append($EnemyScript.StateSeq01)
 #	EnemySeqList.append($EnemyScript.StateSeq02)
 #	EnemySeqList.append($EnemyScript.StateSeq03)
-	EnemySeqList.append($EnemyScript.StateSeq04)
+#	EnemySeqList.append($EnemyScript.StateSeq04)
 	
 	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 	
@@ -345,16 +362,15 @@ func _process(delta: float) -> void:
 			#debug 最終的には、Window.Height+32あたりからホームポジションにフレームインするアニメーションを実装したい　
 		
 		GlobalNode.SUBSTATE.STAGE_PLAY:
-	
-		#エネミーのリストを調べて、全エネミーのEnemyStateが
-		#GlobalNode.EnemyStateID.STAT_FORMATION
-		#になっていたら、編隊でのアニメーション処理を行う
-		
-		#GlobalNodeに実行フラグを設けて、オフセット移動、ホームポジションへの戻りを
-		#制御する
-			#生成中のエネミーがすべてホームポジションに戻ったかチェックしてる
-			#if GlobalNode.EnemyFormationFinished == false:
-			CheckEnemyReturnToHomeState()
+			#もちっとスマートに書けないか？
+			if GlobalNode.EnFrmState != GlobalNode.EnFrmStateID.STOP:
+				fps += 1
+				if 0 <= fps and fps<60:
+					GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.OUTER
+				elif 60 <= fps and fps < 120:
+					GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.HOME
+				elif 120<=fps:
+					fps = 0
 			pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
@@ -374,8 +390,8 @@ func _process(delta: float) -> void:
 				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 			
 			#if $Guntret.position.y < -64:
+			#タイミング合わせも兼ねて画面外にすっとばす
 			if $Guntret.position.y < -2048:
-
 				$Guntret.position.y = GuntretHomePosY
 				
 #----------------------------------------------------------------

@@ -23,7 +23,7 @@ var Matrix : Vector2	#隊列位置
 var MatrixWorldPos : Vector2	#隊列位置実座標
 var Life : int = 1
 
-var ReturnToHomeState = 0
+#var ReturnToHomeState = 0
 
 #エネミーの行動ステート
 var EnemyState = GlobalNode.EnemyStateID.STAT_LOOP
@@ -52,7 +52,7 @@ func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Alive = true
-	ReturnToHomeState = 1	#ホームポジションに戻ってない　
+	#ReturnToHomeState = 1	#ホームポジションに戻ってない　
 
 func SetMoveType(var movetype):
 #	MoveType = movetype
@@ -70,8 +70,8 @@ func SetEnemyState(var stat):
 
 #ホームポジションへの移動完了状態を返す
 #HomePosition = 0  Move = 1
-func GetHomeState() -> int:
-	return ReturnToHomeState
+#func GetHomeState() -> int:
+#	return ReturnToHomeState
 
 #フォーメーションアニメーション開始（GameMainでの全エネミーホームポジション達成条件成立から投げられてくる）
 func ActivateFormation():
@@ -104,7 +104,12 @@ func _process(delta: float) -> void:
 			if position == MatrixWorldPos:
 				#EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
 				rotation = 0
-				ReturnToHomeState = 0	#ホームポジションに戻ったら0セット
+				
+				#フォーメーションアニメ実行ステートに移行
+				EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
+				return
+				pass
+				#ReturnToHomeState = 0	#ホームポジションに戻ったら0セット
 				
 				#get_parent().AppendEnemy(EnemyID)
 
@@ -112,15 +117,56 @@ func _process(delta: float) -> void:
 		
 		#隊列編成時処理
 		GlobalNode.EnemyStateID.STAT_FORMATION:
+			var x1 = 12
+			var x2 = 8
+			var x3 = 4
+			var x4 = 2
 			
+			#GlobalNode.EnemyFormationFinished == true フォーメーションアニメーション実行
 			if GlobalNode.EnemyFormationFinished == true:
+#				if GlobalNode.EnFrmState != GlobalNode.EnFrmStateID.STOP:
+
+				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.OUTER:
+					#print("To Outer")
+#					position.x += 10 * delta
+					match int(Matrix.x):
+						0:
+							position.x -= x1 * delta
+							#position.y += x2 * delta
+						1:
+							position.x -= x2 * delta
+							#position.y += x2 * delta
+						2:
+							position.x -= x3 * delta
+							#position.y += x2 * delta
+						3:
+							position.x -= x4 * delta
+							#position.y += x2 * delta
+						4:
+							position.x += x4 * delta
+							#position.y += x2 * delta
+						5:
+							position.x += x3 * delta
+							#position.y += x2 * delta
+						6:
+							position.x += x2 * delta
+							#position.y += x2 * delta
+						7:
+							position.x += x1 * delta
+							#position.y += x2 * delta
+					pass
+
 				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
-					#print("Enemy Sub State Home")
-					#GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.OUTER:
+					#print("To Home")
+					position = position.move_toward(MatrixWorldPos, 25 * delta)
 					pass
-				elif GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.OUTER:
+					#print("Enemy Form Animation Active")
+#				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
+#					#print("Enemy Sub State Home")
+#					#GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.OUTER:
+#					pass
+#				elif GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.OUTER:
 					#print("Enemy Sub State Outer")
-					pass
 
 			#if GlobalNode.EnFrmState == HOME:
 				
