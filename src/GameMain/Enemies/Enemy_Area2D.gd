@@ -132,28 +132,28 @@ func _process(delta: float) -> void:
 					match int(Matrix.x):
 						0:
 							position.x -= x1 * delta
-							#position.y += x2 * delta
+							position.y += x1 * delta
 						1:
 							position.x -= x2 * delta
-							#position.y += x2 * delta
+							position.y += x2 * delta
 						2:
 							position.x -= x3 * delta
-							#position.y += x2 * delta
+							position.y += x3 * delta
 						3:
 							position.x -= x4 * delta
-							#position.y += x2 * delta
+							position.y += x4 * delta
 						4:
 							position.x += x4 * delta
-							#position.y += x2 * delta
+							position.y += x4 * delta
 						5:
 							position.x += x3 * delta
-							#position.y += x2 * delta
+							position.y += x3 * delta
 						6:
 							position.x += x2 * delta
-							#position.y += x2 * delta
+							position.y += x2 * delta
 						7:
 							position.x += x1 * delta
-							#position.y += x2 * delta
+							position.y += x1 * delta
 					pass
 
 				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
