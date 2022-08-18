@@ -5,6 +5,7 @@ var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn"
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 var EnemyBulletScn = preload("res://src/GameMain/Enemies/EnemyBullet.tscn")
 
+var EnemyExplode = preload("res://src/GameMain/Particle/RectParticle.tscn")
 
 #----------------------------------------------------------------------------
 #エネミーを隊列で並べる時のグリッド座標情報
@@ -87,6 +88,10 @@ var debug_spawn = 0
 
 #Frame Counter
 var fps = 0
+
+#Display Shake
+var DispShake = false
+var DispShakeCount = 0
 
 #シーケンスパーサ
 #SeqTimerタイマノードからから呼ばれてます
@@ -433,15 +438,16 @@ func _process(delta: float) -> void:
 #debug--------------------------------------------------------------
 	if Input.is_action_pressed("SpawnEnemy"):
 		print("Enemy")
+		
 #		if debug_spawn == 0:
 #			debug_spawn = 1
 			
-		var ScnBullet = EnemyBulletScn.instance()
-		add_child(ScnBullet)
-		ScnBullet.SetPos(Vector2(100,10))
-#		ScnBullet.SetDegrees(45)
-		#ScnBullet.SetToword(Vector2(200,100))
-		ScnBullet.SetToword($Guntret.position)
+#		var ScnBullet = EnemyBulletScn.instance()
+#		add_child(ScnBullet)
+#		ScnBullet.SetPos(Vector2(100,10))
+##		ScnBullet.SetDegrees(45)
+#		#ScnBullet.SetToword(Vector2(200,100))
+#		ScnBullet.SetToword($Guntret.position)
 
 			
 #			LoopSeqEnd = false #debug ループスポーン開始フラグ
@@ -487,6 +493,21 @@ func _on_SeqTimer_timeout() -> void:
 		SeqTimerFps=0
 		SeqTimerSec+=1
 		SeqTimerGbl+=1
-
 	SeqState()
 
+#画面を振動させる
+func DispShakeStart():
+	DispShake = true
+	DispShakeCount = 0
+
+func _on_DspShakeTimer_timeout() -> void:
+	if DispShake == true:
+		position.x = rand_range(-1, 1) * rand_range(0,10) + 1	#最大10ピクセルで振動させる	
+		position.y = rand_range(-1, 1) * rand_range(0,10) + 1
+		DispShakeCount+=1
+		
+		if 3 < DispShakeCount:
+			DispShake = false
+	else:
+		position.x = 0
+		position.y = 0

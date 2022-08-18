@@ -42,6 +42,10 @@ var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolive
 					 "deepskyblue",  "dimgray", "hotpink",  "lightsalmon"]
 var Colormax = ColorName.size()
 
+#画面のシェイク
+#var DspShake = false
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass

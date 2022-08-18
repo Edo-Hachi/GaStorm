@@ -62,10 +62,6 @@ margin_right = 129.0
 margin_bottom = 61.0
 text = "PAUSE"
 
-[node name="SeqTimer" type="Timer" parent="."]
-wait_time = 0.017
-autostart = true
-
 [node name="RestGuntret" parent="." instance=ExtResource( 7 )]
 visible = false
 position = Vector2( 10, 247 )
@@ -137,6 +133,15 @@ text = "Parsec
 Clear!!"
 align = 1
 
+[node name="SeqTimer" type="Timer" parent="."]
+wait_time = 0.017
+autostart = true
+
+[node name="DspShakeTimer" type="Timer" parent="."]
+wait_time = 0.03
+autostart = true
+
 [connection signal="tree_exited" from="DlgPause" to="." method="_on_DlgPause_tree_exited"]
 [connection signal="pressed" from="DlgPause/ColorRect/Button" to="DlgPause" method="_on_Button_pressed"]
 [connection signal="timeout" from="SeqTimer" to="." method="_on_SeqTimer_timeout"]
+[connection signal="timeout" from="DspShakeTimer" to="." method="_on_DspShakeTimer_timeout"]

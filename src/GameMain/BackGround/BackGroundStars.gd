@@ -36,7 +36,7 @@ func _ready() -> void:
 	for i in range(0, STARMAX):
 		var star = STAR.new()
 		
-		star.Pos = Vector2(randi()%256+1, randi()%256+1)
+		star.Pos = Vector2(randi()%(256*1)+1, randi()%(256*1)+1)
 		#_wh = randi()%2+1
 		var _w = randi()%3 + 1 # rand_range(1,1)
 		var _h = randi()%3 + 1 # rand_range(1,1)
@@ -62,12 +62,12 @@ func _draw() -> void:
 		StarList[i].Pos.y += (StarList[i].Speed / StarSpeed) * StarDirection
 		
 		if (256 + 32) < StarList[i].Pos.y:
-			StarList[i].Pos.x = randi() % 256 + 1
+			StarList[i].Pos.x = randi() % (256*1) + 1
 			StarList[i].Pos.y = -32
 
 		if StarList[i].Pos.y < -32:
-			StarList[i].Pos.x = randi() % 256 + 1
-			StarList[i].Pos.y = (256 + 32)
+			StarList[i].Pos.x = randi() % (256*1) + 1
+			StarList[i].Pos.y = ((256*1) + 32)
 			
 		_rect = Rect2(StarList[i].Pos, StarList[i].WH)
 		draw_rect(_rect, StarList[i].StarColor, true)
