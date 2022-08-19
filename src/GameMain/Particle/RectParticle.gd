@@ -8,6 +8,7 @@ class PARTICLE :
 	var spdy
 
 	#var rect : Rect2
+	var size
 
 	var age		#EnemyLifeParam
 	var color
@@ -20,12 +21,20 @@ var ColorList_blue = ["lightblue", "lightskyblue", "cyan", "dodgerblue", "navybl
 var PrtList = []
 export var PrtMax = 40
 
-var PosX = 0
-var PosY = 0
+var PosX = 128
+var PosY = 128
 
 
 func DrawRect(var prt : PARTICLE):
-	var rect : Rect2
+	var rect :Rect2
+	
+#	rect.position.x = prt.x - prt.size
+#	rect.position.y = prt.y - prt.size
+#	rect.size.x = prt.size / 2
+#	rect.size.y = prt.size / 2
+#	draw_rect(rect, prt.color)
+	
+	
 	rect.position.x = prt.x
 	rect.position.y = prt.y
 	rect.size.x = prt.age /1.3 #+randi()%2
@@ -41,6 +50,8 @@ func InitRect(var x, var y):
 
 		_prt.spdx  = rand_range(-1,1) * (randi() % 400 + 20)
 		_prt.spdy  = rand_range(-1,1) * (randi() % 400 + 20)
+		
+		_prt.size = randi()%30 + 1
 		
 		_prt.age = randi()%25 + 10
 		_prt.color = ColorN("white")
@@ -68,6 +79,7 @@ func _process(delta: float) -> void:
 			prt.spdx *= 0.8	#少しづつスピードダウンさせてる
 			prt.spdy *= 0.8
 			
+			prt.size-=3
 			prt.age -= 1
 			
 			if 15 < prt.age:

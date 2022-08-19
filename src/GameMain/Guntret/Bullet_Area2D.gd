@@ -4,7 +4,8 @@ extends Area2D
 
 #var EnemyExplodeScene = preload("res://src/GameMain/Explode/EnemyExplode.tscn")
 
-var EnemyExplodeParticle = preload("res://src/GameMain/Particle/RectParticle.tscn") 
+#var EnemyExplodeParticle = preload("res://src/GameMain/Particle/RectParticle.tscn") 
+var EnemyExplodeParticle = preload("res://src/GameMain/Particle/EnemyExplode.tscn") 
 
 var Alive = true
 
