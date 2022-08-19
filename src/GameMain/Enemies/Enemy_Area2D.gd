@@ -1,6 +1,8 @@
 #Enemy_Area2D
 extends Area2D
 
+var EnemyExplodeParticle = preload("res://src/GameMain/Particle/EnemyExplode.tscn") 
+
 enum MoveTypeID  {
 	Type01=0,
 	Loop01L,
@@ -205,6 +207,15 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 	#自機、ショットに当たった場合は自分（エネミー）削除フラグを立てる
 	Life -= 1
 	if Life < 0:
+		
+		#Enemy is Dead	
+		var explode = EnemyExplodeParticle.instance()
+		explode.SetParticle(position.x, position.y, 40)
+		get_parent().add_child(explode)	
+		
+		#画面を揺らす
+		get_parent().DispShakeStart()		
+		
 		Alive = false	
 		visible = false
 		#コリジョンも不使用にする disabled = true

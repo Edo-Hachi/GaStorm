@@ -5,7 +5,7 @@ extends Area2D
 #var EnemyExplodeScene = preload("res://src/GameMain/Explode/EnemyExplode.tscn")
 
 #var EnemyExplodeParticle = preload("res://src/GameMain/Particle/RectParticle.tscn") 
-var EnemyExplodeParticle = preload("res://src/GameMain/Particle/EnemyExplode.tscn") 
+#var EnemyExplodeParticle = preload("res://src/GameMain/Particle/EnemyExplode.tscn") 
 
 var Alive = true
 
@@ -33,12 +33,12 @@ func _on_Bullet_Area2D_area_entered(area: Area2D) -> void:
 		return
 	
 	#爆発生成
-	var explode = EnemyExplodeParticle.instance()
-	explode.SetParticle(position.x, position.y, 40)
-	get_parent().add_child(explode)	
-	
-	#画面を揺らす
-	get_parent().DispShakeStart()
+#	var explode = EnemyExplodeParticle.instance()
+#	explode.SetParticle(position.x, position.y, 40)
+#	get_parent().add_child(explode)	
+#
+#	#画面を揺らす
+#	get_parent().DispShakeStart()
 	
 	#GlobalNode.DspShake = true
 		
