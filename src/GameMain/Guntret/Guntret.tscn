@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/GameMain/Guntret/Guntret.gd" type="Script" id=1]
 [ext_resource path="res://asset/Image/Guntret/Guntret01.png" type="Texture" id=2]
 [ext_resource path="res://asset/Image/Guntret/Exhast002.png" type="Texture" id=3]
 [ext_resource path="res://asset/Image/Guntret/Guntret03.png" type="Texture" id=4]
 [ext_resource path="res://asset/Image/Guntret/Guntret02.png" type="Texture" id=5]
+[ext_resource path="res://asset/Sound/Shot.wav" type="AudioStream" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -82,6 +83,11 @@ shape = SubResource( 2 )
 [node name="Exhaust" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 15 )
 frames = SubResource( 8 )
+frame = 3
 playing = true
+
+[node name="ShotSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -8.0
 
 [connection signal="area_entered" from="." to="." method="_on_Guntret_area_entered"]

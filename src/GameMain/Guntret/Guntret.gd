@@ -52,6 +52,8 @@ func _process(delta: float) -> void:
 			Bullet.position = position
 			get_parent().add_child(Bullet)
 			
+			$ShotSound.play()
+			
 			ShotBack = 3
 
 

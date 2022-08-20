@@ -314,6 +314,8 @@ func GameStartInit():
 	
 	EnemyList.clear()
 	
+	$Sound/StartMusic.play()
+	
 	GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 	
 
