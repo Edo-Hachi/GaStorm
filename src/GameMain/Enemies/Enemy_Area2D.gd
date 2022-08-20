@@ -2,6 +2,7 @@
 extends Area2D
 
 var EnemyExplodeParticle = preload("res://src/GameMain/Particle/EnemyExplode.tscn") 
+var EnemyRefrectParticle = preload("res://src/GameMain/Particle/EnemyRefrect.tscn") 
 
 enum MoveTypeID  {
 	Type01=0,
@@ -38,13 +39,13 @@ func SetEnemyColor(var enemyColor : int):
 	match enemyColor:
 		GlobalNode.EnemyColor.Green:
 			$AnimatedSprite.animation = "Green"
-			Life = 0
+			Life = 1
 		GlobalNode.EnemyColor.Red:
 			$AnimatedSprite.animation = "Red"
-			Life = 0
+			Life = 2
 		GlobalNode.EnemyColor.Purple:
 			$AnimatedSprite.animation = "Puraple"
-			Life = 0
+			Life = 3
 			
 func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 	Matrix = matrix
@@ -206,13 +207,24 @@ func _process(delta: float) -> void:
 func _on_EnemyObject_area_entered(area: Area2D) -> void:
 	#自機、ショットに当たった場合は自分（エネミー）削除フラグを立てる
 	Life -= 1
-	if Life < 0:
+	
+	if 0<= Life:
+		var ref = EnemyRefrectParticle.instance()
+		ref.SetParticle(position.x, position.y, 20)
+		#func SetParticle(var x, var y, var prtmax):
+		get_parent().add_child(ref)
+		
+		$SoundRefrect.play()
+	
+	elif Life < 0:
 		
 		#Enemy is Dead	
 		var explode = EnemyExplodeParticle.instance()
 		explode.SetParticle(position.x, position.y, 40)
 		get_parent().add_child(explode)	
 		
+		$SoundExplode.play()
+			
 		#画面を揺らす
 		get_parent().DispShakeStart()		
 		
