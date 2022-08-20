@@ -9,6 +9,12 @@ func _on_BtnStart_button_down() -> void:
 
 
 #-----------------------------------------------------------------------------------
+#一行でタイマウェイトを入れる方法
+
+yield(get_tree().create_timer(1.0), "timeout")
+
+
+#-----------------------------------------------------------------------------------
 #ポーズ処理
 https://qiita.com/2dgames_jp/items/3df03851d8e7a4622e40
 	if Input.is_action_pressed("Pause"):
@@ -112,6 +118,10 @@ func _ready():
 
 数値が下限値から上限値の間で変動。下限値より下がると上限値になり、上限値を越えると下限値になる。
 wrapfのこの性質を利用して、今回はプレイヤーのｘ座標とy座標を画面のｘｙ座標内で変動させることで画面の反対から現れる動きを作っています
+
+#wrapf組み込み関数をつかって、画面からはみ出した時に反対側に出てくる処理とかを実装してるパターン
+https://www.youtube.com/watch?v=acFfNAh0tRg&list=PLrEOaeiY9dKZs-fAAmLYrudxUU0vT2wjm
+
 
 
 #-----------------------------------------------------------------------------------
@@ -285,4 +295,11 @@ https://www.youtube.com/watch?v=JWjzSn95bM0
 https://www.youtube.com/watch?v=WxXb49UgIlc
 
 https://github.com/RaddCoder76/How-To-Make-Your-Platformer-Feel-Juicy-In-Godot
+
+#--------------------------------------------------------------
+こちらも2Dプラットフォームのコヨーテタイム実装　
+https://www.youtube.com/watch?v=bJOpkFIEwCA
+https://github.com/stevepixelface/coyote-time
+
+
 

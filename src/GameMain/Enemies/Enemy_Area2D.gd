@@ -42,10 +42,10 @@ func SetEnemyColor(var enemyColor : int):
 			Life = 1
 		GlobalNode.EnemyColor.Red:
 			$AnimatedSprite.animation = "Red"
-			Life = 2
+			Life = 1
 		GlobalNode.EnemyColor.Purple:
 			$AnimatedSprite.animation = "Puraple"
-			Life = 3
+			Life = 1
 			
 func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 	Matrix = matrix

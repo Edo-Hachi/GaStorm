@@ -82,6 +82,7 @@ const GuntretHomePosY = GlobalNode.ScreenHeight -32
 const DEFSTARSPEED = 5
 var StageClearGuntret_SpdY = 10
 var StageClearBgStarSpd = DEFSTARSPEED #default =5
+var FlgStageClear = false
 
 #debug
 var debug_spawn = 0
@@ -302,6 +303,7 @@ func GameStartInit():
 	SeqEnable = true
 	FormationEnemyTimer = 0 #EnemyMoveTimer
 
+	FlgStageClear = false
 
 	LoopSeqEnd=false
 	GlobalNode.EnemyFormationFinished = false
@@ -338,7 +340,7 @@ func _ready() -> void:
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
 	EnemySeqList.append($EnemyScript.StateSeq01)
-#	EnemySeqList.append($EnemyScript.StateSeq02)
+	EnemySeqList.append($EnemyScript.StateSeq02)
 #	EnemySeqList.append($EnemyScript.StateSeq03)
 #	EnemySeqList.append($EnemyScript.StateSeq04)
 	
@@ -380,6 +382,13 @@ func _process(delta: float) -> void:
 					fps = 0
 			pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
+			$Sound/StartMusic.stop()
+			yield(get_tree().create_timer(0.5), "timeout")
+			#Clear Music
+			if FlgStageClear == false:
+				$Sound/StageClear.play()
+				FlgStageClear = true
+			
 			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
 			if $Guntret.position == Vector2(GuntretHomePosX, GuntretHomePosY):
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR02
@@ -390,7 +399,7 @@ func _process(delta: float) -> void:
 		
 		GlobalNode.SUBSTATE.STAGE_CLEAR02:
 			$Guntret.position.y -= StageClearGuntret_SpdY * delta
-			StageClearGuntret_SpdY += 10
+			StageClearGuntret_SpdY += 5
 			
 			if 0.5 < StageClearBgStarSpd:
 				StageClearBgStarSpd-=0.1
@@ -398,7 +407,7 @@ func _process(delta: float) -> void:
 			
 			#if $Guntret.position.y < -64:
 			#タイミング合わせも兼ねて画面外にすっとばす
-			if $Guntret.position.y < -2048:
+			if $Guntret.position.y < -4096:
 				$Guntret.position.y = GuntretHomePosY
 				
 #----------------------------------------------------------------
@@ -425,9 +434,19 @@ func _process(delta: float) -> void:
 				LoopSeqEnd=false
 				SeqEnable = true
 				
+				
 				$CanvasStageClear.visible = false
 				
+				FlgStageClear = false
+
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
+				
+					
+				yield(get_tree().create_timer(0.5), "timeout")
+				$Sound/StartMusic.play(0.0)
+
+
+
 				#----------------------------------------------------------------
 	
 	#Pause r--------------------------------------------------------------

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/GameMain/GameMain_Node2D.gd" type="Script" id=1]
 [ext_resource path="res://src/GameMain/Guntret/Guntret.tscn" type="PackedScene" id=2]
@@ -7,9 +7,10 @@
 [ext_resource path="res://src/GameMain/BackGround/BackGroundStars.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/GameMain/Enemies/EnemyGrid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/GameMain/Guntret/RestGuntret.tscn" type="PackedScene" id=7]
-[ext_resource path="res://asset/Sound/GameStart02.wav" type="AudioStream" id=8]
+[ext_resource path="res://asset/Sound/GameStart.wav" type="AudioStream" id=8]
 [ext_resource path="res://src/GameMain/EnemyScript.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/GameMain/StageStart.gd" type="Script" id=10]
+[ext_resource path="res://asset/Sound/StageClear.wav" type="AudioStream" id=11]
 
 [sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 4 )
@@ -146,6 +147,9 @@ autostart = true
 
 [node name="StartMusic" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource( 8 )
+
+[node name="StageClear" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource( 11 )
 
 [connection signal="tree_exited" from="DlgPause" to="." method="_on_DlgPause_tree_exited"]
 [connection signal="pressed" from="DlgPause/ColorRect/Button" to="DlgPause" method="_on_Button_pressed"]
