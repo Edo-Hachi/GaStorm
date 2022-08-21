@@ -117,7 +117,7 @@ curve = SubResource( 4 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="RightPath02/Path2D"]
 position = Vector2( 260, 101 )
-rotation = -2.84558
+rotation = -2.84559
 loop = false
 
 [node name="EnemyHidden" type="Sprite" parent="RightPath02/Path2D/PathFollow2D"]
@@ -137,6 +137,7 @@ curve = SubResource( 5 )
 [node name="PathFollow2D" type="PathFollow2D" parent="RevStgLeft01/Path2D"]
 position = Vector2( -5, 37 )
 rotation = 0.0149981
+loop = false
 
 [node name="EnemyHidden" type="Sprite" parent="RevStgLeft01/Path2D/PathFollow2D"]
 rotation = -1.5708
@@ -154,6 +155,7 @@ curve = SubResource( 6 )
 [node name="PathFollow2D" type="PathFollow2D" parent="RevStgRight01/Path2D"]
 position = Vector2( 267, 38 )
 rotation = 3.10795
+loop = false
 
 [node name="EnemyHidden" type="Sprite" parent="RevStgRight01/Path2D/PathFollow2D"]
 rotation = -1.5708

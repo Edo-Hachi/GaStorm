@@ -235,9 +235,13 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 		#エネミーの生成リストから削除
 		#DeleteEnemy()
 	else:
+		
+		#debug
+		#逆スクロール面のエネミーは画面外に出たら消す
+		
 		#ループ終了後、ホームポジションへ移動させる
 		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)
-
+		
 		#エネミーがすべてホームポジションに戻ったかチェック
 		#CheckEnemyReturnToHomeState()
 
@@ -339,10 +343,10 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-	EnemySeqList.append($EnemyScript.StateSeq01)
-	EnemySeqList.append($EnemyScript.StateSeq02)
+#	EnemySeqList.append($EnemyScript.StateSeq01)
+#	EnemySeqList.append($EnemyScript.StateSeq02)
 #	EnemySeqList.append($EnemyScript.StateSeq03)
-#	EnemySeqList.append($EnemyScript.StateSeq04)
+	EnemySeqList.append($EnemyScript.StateSeq04)
 	
 	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 	

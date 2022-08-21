@@ -302,4 +302,10 @@ https://www.youtube.com/watch?v=bJOpkFIEwCA
 https://github.com/stevepixelface/coyote-time
 
 
+#2Dカメラチュートリアル
+https://www.youtube.com/watch?v=0YbkqbrFBXU
 
+
+#独自シグナルの実装
+
+https://www.youtube.com/watch?v=_8LzwC7kYC4

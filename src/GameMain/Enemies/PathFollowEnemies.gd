@@ -17,18 +17,27 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype):
 			LoopPathObj = $LeftPath01/Path2D/PathFollow2D
 		GlobalNode.LoopType.Right01:
 			LoopPathObj = $RightPath01/Path2D/PathFollow2D
-
 		GlobalNode.LoopType.Left02:
 			LoopPathObj = $LeftPath02/Path2D/PathFollow2D
-			
 		GlobalNode.LoopType.Right02:
 			LoopPathObj = $RightPath02/Path2D/PathFollow2D
+		GlobalNode.LoopType.RevStgLeft01:
+			LoopPathObj = $RevStgLeft01/Path2D/PathFollow2D
+		GlobalNode.LoopType.RevStgRight01:
+			LoopPathObj = $RevStgRight01/Path2D/PathFollow2D
+		_:
+			LoopPathObj= null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#LoopPathObj = null
+	#if get_node(LoopPathObj) is PathFollow2D:
+	#	return
 	pass
 
 func _process(delta: float) -> void:
+	if LoopPathObj == null:
+		return
 	
 	LoopPathObj.unit_offset += 0.5 * delta
 	EnemyId.position = LoopPathObj.position
@@ -40,3 +49,5 @@ func _process(delta: float) -> void:
 		get_parent().LoopEnemyOver(EnemyId, LoopPathObj.position, EnemyId.MatrixWorldPos)
 		
 		queue_free()
+	
+	#print(LoopPathObj.unit_offset)
