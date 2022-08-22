@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 #	if LoopPathObj == null:
 #		return
 	
-	LoopPathObj.unit_offset += 0.5 * delta
+	LoopPathObj.unit_offset += 0.6 * delta
 	EnemyId.position = LoopPathObj.position
 	EnemyId.rotation_degrees = LoopPathObj.rotation_degrees - 90
 	

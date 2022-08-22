@@ -182,6 +182,7 @@ func SeqState():
 		#フォーメーションのアニメ開始／停止
 		"EnmyFormationAnim":
 			GlobalNode.EnFrmState = Seq["Flg"]
+			#GlobalNode.EnFrmStateID.OUTER
 			#print("Enemy Form Animation", GlobalNode.EnFrmState)
 			SeqPtr+=1
 			
@@ -358,7 +359,7 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-#	EnemySeqList.append($EnemyScript.StateSeq01)
+	EnemySeqList.append($EnemyScript.StateSeq01)
 #	EnemySeqList.append($EnemyScript.StateSeq02)
 #	EnemySeqList.append($EnemyScript.StateSeq03)
 	EnemySeqList.append($EnemyScript.StateSeq04)
@@ -510,7 +511,6 @@ func _process(delta: float) -> void:
 		GlobalNode.GameState == GlobalNode.GState.TITLE
 		get_parent().GameTitleInit()
 #debug--------------------------------------------------------------
-
 
 
 #ポーズダイアログを閉じた時の処理

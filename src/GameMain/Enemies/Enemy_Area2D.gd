@@ -121,10 +121,10 @@ func _process(delta: float) -> void:
 		
 		#隊列編成時処理
 		GlobalNode.EnemyStateID.STAT_FORMATION:
-			var x1 = 12
-			var x2 = 8
-			var x3 = 4
-			var x4 = 2
+			var x1 = 12 * 3
+			var x2 = 8 * 3
+			var x3 = 4 * 3
+			var x4 = 2 * 3
 			
 			#GlobalNode.EnemyFormationFinished == true フォーメーションアニメーション実行
 			if GlobalNode.EnemyFormationFinished == true:
@@ -136,72 +136,36 @@ func _process(delta: float) -> void:
 					match int(Matrix.x):
 						0:
 							position.x -= x1 * delta
-							position.y += x1 * delta
+							position.y += x1/2 * delta
 						1:
 							position.x -= x2 * delta
-							position.y += x2 * delta
+							position.y += x2/2 * delta
 						2:
 							position.x -= x3 * delta
-							position.y += x3 * delta
+							position.y += x3/2 * delta
 						3:
 							position.x -= x4 * delta
-							position.y += x4 * delta
+							position.y += x4/2 * delta
 						4:
 							position.x += x4 * delta
-							position.y += x4 * delta
+							position.y += x4/2 * delta
 						5:
 							position.x += x3 * delta
-							position.y += x3 * delta
+							position.y += x3/2 * delta
 						6:
 							position.x += x2 * delta
-							position.y += x2 * delta
+							position.y += x2/2 * delta
 						7:
 							position.x += x1 * delta
-							position.y += x1 * delta
+							position.y += x1/2 * delta
 					pass
 
 				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
 					#print("To Home")
-					position = position.move_toward(MatrixWorldPos, 25 * delta)
+					#position = position.move_toward(MatrixWorldPos, 25 * delta)
+					position = position.move_toward(MatrixWorldPos, 40 * delta)
 					pass
-					#print("Enemy Form Animation Active")
-#				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
-#					#print("Enemy Sub State Home")
-#					#GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.OUTER:
-#					pass
-#				elif GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.OUTER:
-					#print("Enemy Sub State Outer")
-
-			#if GlobalNode.EnFrmState == HOME:
-				
-#			if GlobalNode.EnemyFormation == 0:
-#				return
-#
-#			var matx : int = Matrix.x
-#
-#			#print ("Enemy Move", GlobalNode.EnemyFormation)
-#
-#			if GlobalNode.EnemyFormation == GlobalNode.EnemyFormationState.MOVE_OUTSIDE: #to outside
-#				match matx:
-#					0:
-#						position.x -= 20 * delta
-#					1:
-#						position.x -= 15 * delta
-#					2:
-#						position.x -= 10 * delta
-#					3:
-#						position.x -= 5 * delta
-#					4:
-#						position.x += 5 * delta
-#					5:
-#						position.x += 10 * delta
-#					6:
-#						position.x += 15 * delta
-#					7:
-#						position.x += 20 * delta
-				
-					
-			pass
+		
 		GlobalNode.EnemyStateID.STAT_ATTACK:		#攻撃中
 			pass
 

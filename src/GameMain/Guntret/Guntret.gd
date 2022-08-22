@@ -54,7 +54,7 @@ func _process(delta: float) -> void:
 			
 			$ShotSound.play()
 			
-			ShotBack = 3
+			ShotBack = 2
 
 
 func _on_Guntret_area_entered(area: Area2D) -> void:
