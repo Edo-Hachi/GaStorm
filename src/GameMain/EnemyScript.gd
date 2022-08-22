@@ -34,7 +34,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,3)},
 
-		{"Cmd" : "Wait_s", "Time" : 3},
+		#{"Cmd" : "Wait_s", "Time" : 3},
 		
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1)},
 		{"Cmd" : "Wait_f", "Time" : 5},
@@ -44,7 +44,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,1)},
 
-		{"Cmd" : "Wait_s", "Time" : 5},
+		#{"Cmd" : "Wait_s", "Time" : 5},
 
 
 		{"Cmd" : "Wait_f", "Time" : 5},
@@ -56,7 +56,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,3)},
 
-		{"Cmd" : "Wait_s", "Time" : 3},
+		#{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,4)},
@@ -67,7 +67,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,4)},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		#{"Cmd" : "Wait_s", "Time" : 2},
 
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,4)},
@@ -78,7 +78,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,4)},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		#{"Cmd" : "Wait_s", "Time" : 2},
 
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(2,2)},
@@ -89,7 +89,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,3)},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		#{"Cmd" : "Wait_s", "Time" : 2},
 
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(5,2)},
@@ -104,6 +104,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_s", "Time" : 2},
 
 #		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
+		{"Cmd" : "EnmyFormationAttack", "Flg" : true}, #エネミーフォーメイション攻撃開始 
 
 		{"Cmd" : "End"}
 ]

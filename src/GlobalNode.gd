@@ -29,6 +29,9 @@ enum EnemyStateID {
 #隊列を組んでいる時のエネミーの動作ステート
 var EnemyFormationFinished = false	#Loop完了後に全エネミーがホームポジションに戻るとtrueになる　
 
+#隊列からの攻撃許可フラグ
+var EnemyFormationAttack = false
+
 #エネミーのホームポジションアニメフラグ
 enum EnFrmStateID{
 	STOP = 0,

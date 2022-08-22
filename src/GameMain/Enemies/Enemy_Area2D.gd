@@ -70,6 +70,10 @@ func SetPositon(var x, var y):
 func SetEnemyState(var stat):
 	#print("SetEnemyState Called")
 	EnemyState = stat
+	
+#	if stat == GlobalNode.EnemyStateID.STAT_ATTACK:
+#		print("Attack Modde")
+
 	#EnemyState = EnemyStateID.STAT_FORMATION
 
 #ホームポジションへの移動完了状態を返す
@@ -82,12 +86,46 @@ func ActivateFormation():
 	EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
 	pass
 
-func _process(delta: float) -> void:
+func EnemyFormationMove(delta: float):
+	var x1 = 12 * 3
+	var x2 = 8 * 3
+	var x3 = 4 * 3
+	var x4 = 2 * 3
 	
-#var EnemyFormation # hold 1=move_outside 2=move_inner
-#enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_OUTSIDE, MOVE_INSIDE, ATTACK}
+	if GlobalNode.EnemyFormationFinished == true:
+		if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.OUTER:
+			match int(Matrix.x):
+				0:
+					position.x -= x1 * delta
+					position.y += x1/2 * delta
+				1:
+					position.x -= x2 * delta
+					position.y += x2/2 * delta
+				2:
+					position.x -= x3 * delta
+					position.y += x3/2 * delta
+				3:
+					position.x -= x4 * delta
+					position.y += x4/2 * delta
+				4:
+					position.x += x4 * delta
+					position.y += x4/2 * delta
+				5:
+					position.x += x3 * delta
+					position.y += x3/2 * delta
+				6:
+					position.x += x2 * delta
+					position.y += x2/2 * delta
+				7:
+					position.x += x1 * delta
+					position.y += x1/2 * delta
+			pass
 
-	
+		if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
+			position = position.move_toward(MatrixWorldPos, 40 * delta)
+			pass
+
+func _process(delta: float) -> void:
 	match EnemyState:
 		#出現ループ中処理
 		GlobalNode.EnemyStateID.STAT_LOOP:
@@ -120,53 +158,29 @@ func _process(delta: float) -> void:
 				#print("Touchaku")
 		
 		#隊列編成時処理
+		
 		GlobalNode.EnemyStateID.STAT_FORMATION:
-			var x1 = 12 * 3
-			var x2 = 8 * 3
-			var x3 = 4 * 3
-			var x4 = 2 * 3
-			
-			#GlobalNode.EnemyFormationFinished == true フォーメーションアニメーション実行
-			if GlobalNode.EnemyFormationFinished == true:
-#				if GlobalNode.EnFrmState != GlobalNode.EnFrmStateID.STOP:
-
-				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.OUTER:
-					#print("To Outer")
-#					position.x += 10 * delta
-					match int(Matrix.x):
-						0:
-							position.x -= x1 * delta
-							position.y += x1/2 * delta
-						1:
-							position.x -= x2 * delta
-							position.y += x2/2 * delta
-						2:
-							position.x -= x3 * delta
-							position.y += x3/2 * delta
-						3:
-							position.x -= x4 * delta
-							position.y += x4/2 * delta
-						4:
-							position.x += x4 * delta
-							position.y += x4/2 * delta
-						5:
-							position.x += x3 * delta
-							position.y += x3/2 * delta
-						6:
-							position.x += x2 * delta
-							position.y += x2/2 * delta
-						7:
-							position.x += x1 * delta
-							position.y += x1/2 * delta
-					pass
-
-				if GlobalNode.EnFrmState == GlobalNode.EnFrmStateID.HOME:
-					#print("To Home")
-					#position = position.move_toward(MatrixWorldPos, 25 * delta)
-					position = position.move_toward(MatrixWorldPos, 40 * delta)
-					pass
+			EnemyFormationMove(delta)
+			pass
 		
 		GlobalNode.EnemyStateID.STAT_ATTACK:		#攻撃中
+			FlameCounter+=1
+
+			EnemyFormationMove(delta)
+			#$AnimatedSprite.offset.y += 5 *
+			$AnimatedSprite.offset.y += 20 * delta
+			if 0 <= FlameCounter and FlameCounter < 30:
+				#print("30:",FlameCounter)
+				$AnimatedSprite.self_modulate = Color(1,0,0)
+				#$AnimatedSprite.offset.y +=2 * delta
+			elif 30<=FlameCounter and FlameCounter < 60:
+				#$AnimatedSprite.position +=2 * delta
+				#print("60:", FlameCounter)
+				$AnimatedSprite.self_modulate = Color(1,1,1)
+				
+			if 60 < FlameCounter:
+				FlameCounter = 0
+
 			pass
 
 func _on_EnemyObject_area_entered(area: Area2D) -> void:

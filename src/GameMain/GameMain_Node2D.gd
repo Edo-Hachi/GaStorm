@@ -154,6 +154,7 @@ func SeqState():
 			
 			GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.STOP
 			GlobalNode.BgScrollReverse = false
+			GlobalNode.EnemyFormationAttack = false
 
 			#GlobalNode.EnemyFormationFinished = false #すべてのエネミーがloop後にホームポジションに戻るとこのフラグがtrueになる
 			
@@ -176,6 +177,12 @@ func SeqState():
 		#エネミーのフォーメーション配置完了
 		"EnmyFormationActive":
 			GlobalNode.EnemyFormationFinished = Seq["Flg"] #エネミーのフォーメーション遷移　完了(trye)／未完了(false)　
+			#print("Enemy Form Seq=", GlobalNode.EnemyFormationFinished)
+			SeqPtr+=1
+
+		#エネミーのフォーメーション配置完了
+		"EnmyFormationAttack":
+			GlobalNode.EnemyFormationAttack = Seq["Flg"] #エネミーのフォーメーション攻撃開始
 			#print("Enemy Form Seq=", GlobalNode.EnemyFormationFinished)
 			SeqPtr+=1
 		
@@ -391,6 +398,8 @@ func _process(delta: float) -> void:
 			#debug 最終的には、Window.Height+32あたりからホームポジションにフレームインするアニメーションを実装したい　
 		
 		GlobalNode.SUBSTATE.STAGE_PLAY:
+			
+			#エネミーの左右移動アニメーション	
 			#もちっとスマートに書けないか？
 			if GlobalNode.EnFrmState != GlobalNode.EnFrmStateID.STOP:
 				fps += 1
@@ -400,6 +409,19 @@ func _process(delta: float) -> void:
 					GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.HOME
 				elif 120<=fps:
 					fps = 0
+			
+			 #エネミーのフォーメーション攻撃開始
+			if GlobalNode.EnemyFormationAttack == true:
+
+				if randi()%100 == 1:
+					var EnemyMax = EnemyList.size()
+					var EnemyId = randi()%EnemyMax
+					var EnemyObj = EnemyList[EnemyId]
+					EnemyObj.SetEnemyState(GlobalNode.EnemyStateID.STAT_ATTACK)
+					pass
+
+				#print("Attack:", EnemyId)
+				
 			pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			$Sound/StartMusic.stop()
