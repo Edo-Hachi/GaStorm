@@ -2,6 +2,7 @@
 screen_size = get_viewport_rect().size
 
 
+#-----------------------------------------------------------------------------------
 #シーン切替え
 func _on_BtnStart_button_down() -> void:
 	print("btn Push")
@@ -302,10 +303,29 @@ https://www.youtube.com/watch?v=bJOpkFIEwCA
 https://github.com/stevepixelface/coyote-time
 
 
+#--------------------------------------------------------------
 #2Dカメラチュートリアル
 https://www.youtube.com/watch?v=0YbkqbrFBXU
 
 
+#--------------------------------------------------------------
 #独自シグナルの実装
 
 https://www.youtube.com/watch?v=_8LzwC7kYC4
+
+
+#--------------------------------------------------------------
+#接触した相手をノード名から判断する方法なんてのもある
+func _on_Shot_area_entered(area):
+  if "Enemy" in area.name or "Boss" in area.name:
+    area.hit(1) # 敵に1ダメージ
+    queue_free() # 自分も消える
+   
+"Enemy" in area.name という記述にすることで、文字列 "area.name" に "Enemy" という文字が含まれるかどうか、という判定をすることができます。
+
+
+#HPバーの作り方
+https://qiita.com/2dgames_jp/items/a1db3a0a6d67e02a7d43
+シューティングの作り方とかシーン遷移とか色々書いてあるので後で読ませていただく
+パーティクルの作り方なんかものってた
+

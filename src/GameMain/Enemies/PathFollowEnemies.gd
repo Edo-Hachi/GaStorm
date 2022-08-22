@@ -25,19 +25,19 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype):
 			LoopPathObj = $RevStgLeft01/Path2D/PathFollow2D
 		GlobalNode.LoopType.RevStgRight01:
 			LoopPathObj = $RevStgRight01/Path2D/PathFollow2D
-		_:
-			LoopPathObj= null
+		#_:
+		#	LoopPathObj= null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#LoopPathObj = null
-	#if get_node(LoopPathObj) is PathFollow2D:
-	#	return
 	pass
 
 func _process(delta: float) -> void:
-	if LoopPathObj == null:
-		return
+	#if typeof(LoopPathObj) != TYPE_NODE_PATH:
+	#	return
+#	if LoopPathObj == null:
+#		return
 	
 	LoopPathObj.unit_offset += 0.5 * delta
 	EnemyId.position = LoopPathObj.position

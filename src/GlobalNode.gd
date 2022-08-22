@@ -42,7 +42,8 @@ var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolive
 					 "deepskyblue",  "dimgray", "hotpink",  "lightsalmon"]
 var Colormax = ColorName.size()
 
-#画面のシェイク
+#スクロールリバース面フラグ trueになってたらリバース面処理中
+var BgScrollReverse = false
 #var DspShake = false
 
 

@@ -153,6 +153,7 @@ func SeqState():
 			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 			
 			GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.STOP
+			GlobalNode.BgScrollReverse = false
 
 			#GlobalNode.EnemyFormationFinished = false #すべてのエネミーがloop後にホームポジションに戻るとこのフラグがtrueになる
 			
@@ -163,6 +164,13 @@ func SeqState():
 			#export var StarSpeed = 5 #小さくすると速くなるよ
 			#export var StarDirection = 1 #-1にすると逆スクロールだよ　
 			$BgColor/BackGroundStars.SetStarSpeed(Seq["Spd"], Seq["Dir"])
+			
+			#バックスクロール中のフラグ設定
+			if Seq["Dir"] == 1:
+				GlobalNode.BgScrollReverse = false
+			elif Seq["Dir"] == -1:
+				GlobalNode.BgScrollReverse = true
+				
 			SeqPtr+=1
 		
 		#エネミーのフォーメーション配置完了
@@ -182,6 +190,7 @@ func SeqState():
 			SeqEnable=false
 			LoopSeqEnd = true
 			
+			#print(EnemyList.size())
 			
 			#敵が0だったらステージクリアに
 			if EnemyList.size() == 0:
@@ -236,8 +245,14 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 		#DeleteEnemy()
 	else:
 		
+		
 		#debug
 		#逆スクロール面のエネミーは画面外に出たら消す
+		if GlobalNode.BgScrollReverse == true:
+			EnemyList.pop_front()
+			EnemyId.queue_free()
+			return
+		
 		
 		#ループ終了後、ホームポジションへ移動させる
 		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)

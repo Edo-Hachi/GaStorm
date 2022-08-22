@@ -25,6 +25,7 @@ var Alive = true
 var Matrix : Vector2	#隊列位置
 var MatrixWorldPos : Vector2	#隊列位置実座標
 var Life : int = 1
+var BackScroll = false
 
 #var ReturnToHomeState = 0
 
