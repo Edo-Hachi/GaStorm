@@ -57,7 +57,7 @@ var GameScene
 func _ready() -> void:
 	randomize()
 	
-	$CanvasLayer/TitleNode/BackGroundStars.SetStarSpeed(10,1)
+	$CanvasTitle/TitleNode/BackGroundStars.SetStarSpeed(10,1)
 	#$BackGroundStars.StarSpeed = 10
 	
 	GlobalNode.GameState = GlobalNode.GState.TITLE
@@ -68,8 +68,8 @@ func _ready() -> void:
 #
 func GameTitleInit():
 	GlobalNode.GameState = GlobalNode.GState.TITLE
-	$CanvasLayer/TitleNode.visible = true
-	$CanvasLayer/TitleNode/BackGroundStars.SetStarSpeed(10,1)
+	$CanvasTitle/TitleNode.visible = true
+	$CanvasTitle/TitleNode/BackGroundStars.SetStarSpeed(10,1)
 	
 
 func _process(delta: float) -> void:
@@ -78,7 +78,7 @@ func _process(delta: float) -> void:
 	var col = OS.get_ticks_usec()
 	if col % 3 == 0:
 		col = OS.get_ticks_usec() % GlobalNode.Colormax
-		$CanvasLayer/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
+		$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 		
 	if Input.is_action_pressed("BTN_START"):
 		GameStart()
@@ -94,7 +94,7 @@ func GameStart():
 #	add_child(gamescn)
 	GameScene.GameStartInit()
 	
-	$CanvasLayer/TitleNode.visible = false
+	$CanvasTitle/TitleNode.visible = false
 	
 	
 #	var aa= get_node("/root/GameMain/GameMain_Node2D")

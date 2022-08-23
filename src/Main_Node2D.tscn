@@ -1,20 +1,16 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://asset/Font/Xolonium-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://asset/Font/aerial.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://src/Main_Node2D.gd" type="Script" id=3]
 [ext_resource path="res://src/GameMain/BackGround/BackGroundStars.tscn" type="PackedScene" id=4]
 [ext_resource path="res://asset/Image/GastormTitle.png" type="Texture" id=5]
+[ext_resource path="res://asset/Image/Godot_Kun_box200.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=1]
-size = 25
-font_data = ExtResource( 1 )
 
 [node name="MainScene" type="Node2D"]
 scale = Vector2( 1, 0.993575 )
@@ -25,14 +21,14 @@ margin_right = 256.0
 margin_bottom = 256.0
 color = Color( 0, 0, 0.0784314, 1 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasTitle" type="CanvasLayer" parent="."]
 
-[node name="TitleNode" type="Node2D" parent="CanvasLayer"]
+[node name="TitleNode" type="Node2D" parent="CanvasTitle"]
 
-[node name="BackGroundStars" parent="CanvasLayer/TitleNode" instance=ExtResource( 4 )]
+[node name="BackGroundStars" parent="CanvasTitle/TitleNode" instance=ExtResource( 4 )]
 scale = Vector2( 1, 0.993575 )
 
-[node name="BtnStart" type="Button" parent="CanvasLayer/TitleNode"]
+[node name="BtnStart" type="Button" parent="CanvasTitle/TitleNode"]
 margin_left = 78.0
 margin_top = 142.0
 margin_right = 177.0
@@ -42,7 +38,7 @@ custom_fonts/font = SubResource( 2 )
 text = "[S]tart"
 flat = true
 
-[node name="BtnQuit" type="Button" parent="CanvasLayer/TitleNode"]
+[node name="BtnQuit" type="Button" parent="CanvasTitle/TitleNode"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = 92.0
@@ -54,25 +50,17 @@ custom_fonts/font = SubResource( 3 )
 text = "[Q]uit"
 flat = true
 
-[node name="Label" type="Label" parent="CanvasLayer/TitleNode"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 68.0
-margin_top = 63.5
-margin_right = 188.0
-margin_bottom = 94.5
-custom_fonts/font = SubResource( 1 )
-text = "GaStorm"
-align = 1
-valign = 1
-
-[node name="GastormTitle" type="Sprite" parent="CanvasLayer/TitleNode"]
+[node name="GastormTitle" type="Sprite" parent="CanvasTitle/TitleNode"]
 position = Vector2( 126, 76 )
 scale = Vector2( 1, 0.993575 )
 texture = ExtResource( 5 )
 
-[connection signal="button_down" from="CanvasLayer/TitleNode/BtnStart" to="." method="_on_BtnStart_button_down"]
-[connection signal="button_down" from="CanvasLayer/TitleNode/BtnQuit" to="." method="_on_BtnQuit_button_down"]
+[node name="GodotLogo" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="GodotKun200" type="Sprite" parent="GodotLogo"]
+position = Vector2( 127, 122 )
+texture = ExtResource( 6 )
+
+[connection signal="button_down" from="CanvasTitle/TitleNode/BtnStart" to="." method="_on_BtnStart_button_down"]
+[connection signal="button_down" from="CanvasTitle/TitleNode/BtnQuit" to="." method="_on_BtnQuit_button_down"]
