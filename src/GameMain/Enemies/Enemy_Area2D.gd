@@ -205,7 +205,7 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 		$SoundExplode.play()
 			
 		#画面を揺らす
-		get_parent().DispShakeStart()		
+		get_parent().DispShakeStart(3,10)		
 		
 		Alive = false	
 		visible = false

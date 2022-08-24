@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Crush.wav-64e71b1a66d194f8915f51bf827f5985.sample"
+
+[deps]
+
+source_file="res://asset/Sound/Crush.wav"
+dest_files=[ "res://.import/Crush.wav-64e71b1a66d194f8915f51bf827f5985.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

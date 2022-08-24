@@ -34,7 +34,7 @@ _global_script_class_icons={
 
 config/name="GaStorm"
 run/main_scene="res://src/Main_Node2D.tscn"
-boot_splash/image="res://asset/Image/Godot_Kun_box200.png"
+boot_splash/image="res://asset/Image/Godot_Kun_box.png"
 config/icon="res://icon.png"
 
 [autoload]

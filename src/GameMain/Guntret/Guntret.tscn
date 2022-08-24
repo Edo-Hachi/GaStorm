@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/GameMain/Guntret/Guntret.gd" type="Script" id=1]
 [ext_resource path="res://asset/Image/Guntret/Guntret01.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://asset/Image/Guntret/Guntret03.png" type="Texture" id=4]
 [ext_resource path="res://asset/Image/Guntret/Guntret02.png" type="Texture" id=5]
 [ext_resource path="res://asset/Sound/Shot.wav" type="AudioStream" id=6]
+[ext_resource path="res://asset/Sound/Explo01.mp3" type="AudioStream" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -72,7 +73,6 @@ collision_mask = 12
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-z_index = 1
 frames = SubResource( 1 )
 animation = "Top"
 
@@ -83,11 +83,14 @@ shape = SubResource( 2 )
 [node name="Exhaust" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 15 )
 frames = SubResource( 8 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="ShotSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 volume_db = -8.0
+
+[node name="CrushSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
 
 [connection signal="area_entered" from="." to="." method="_on_Guntret_area_entered"]

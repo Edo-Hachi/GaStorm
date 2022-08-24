@@ -65,6 +65,18 @@ func _on_Guntret_area_entered(area: Area2D) -> void:
 	#数秒後に復活するようにするよてい(debug)
 	$CollisionShape2D.set_deferred("disabled", true)
 	
+	#やられた時の止め
+	get_tree().paused = true
+	yield(get_tree().create_timer(0.5), "timeout")
+	get_tree().paused = false
+
+	$CrushSound.play()
+	
+	visible = false
+	
+	#画面揺らす
+	get_parent().DispShakeStart(10, 50)
+	
 	var Explo = PlayerExplodeScene.instance()
 	Explo.position = position
 	get_parent().add_child(Explo)

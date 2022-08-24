@@ -93,6 +93,7 @@ var fps = 0
 #Display Shake
 var DispShake = false
 var DispShakeCount = 0
+var DispShakeWidth = 10
 
 #シーケンスパーサ
 #SeqTimerタイマノードからから呼ばれてます
@@ -558,17 +559,18 @@ func _on_SeqTimer_timeout() -> void:
 	SeqState()
 
 #画面を振動させる
-func DispShakeStart():
+func DispShakeStart(var Count, var Width):
 	DispShake = true
-	DispShakeCount = 0
+	DispShakeCount = Count
+	DispShakeWidth = Width
 
 func _on_DspShakeTimer_timeout() -> void:
 	if DispShake == true:
-		position.x = rand_range(-1, 1) * rand_range(0,10) + 1	#最大10ピクセルで振動させる	
-		position.y = rand_range(-1, 1) * rand_range(0,10) + 1
-		DispShakeCount+=1
+		position.x = rand_range(-1, 1) * rand_range(0, DispShakeWidth) + 1	#振動させる	
+		position.y = rand_range(-1, 1) * rand_range(0, DispShakeWidth) + 1
+		DispShakeCount-=1
 		
-		if 3 < DispShakeCount:
+		if DispShakeCount <= 0:
 			DispShake = false
 	else:
 		position.x = 0

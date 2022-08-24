@@ -1,10 +1,15 @@
 #GameMain_Node2D
 
+#スコア加算
+#スコア保存
+#出現ループ時の緑は10点、赤は300点とかにする
+#隊列に整列時の緑は50点、赤は100点
+#攻撃中は隊列時の二倍とか
+
+
 #敵の弾発射(将来的な弾幕系の実装も視野に)
 #敵の攻撃（下に降りてくる　）
 
-#スコア加算
-#スコア保存
 
 #メニューのStartとQuitをコントローラーで選べるように
 
@@ -14,9 +19,6 @@
 #エネミーのループ出現位置に星を出す
 
 
-#出現ループ時の緑は10点、赤は300点とかにする
-#隊列に整列時の緑は50点、赤は100点
-#攻撃中は隊列時の二倍とか
 
 
 #10面分の雛形を作る
@@ -67,7 +69,7 @@ func _ready() -> void:
 
 #
 func GameTitleInit():
-	GlobalNode.GameState = GlobalNode.GState.TITLE
+	GlobalNode.GameState = GlobalNode.GState.TITLEs
 	$CanvasTitle/TitleNode.visible = true
 	$CanvasTitle/TitleNode/BackGroundStars.SetStarSpeed(10,1)
 	
