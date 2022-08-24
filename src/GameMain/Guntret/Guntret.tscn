@@ -6,7 +6,7 @@
 [ext_resource path="res://asset/Image/Guntret/Guntret03.png" type="Texture" id=4]
 [ext_resource path="res://asset/Image/Guntret/Guntret02.png" type="Texture" id=5]
 [ext_resource path="res://asset/Sound/Shot.wav" type="AudioStream" id=6]
-[ext_resource path="res://asset/Sound/Explo01.mp3" type="AudioStream" id=7]
+[ext_resource path="res://asset/Sound/crash1.wav" type="AudioStream" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -69,8 +69,12 @@ animations = [ {
 } ]
 
 [node name="Guntret" type="Area2D"]
+position = Vector2( 96, 85 )
 collision_mask = 12
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -83,7 +87,7 @@ shape = SubResource( 2 )
 [node name="Exhaust" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 15 )
 frames = SubResource( 8 )
-frame = 4
+frame = 3
 playing = true
 
 [node name="ShotSound" type="AudioStreamPlayer" parent="."]
@@ -93,9 +97,4 @@ volume_db = -8.0
 [node name="CrushSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
 
-[node name="RecoveryTimer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
-
 [connection signal="area_entered" from="." to="." method="_on_Guntret_area_entered"]
-[connection signal="timeout" from="RecoveryTimer" to="." method="_on_RecoveryTimer_timeout"]

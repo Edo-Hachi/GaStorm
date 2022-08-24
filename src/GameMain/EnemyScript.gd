@@ -7,7 +7,7 @@ var StateSeq01 = [
 
 		{"Cmd" : "BgStarScroll", "Spd" : 5, "Dir": 1},
 		
-		#"Cmd" : "MsgStageStart", "Num" : 1}, #ステージ開始テキスト描画
+		{"Cmd" : "MsgStageStart", "Num" : 1}, #ステージ開始テキスト描画
 		#{"Cmd" : "EnmyFormationActive", "Flg" : false}, #エネミーフォーメイションスタンバイ　 
 
 		{"Cmd" : "Wait_s", "Time" : 2},

@@ -4,7 +4,7 @@ extends Area2D
 
 var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
 var PlayerExplodeScene = preload("res://src/GameMain/Explode/PlayerExplode.tscn")
-
+var ExplodeScene = preload("res://src/GameMain/Particle/RectParticle.tscn")
 
 export var Speed : float  = 200.0
 
@@ -14,18 +14,38 @@ var GuntretCrushCount = 0
 
 
 func _ready() -> void:
+	GuntretCrush = false
+	GuntretCrushCount=0
 	pass
 	
 func _process(delta: float) -> void:
+	GuntretCrushCount+=1
+	#自機フラッシュ処理
+#	visible = false
+#	#if sin(GuntretCrushCount/6)<0.5:
+#	if sin(GuntretCrushCount/2)<0.2:
+#		visible = true
+#	return	
+
 	
-	#自機クラッシュ中　
-#	if GuntretCrush == true:
-#		return
-		
-	#debug
 	#ゲームプレイ中でなおかつステージ実行中でなかったらリターンさせちゃう
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
 		return
+	
+	#自機クラッシュ中　
+	if GuntretCrush == true:
+		GuntretCrushCount+=1
+		#自機フラッシュ処理
+		visible = false
+		if sin(GuntretCrushCount/2)<0.2:
+		#if sin(GuntretCrushCount/6)<0.5:
+			visible = true
+		
+		#if 180 < GuntretCrushCount:
+		if 240 < GuntretCrushCount:
+			GuntretCrush = false
+			visible = true
+			$CollisionShape2D.set_deferred("disabled", false)
 	
 	#ステージクリアアニメーション中はキー入力キャンセル　
 	if GlobalNode.SubState ==  GlobalNode.SUBSTATE.STAGE_CLEAR:
@@ -46,14 +66,9 @@ func _process(delta: float) -> void:
 	$AnimatedSprite.offset.y = ShotBack
 	if 0 <= ShotBack:
 		ShotBack-=0.25
-	
-	var rot = rotation_degrees
 		
-	#Shot Bullet	
-		#input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-
-	#自機クラッシュ中はショットはできない
-	if GuntretCrush == true:
+	#自機クラッシュ中は120フレームは撃てない
+	if GuntretCrush == true && GuntretCrushCount<120:
 		return
 
 	if Input.is_action_pressed("Shot") or Input.get_action_strength("ui_accept"):
@@ -66,58 +81,46 @@ func _process(delta: float) -> void:
 			
 			ShotBack = 2
 
+#frameFreeze(0.05, 1.0)
+func frameFreeze(var timescale, var duration):
+	Engine.time_scale = timescale
+	yield(get_tree().create_timer(duration * timescale), "timeout")
+	Engine.time_scale = 1.0
+	
 
 func _on_Guntret_area_entered(area: Area2D) -> void:
-	#print("Hit Enemy or Enemy Bullet")
-	
-	#visible = false
+
 	#一時的にコライダーをOFFにする
-	#数秒後に復活するようにするよてい(debug)
 	GuntretCrush = true
-	GuntretCrushCount = 1
+	GuntretCrushCount = 0
 	$CollisionShape2D.set_deferred("disabled", true)
-	
-	#やられた時の止め
-	get_tree().paused = true
-	yield(get_tree().create_timer(0.2), "timeout")
-	get_tree().paused = false
 
 	$CrushSound.play()
 	
-	visible = false
-	#visible = true
-	
+	#Hit Stop
+	get_tree().paused = true
+	yield(get_tree().create_timer(0.3), "timeout")
+	get_tree().paused = false
+
+#	frameFreeze(0.05, 1.0)
+
 	
 	#画面揺らす
 	get_parent().DispShakeStart(10, 50)
+
 	
-	var Explo = PlayerExplodeScene.instance()
-	Explo.position = position
-	get_parent().add_child(Explo)
+#	var Explo = PlayerExplodeScene.instance()
+#	Explo.position = position
+#	get_parent().add_child(Explo)
+	
+	var explode = ExplodeScene.instance()
+	explode.SetParticle(position.x, position.y, 40)
+	get_parent().add_child(explode)	
+
+	visible = false
 	
 	get_parent().GuntretCrush()
 
-	position.x = 128
-	position.y = 240
-	
-
-#Crush Recovery Timer
-func _on_RecoveryTimer_timeout() -> void:
-	if GuntretCrush == false:
-		return
-	
-	#debug ここをもっとジューシーに
-	if GuntretCrushCount % 2 == 0:
-		visible = false
-	else:
-		visible = true
-	
-	GuntretCrushCount+=1
-	
-	#やられ状態からの復帰
-	if 8<GuntretCrushCount:
-		GuntretCrush = false
-		GuntretCrushCount = 0
-		visible = true
-		$CollisionShape2D.set_deferred("disabled", false)
+	#position.x = 128
+	#position.y = 240
 

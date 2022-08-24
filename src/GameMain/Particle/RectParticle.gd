@@ -48,12 +48,15 @@ func InitRect(var x, var y):
 		_prt.x = x
 		_prt.y = y
 
-		_prt.spdx  = rand_range(-1,1) * (randi() % 400 + 20)
-		_prt.spdy  = rand_range(-1,1) * (randi() % 400 + 20)
+#		_prt.spdx  = rand_range(-1,1) * (randi() % 400 + 20)
+#		_prt.spdy  = rand_range(-1,1) * (randi() % 400 + 20)
+		_prt.spdx  = rand_range(-1,1) * (randi() % 600 + 100)
+		_prt.spdy  = rand_range(-1,1) * (randi() % 600 + 100)
 		
 		_prt.size = randi()%30 + 1
 		
-		_prt.age = randi()%25 + 10
+		#_prt.age = randi()%25 + 10
+		_prt.age = randi()%40 + 10
 		_prt.color = ColorN("white")
 		
 		PrtList.append(_prt)
@@ -68,19 +71,20 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var collist = ColorList_yelw
-	#var collist = ColorList_blue
+	#var collist = ColorList_yelw
+	var collist = ColorList_blue
 	
 	for prt in PrtList:
 		if 0 < prt.age:
 			prt.x += prt.spdx * delta
 			prt.y += prt.spdy * delta
 			
-			prt.spdx *= 0.8	#少しづつスピードダウンさせてる
-			prt.spdy *= 0.8
+			prt.spdx *= 0.6	#少しづつスピードダウンさせてる
+			prt.spdy *= 0.6
 			
 			prt.size-=3
 			prt.age -= 1
+			#prt.age -= 0.5
 			
 			if 15 < prt.age:
 				prt.color = ColorN(collist[3])

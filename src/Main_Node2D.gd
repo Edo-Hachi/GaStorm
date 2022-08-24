@@ -75,7 +75,7 @@ func _ready() -> void:
 
 #
 func GameTitleInit():
-	GlobalNode.GameState = GlobalNode.GState.TITLEs
+	GlobalNode.GameState = GlobalNode.GState.TITLE
 	$CanvasTitle/TitleNode.visible = true
 	$CanvasTitle/TitleNode/BackGroundStars.SetStarSpeed(10,1)
 	

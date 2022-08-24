@@ -340,3 +340,21 @@ Godot での文字列フォーマット
     var ss = timedict.second
     l_time.text = "%02d:%02d:%02d" % [hh, mm, ss]
 
+
+
+#--------------------------------------------------------------
+Godot でのヒットストップ処理
+
+#frameFreeze(0.05, 1.0)
+
+func frameFreeze(var timescale, var duration):
+	Engine.time_scale = timescale
+	yield(get_tree().create_timer(duration * timescale), "timeout")
+	Engine.time_scale = 1.0
+
+それかこっち
+	#やられた時の止め
+	get_tree().paused = true
+	yield(get_tree().create_timer(0.08), "timeout")
+	get_tree().paused = false
+	

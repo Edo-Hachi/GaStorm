@@ -293,8 +293,6 @@ func ShotEnemyBullet(var EnemyPos : Vector2):
 	var ScnBullet = EnemyBulletScn.instance()
 	add_child(ScnBullet)
 	ScnBullet.SetPos(EnemyPos)
-#	ScnBullet.SetDegrees(45)
-	#ScnBullet.SetToword(Vector2(200,100))
 	ScnBullet.SetToword($Guntret.position)
 
 #-------------------------------------------------------------		
@@ -325,8 +323,28 @@ func GuntretCrush():
 	#print("GuntretCrush")
 	var ret = $RestGuntret.DeleteGuntret()
 	if ret < 0:
-		print("GameOver")
-	
+		#print("GameOver")
+		#----------------------------------------------------------------------------
+		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
+		
+		#	if Input.is_action_pressed("GameOver"):
+#		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
+		$CanvasGameover.visible = true
+#
+		var timer = get_tree().create_timer(3)
+		yield(timer , "timeout")
+#
+
+		GlobalNode.GameState == GlobalNode.GState.TITLE
+		$Guntret.visible = false
+		$RestGuntret.visible = false
+		$CanvasScore.visible = false
+		$CanvasGameover.visible = false
+		
+		#EnemyList.clear()
+		
+		get_parent().GameTitleInit()
+		#----------------------------------------------------------------------------
 
 #GameStartInit
 func GameStartInit():
@@ -342,6 +360,7 @@ func GameStartInit():
 	#Player Score Reset
 	GlobalNode.PlayerScore = 0
 	#HighScore = 0
+	GlobalNode.GameTime = 0
 
 
 	FlgStageClear = false
@@ -357,7 +376,8 @@ func GameStartInit():
 	$CanvasScore.visible = true
 	
 	#残基
-	$RestGuntret.SetRestGuntert(5)
+#	$RestGuntret.SetRestGuntert(5)
+	$RestGuntret.SetRestGuntert(2)
 	
 	EnemyList.clear()
 	
@@ -402,6 +422,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	GlobalNode.GameTime+=1
+	
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
 		return
 	
@@ -518,46 +540,21 @@ func _process(delta: float) -> void:
 		$DlgPause.visible = true
 		$DlgPause.show_modal(true)
 	
-	
-#debug--------------------------------------------------------------
-	if Input.is_action_pressed("SpawnEnemy"):
-		print("Enemy")
-		
-#		if debug_spawn == 0:
-#			debug_spawn = 1
-			
-#		var ScnBullet = EnemyBulletScn.instance()
-#		add_child(ScnBullet)
-#		ScnBullet.SetPos(Vector2(100,10))
-##		ScnBullet.SetDegrees(45)
-#		#ScnBullet.SetToword(Vector2(200,100))
-#		ScnBullet.SetToword($Guntret.position)
-
-			
-#			LoopSeqEnd = false #debug ループスポーン開始フラグ
-			
-			#エネミー生成------------------------------------------
-#			var ScnEnemy = EnemyScene.instance()	#エネミー
-#			var enid = ScnEnemy.get_instance_id()
-#			ScnEnemy.SetEnemyId(enid)
-#			ScnEnemy.position = Vector2(128, 128)
-#			add_child(ScnEnemy)
-			#エネミー生成------------------------------------------
 
 #debug--------------------------------------------------------------
-	if Input.is_action_pressed("GameOver"):
-		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
-		$CanvasGameover/Node2D.visible = true
-		
-		var timer = get_tree().create_timer(3) #falseにしないとポーズした時に止まってくれない
-		yield(timer , "timeout")
-		
-		$Guntret.visible = false
-		$RestGuntret.visible = false
-		$CanvasScore.visible = false
-
-		GlobalNode.GameState == GlobalNode.GState.TITLE
-		get_parent().GameTitleInit()
+#	if Input.is_action_pressed("GameOver"):
+#		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
+#		$CanvasGameover/Node2D.visible = true
+#
+#		var timer = get_tree().create_timer(3) #falseにしないとポーズした時に止まってくれない
+#		yield(timer , "timeout")
+#
+#		$Guntret.visible = false
+#		$RestGuntret.visible = false
+#		$CanvasScore.visible = false
+#
+#		GlobalNode.GameState == GlobalNode.GState.TITLE
+#		get_parent().GameTitleInit()
 #debug--------------------------------------------------------------
 
 

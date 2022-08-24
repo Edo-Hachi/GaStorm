@@ -168,6 +168,8 @@ func _process(delta: float) -> void:
 			pass
 		
 		GlobalNode.EnemyStateID.STAT_ATTACK:		#攻撃中
+#debug
+			#return
 			FlameCounter+=1
 
 			EnemyFormationMove(delta)
