@@ -25,6 +25,7 @@ var Alive = true
 var Matrix : Vector2	#隊列位置
 var MatrixWorldPos : Vector2	#隊列位置実座標
 var Life : int = 1
+var ScoreMulti = 1	#スコア計算時の係数
 var BackScroll = false
 
 #var ReturnToHomeState = 0
@@ -41,12 +42,15 @@ func SetEnemyColor(var enemyColor : int):
 		GlobalNode.EnemyColor.Green:
 			$AnimatedSprite.animation = "Green"
 			Life = 1
+			ScoreMulti = Life
 		GlobalNode.EnemyColor.Red:
 			$AnimatedSprite.animation = "Red"
 			Life = 1
+			ScoreMulti = Life
 		GlobalNode.EnemyColor.Purple:
 			$AnimatedSprite.animation = "Puraple"
 			Life = 1
+			ScoreMulti = Life
 			
 func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
 	Matrix = matrix
@@ -209,6 +213,9 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 		
 		Alive = false	
 		visible = false
+		
+		GlobalNode.PlayerScore += 100 * ScoreMulti
+
 		#コリジョンも不使用にする disabled = true
 		$CollisionShape2D.set_deferred("disabled", true)
 

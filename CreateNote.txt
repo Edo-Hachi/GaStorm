@@ -329,3 +329,14 @@ https://qiita.com/2dgames_jp/items/a1db3a0a6d67e02a7d43
 シューティングの作り方とかシーン遷移とか色々書いてあるので後で読ませていただく
 パーティクルの作り方なんかものってた
 
+
+#--------------------------------------------------------------
+Godot での文字列フォーマット
+
+    # 1. display current time
+    var timedict = OS.get_time()
+    var hh = timedict.hour
+    var mm = timedict.minute
+    var ss = timedict.second
+    l_time.text = "%02d:%02d:%02d" % [hh, mm, ss]
+

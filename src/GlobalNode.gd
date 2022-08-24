@@ -11,7 +11,8 @@ var GameState : int  = GState.TITLE
 enum SUBSTATE {STAGE_START=0, STAGE_PLAY, STAGE_CLEAR, STAGE_CLEAR02}
 var SubState : int = SUBSTATE.STAGE_START
 
-var PlayerScore = 0
+var PlayerScore : int = 0
+var HighScore : int = 0
 
 var GameMainSceneID = 0
 

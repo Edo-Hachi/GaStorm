@@ -114,12 +114,11 @@ visible = false
 [node name="lblScore" type="Label" parent="CanvasScore"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -66.0
-margin_top = 5.0
-margin_right = 66.0
-margin_bottom = 22.0
+margin_left = -84.5
+margin_right = 84.5
+margin_bottom = 17.0
 custom_fonts/font = SubResource( 2 )
-text = "Score:000000"
+text = "Score:0000000000"
 align = 1
 
 [node name="CanvasStageClear" type="CanvasLayer" parent="."]

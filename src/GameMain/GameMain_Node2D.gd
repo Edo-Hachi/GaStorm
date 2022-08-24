@@ -330,6 +330,10 @@ func GameStartInit():
 	SeqTimerFps=0
 	SeqEnable = true
 	FormationEnemyTimer = 0 #EnemyMoveTimer
+	
+	GlobalNode.PlayerScore = 0
+	#HighScore = 0
+
 
 	FlgStageClear = false
 
@@ -341,6 +345,7 @@ func GameStartInit():
 	
 	$Guntret.visible = true
 	$RestGuntret.visible = true
+	$CanvasScore.visible = true
 	
 	EnemyList.clear()
 	
@@ -359,7 +364,7 @@ func _ready() -> void:
 	#自機のホームポジション
 	$Guntret.position.x = GuntretHomePosX
 	$Guntret.position.y = GuntretHomePosY
-	GlobalNode.PlayerScore = 0
+	#GlobalNode.PlayerScore = 0
 	GlobalNode.GameMainSceneID = get_owner()
 	
 	#hoge
@@ -387,6 +392,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
 		return
+	
+	var ScoreTxt= "Score:%010d" % GlobalNode.PlayerScore
+	$CanvasScore/lblScore.text = ScoreTxt
 	
 	match GlobalNode.SubState:
 		GlobalNode.SUBSTATE.STAGE_START:
@@ -531,6 +539,11 @@ func _process(delta: float) -> void:
 		
 		var timer = get_tree().create_timer(3) #falseにしないとポーズした時に止まってくれない
 		yield(timer , "timeout")
+		
+		$Guntret.visible = false
+		$RestGuntret.visible = false
+		$CanvasScore.visible = false
+
 		GlobalNode.GameState == GlobalNode.GState.TITLE
 		get_parent().GameTitleInit()
 #debug--------------------------------------------------------------
