@@ -89,30 +89,29 @@ func frameFreeze(var timescale, var duration):
 	
 
 func _on_Guntret_area_entered(area: Area2D) -> void:
-
+	if GuntretCrush == true:
+		return
+		
 	#一時的にコライダーをOFFにする
 	GuntretCrush = true
 	GuntretCrushCount = 0
 	$CollisionShape2D.set_deferred("disabled", true)
 
 	$CrushSound.play()
-	
-	#Hit Stop
+
+
 	get_tree().paused = true
 	yield(get_tree().create_timer(0.3), "timeout")
 	get_tree().paused = false
-
-#	frameFreeze(0.05, 1.0)
-
+	
+	#Hit Stop
+#	for i in range(0,5):
+#		frameFreeze(0.02, 1.0)
 	
 	#画面揺らす
 	get_parent().DispShakeStart(10, 50)
 
-	
-#	var Explo = PlayerExplodeScene.instance()
-#	Explo.position = position
-#	get_parent().add_child(Explo)
-	
+
 	var explode = ExplodeScene.instance()
 	explode.SetParticle(position.x, position.y, 40)
 	get_parent().add_child(explode)	

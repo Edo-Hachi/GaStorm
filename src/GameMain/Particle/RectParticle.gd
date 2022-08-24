@@ -50,8 +50,8 @@ func InitRect(var x, var y):
 
 #		_prt.spdx  = rand_range(-1,1) * (randi() % 400 + 20)
 #		_prt.spdy  = rand_range(-1,1) * (randi() % 400 + 20)
-		_prt.spdx  = rand_range(-1,1) * (randi() % 600 + 100)
-		_prt.spdy  = rand_range(-1,1) * (randi() % 600 + 100)
+		_prt.spdx  = rand_range(-1,1) * (randi() % 300 + 200)
+		_prt.spdy  = rand_range(-1,1) * (randi() % 300 + 200)
 		
 		_prt.size = randi()%30 + 1
 		
@@ -79,12 +79,12 @@ func _process(delta: float) -> void:
 			prt.x += prt.spdx * delta
 			prt.y += prt.spdy * delta
 			
-			prt.spdx *= 0.6	#少しづつスピードダウンさせてる
-			prt.spdy *= 0.6
+			prt.spdx *= 0.9	#少しづつスピードダウンさせてる
+			prt.spdy *= 0.9
 			
-			prt.size-=3
-			prt.age -= 1
-			#prt.age -= 0.5
+			prt.size -= 3
+			#prt.age -= 1
+			prt.age -= 0.5
 			
 			if 15 < prt.age:
 				prt.color = ColorN(collist[3])
