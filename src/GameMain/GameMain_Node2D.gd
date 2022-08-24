@@ -320,6 +320,14 @@ func ShotEnemyBullet(var EnemyPos : Vector2):
 
 #-------------------------------------------------------------		
 
+#Guntret Crush!!
+func GuntretCrush():
+	#print("GuntretCrush")
+	var ret = $RestGuntret.DeleteGuntret()
+	if ret < 0:
+		print("GameOver")
+	
+
 #GameStartInit
 func GameStartInit():
 	#シーケンス実行開始
@@ -331,6 +339,7 @@ func GameStartInit():
 	SeqEnable = true
 	FormationEnemyTimer = 0 #EnemyMoveTimer
 	
+	#Player Score Reset
 	GlobalNode.PlayerScore = 0
 	#HighScore = 0
 
@@ -346,6 +355,9 @@ func GameStartInit():
 	$Guntret.visible = true
 	$RestGuntret.visible = true
 	$CanvasScore.visible = true
+	
+	#残基
+	$RestGuntret.SetRestGuntert(5)
 	
 	EnemyList.clear()
 	
@@ -577,6 +589,7 @@ func DispShakeStart(var Count, var Width):
 	DispShakeCount = Count
 	DispShakeWidth = Width
 
+#画面振動タイマ
 func _on_DspShakeTimer_timeout() -> void:
 	if DispShake == true:
 		position.x = rand_range(-1, 1) * rand_range(0, DispShakeWidth) + 1	#振動させる	

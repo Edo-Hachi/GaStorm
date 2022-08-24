@@ -9,6 +9,8 @@ var PlayerExplodeScene = preload("res://src/GameMain/Explode/PlayerExplode.tscn"
 export var Speed : float  = 200.0
 
 var ShotBack = 0
+var GuntretCrush = false
+var GuntretCrushCount = 0
 
 
 func _ready() -> void:
@@ -16,6 +18,10 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
+	#自機クラッシュ中　
+#	if GuntretCrush == true:
+#		return
+		
 	#debug
 	#ゲームプレイ中でなおかつステージ実行中でなかったらリターンさせちゃう
 	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
@@ -46,6 +52,10 @@ func _process(delta: float) -> void:
 	#Shot Bullet	
 		#input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 
+	#自機クラッシュ中はショットはできない
+	if GuntretCrush == true:
+		return
+
 	if Input.is_action_pressed("Shot") or Input.get_action_strength("ui_accept"):
 		if ShotBack <= 0:
 			var Bullet = BulletScene.instance()
@@ -58,21 +68,25 @@ func _process(delta: float) -> void:
 
 
 func _on_Guntret_area_entered(area: Area2D) -> void:
-	print("Hit Enemy or Enemy Bullet")
+	#print("Hit Enemy or Enemy Bullet")
 	
 	#visible = false
 	#一時的にコライダーをOFFにする
 	#数秒後に復活するようにするよてい(debug)
+	GuntretCrush = true
+	GuntretCrushCount = 1
 	$CollisionShape2D.set_deferred("disabled", true)
 	
 	#やられた時の止め
 	get_tree().paused = true
-	yield(get_tree().create_timer(0.5), "timeout")
+	yield(get_tree().create_timer(0.2), "timeout")
 	get_tree().paused = false
 
 	$CrushSound.play()
 	
 	visible = false
+	#visible = true
+	
 	
 	#画面揺らす
 	get_parent().DispShakeStart(10, 50)
@@ -80,3 +94,30 @@ func _on_Guntret_area_entered(area: Area2D) -> void:
 	var Explo = PlayerExplodeScene.instance()
 	Explo.position = position
 	get_parent().add_child(Explo)
+	
+	get_parent().GuntretCrush()
+
+	position.x = 128
+	position.y = 240
+	
+
+#Crush Recovery Timer
+func _on_RecoveryTimer_timeout() -> void:
+	if GuntretCrush == false:
+		return
+	
+	#debug ここをもっとジューシーに
+	if GuntretCrushCount % 2 == 0:
+		visible = false
+	else:
+		visible = true
+	
+	GuntretCrushCount+=1
+	
+	#やられ状態からの復帰
+	if 8<GuntretCrushCount:
+		GuntretCrush = false
+		GuntretCrushCount = 0
+		visible = true
+		$CollisionShape2D.set_deferred("disabled", false)
+
