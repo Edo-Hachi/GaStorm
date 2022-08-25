@@ -1,5 +1,7 @@
 extends Node
 
+const Version = "Ver 0.01A"
+
 const ScreenWidth = 256
 const ScreenHeight = 256
 
@@ -54,6 +56,10 @@ var Colormax = ColorName.size()
 var BgScrollReverse = false
 #var DspShake = false
 
+var UserData = {
+	"HighScore"  : 0
+}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -62,8 +68,33 @@ func _ready() -> void:
 func InitData(var fuga):
 	PlayerScore = fuga
 	
+#C:\Users\-username-\AppData\Roaming\Godot\app_userdata\GaStorm\gastorm.json
+func DataSave():
+	UserData["HighScore"] = HighScore
+	
+	var SaveDat = JSON.	print(UserData, "\t")
 
+	var f = File.new()	
+	f.open("user://gastorm.json", File.WRITE)
+	f.store_string(SaveDat)
+	f.close()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+func DataLoad():
+	var f = File.new()	
+	if f.file_exists("user://gastorm.json"):
+		f.open("user://gastorm.json", File.READ)
+		var dat = f.get_as_text()
+		var ret = JSON.parse(dat)
+		if ret.error == OK:
+			#Convert Success
+			#print("Score: %s"  %ret.result["HighScore"])
+			var hs : int
+			hs = ret.result["HighScore"]
+			UserData["HighScore"] = hs
+			HighScore = hs
+
+			print(HighScore)
+		else:
+			DataSave()
+	else:
+		DataSave()

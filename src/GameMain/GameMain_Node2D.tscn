@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://src/GameMain/GameMain_Node2D.gd" type="Script" id=1]
 [ext_resource path="res://src/GameMain/Guntret/Guntret.tscn" type="PackedScene" id=2]
@@ -36,6 +36,10 @@ size = 11
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 14
 font_data = ExtResource( 4 )
 
 [node name="GameMain_Node2D" type="Node2D"]
@@ -88,6 +92,7 @@ valign = 1
 clip_text = true
 
 [node name="CanvasGameover" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="lblGameOver01" type="Label" parent="CanvasGameover"]
 anchor_left = 0.5
@@ -125,6 +130,7 @@ margin_top = -23.5
 margin_right = 76.5
 margin_bottom = -6.5
 rect_pivot_offset = Vector2( 107.5, 9 )
+custom_colors/font_color = Color( 0.254902, 0.733333, 0.956863, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "SCORE:0000000000"
 align = 1
@@ -230,6 +236,14 @@ margin_top = -10.0
 margin_right = 50.0
 margin_bottom = 10.0
 text = "PAUSE"
+
+[node name="lblFps" type="Label" parent="."]
+margin_left = 183.0
+margin_top = 236.0
+margin_right = 223.0
+margin_bottom = 253.0
+custom_fonts/font = SubResource( 10 )
+text = "FPS"
 
 [connection signal="timeout" from="SeqTimer" to="." method="_on_SeqTimer_timeout"]
 [connection signal="timeout" from="DspShakeTimer" to="." method="_on_DspShakeTimer_timeout"]

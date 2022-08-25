@@ -1,34 +1,37 @@
-#GameMain_Node2D
-
-#ゲームオーバーのステート
-#残基管理
-
-#スコア保存
 #取得スコアの表示アニメーション
 
+#締切は9/5だと思え!!!!!!
+
+# 0826, 0827--------------------------
+#敵の弾発射(将来的な弾幕系の実装も視野に)
+#敵の攻撃（下に降りてくる　）
+
+# 0828, 0829--------------------------
+#2,3,4面くらいはつくってみよう
+#4,8面はバックスクロール
+#10面分の雛形を作る
+
+
+#0830-0831
+#9面は隕石と敵がランダムに出てくる弾幕面
+
+#0901--
+#10面はボス戦（バックスクロール） 中ボス＋エネミーの波状攻撃
+#ボスはタイムアタック式で。早いほどスコアが高くなる。
+
+
+#エネミーのループ出現位置に星を出す
+
+#3ウェイショットとかになるアイテム
+#BOMB
+#ガルザカート
+
+#エネミーの攻撃中はスコア2倍
 #出現ループ時の緑は10点、赤は300点とかにする
 #隊列に整列時の緑は50点、赤は100点
 #攻撃中は隊列時の二倍とか
 
-
-#敵の弾発射(将来的な弾幕系の実装も視野に)
-#敵の攻撃（下に降りてくる　）
-
-
 #メニューのStartとQuitをコントローラーで選べるように
-
-#2,3,4面くらいはつくってみよう
-#4面は中ボス戦（バックスクロール） 中ボス＋エネミーの波状攻撃
-
-#エネミーのループ出現位置に星を出す
-
-
-
-
-#10面分の雛形を作る
-#ボスはタイムアタック式で。早いほどスコアが高くなる。
-#エネミーの攻撃中はスコア2倍
-
 
 #音
 #BGM
@@ -37,6 +40,9 @@
 #==========================================
 #Finish Task
 #==========================================
+#スコア保存
+#ゲームオーバーのステート
+#残機管理
 #スコア加算
 
 #バックスクロール面のエネミー制御、ステージクリア実装
@@ -57,6 +63,7 @@
 #Main_Node2D
 extends Node2D
 
+
 var GameMainScen = preload("res://src/GameMain/GameMain_Node2D.tscn")
 var GameScene
 #var gamemain
@@ -65,11 +72,14 @@ var GameScene
 func _ready() -> void:
 	randomize()
 	
+	GlobalNode.DataLoad()
+	
 	$CanvasTitle/TitleNode/BackGroundStars.SetStarSpeed(10,1)
 	#$BackGroundStars.StarSpeed = 10
 	
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 	
+	$lblVersion.text = GlobalNode.Version
 #	GameScene = GameMainScen.instance()
 #	add_child(GameScene)
 
@@ -81,7 +91,12 @@ func GameTitleInit():
 	
 
 func _process(delta: float) -> void:
+	#set_text("FPS " + String(Engine.get_frames_per_second()))
+	$CanvasTitle/TitleNode/lblFps.text = "FPS " + String(Engine.get_frames_per_second())
 	
+	var ScoreTxt= "HighScore:%010d" % GlobalNode.HighScore
+	$CanvasTitle/TitleNode/lblHighScore.text = ScoreTxt
+
 	#Flash StartGame Text
 	var col = OS.get_ticks_usec()
 	if col % 3 == 0:

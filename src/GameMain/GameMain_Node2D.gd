@@ -95,6 +95,7 @@ var DispShake = false
 var DispShakeCount = 0
 var DispShakeWidth = 10
 
+var HighScoreCheck = false
 #シーケンスパーサ
 #SeqTimerタイマノードからから呼ばれてます
 func SeqState():
@@ -422,6 +423,8 @@ func _ready() -> void:
 	SeqTimerFps=0
 	SeqEnable = true
 	
+	HighScoreCheck = false
+
 	#これでBGの星の操作できます　
 	#get_parent().get_node("BackGroundStars").SetStarSpeed(1,-1)
 	#$BgColor/BackGroundStars.SetStarSpeed(1,-1)
@@ -429,6 +432,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	$lblFps.text = "FPS:" + String(Engine.get_frames_per_second())
 	
 	#ゲームステートがプレイ中、ゲームオーバーの時いがいは弾く
 	if GlobalNode.GameState == GlobalNode.GState.TITLE:
@@ -539,31 +544,33 @@ func _process(delta: float) -> void:
 				yield(get_tree().create_timer(0.5), "timeout")
 				$Sound/StartMusic.play(0.0)
 
-	#Game Over			
+	#Game Over	----------------------------------------------------------------		
 	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
-		#$GameOverScrn.visible = true
+		if HighScoreCheck == false:
+			HighScoreCheck = true
+			if GlobalNode.HighScore < GlobalNode.PlayerScore:
+				#print("High Score")
+				
+				$CanvasGameover/lblScore.text = "Score:%010d" % GlobalNode.PlayerScore
+
+				$CanvasGameover/lblHighScore.visible = true
+				GlobalNode.HighScore = GlobalNode.PlayerScore
+				GlobalNode.DataSave()
+			else:
+				#print("not High Score")
+				$CanvasGameover/lblHighScore.visible = false
+		
 		$CanvasGameover.visible = true
 		
-		ScoreTxt= "Score:%010d" % GlobalNode.PlayerScore
-		$CanvasGameover/lblScore.text = ScoreTxt
-		
-		#GlobalNode.PlayerScore = 100
-		#GlobalNode.HighScore = 10
 		
 		var col = OS.get_ticks_usec()
 		if col % 3 == 0:
 			col = OS.get_ticks_usec() % GlobalNode.Colormax
 			$CanvasGameover/lblHitAnyKey.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
-		
-		if GlobalNode.HighScore < GlobalNode.PlayerScore:
-			$CanvasGameover/lblHighScore.visible = true
-		else:
-			$CanvasGameover/lblHighScore.visible = false
-		
+			
 		if Input.is_action_pressed("Shot"):	
 			get_parent().GameTitleInit()
 			queue_free()
-
 		#キー入力でタイトルへ　
 		#print("Process GameOver")
 		return

@@ -358,3 +358,7 @@ func frameFreeze(var timescale, var duration):
 	yield(get_tree().create_timer(0.08), "timeout")
 	get_tree().paused = false
 	
+
+#--------------------------------------------------------------
+JSONファイル保存
+https://qiita.com/2dgames_jp/items/27f126950bd27c7b31be
