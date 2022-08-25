@@ -16,7 +16,7 @@ var SubState : int = SUBSTATE.STAGE_START
 
 
 var PlayerScore : int = 0
-var HighScore : int = 0
+var HighScore : int = 10
 
 var GameMainSceneID = 0
 

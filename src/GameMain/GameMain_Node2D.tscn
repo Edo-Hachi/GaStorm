@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/GameMain/GameMain_Node2D.gd" type="Script" id=1]
 [ext_resource path="res://src/GameMain/Guntret/Guntret.tscn" type="PackedScene" id=2]
@@ -11,13 +11,25 @@
 [ext_resource path="res://src/GameMain/EnemyScript.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/GameMain/StageStart.gd" type="Script" id=10]
 [ext_resource path="res://asset/Sound/StageClear.wav" type="AudioStream" id=11]
-[ext_resource path="res://src/GameMain/DlgGameOver.gd" type="Script" id=12]
+[ext_resource path="res://asset/Font/Amazing Views.ttf" type="DynamicFontData" id=13]
 
 [sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=4]
-font_data = ExtResource( 4 )
+[sub_resource type="DynamicFont" id=6]
+size = 33
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 13
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=9]
+extra_spacing_bottom = -8
+font_data = ExtResource( 13 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 11
@@ -41,34 +53,6 @@ visible = false
 position = Vector2( 64, 32 )
 
 [node name="Guntret" parent="." instance=ExtResource( 2 )]
-
-[node name="DlgPause" type="Popup" parent="."]
-pause_mode = 2
-margin_right = 256.0
-margin_bottom = 256.0
-script = ExtResource( 3 )
-
-[node name="ColorRect" type="ColorRect" parent="DlgPause"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -128.0
-margin_top = -128.0
-margin_right = 128.0
-margin_bottom = 128.0
-color = Color( 0.0235294, 0.00784314, 0.211765, 0 )
-
-[node name="Button" type="Button" parent="DlgPause/ColorRect"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -50.0
-margin_top = -10.0
-margin_right = 50.0
-margin_bottom = 10.0
-text = "PAUSE"
 
 [node name="RestGuntret" parent="." instance=ExtResource( 7 )]
 visible = false
@@ -104,15 +88,78 @@ valign = 1
 clip_text = true
 
 [node name="CanvasGameover" type="CanvasLayer" parent="."]
-visible = false
 
-[node name="lblGameOver" type="Label" parent="CanvasGameover"]
-margin_left = 67.0
-margin_top = 89.0
-margin_right = 190.0
-margin_bottom = 109.0
-custom_fonts/font = SubResource( 4 )
-text = "GAMEOVER"
+[node name="lblGameOver01" type="Label" parent="CanvasGameover"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -85.5
+margin_top = 51.0
+margin_right = 87.5
+margin_bottom = 85.0
+custom_colors/font_color = Color( 0.376471, 0.87451, 0.0823529, 1 )
+custom_fonts/font = SubResource( 6 )
+text = "GAME OVER"
+align = 1
+valign = 1
+
+[node name="lblGameOver02" type="Label" parent="CanvasGameover"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -86.5
+margin_top = 50.0
+margin_right = 86.5
+margin_bottom = 84.0
+custom_colors/font_color = Color( 0.92549, 0.294118, 0.0588235, 1 )
+custom_fonts/font = SubResource( 6 )
+text = "GAME OVER"
+align = 1
+valign = 1
+
+[node name="lblScore" type="Label" parent="CanvasGameover"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -76.5
+margin_top = -23.5
+margin_right = 76.5
+margin_bottom = -6.5
+rect_pivot_offset = Vector2( 107.5, 9 )
+custom_fonts/font = SubResource( 7 )
+text = "SCORE:0000000000"
+align = 1
+valign = 1
+
+[node name="lblHighScore" type="Label" parent="CanvasGameover"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -106.0
+margin_top = 1.5
+margin_right = 106.0
+margin_bottom = 52.5
+custom_colors/font_color = Color( 0.870588, 0.733333, 0.0823529, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "Congratulations!!
+You've updated
+ High Score!!"
+align = 1
+
+[node name="lblHitAnyKey" type="Label" parent="CanvasGameover"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -72.5
+margin_top = -60.0
+margin_right = 72.5
+margin_bottom = -23.0
+custom_fonts/font = SubResource( 9 )
+text = "Push Shot Button
+TO RETURN TITLE"
+align = 1
+valign = 1
 
 [node name="CanvasScore" type="CanvasLayer" parent="."]
 visible = false
@@ -156,45 +203,35 @@ stream = ExtResource( 8 )
 [node name="StageClear" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource( 11 )
 
-[node name="DlgGameOver" type="Popup" parent="."]
+[node name="DlgPause" type="Popup" parent="."]
 pause_mode = 2
 margin_right = 256.0
 margin_bottom = 256.0
-script = ExtResource( 12 )
+script = ExtResource( 3 )
 
-[node name="ColorRect" type="ColorRect" parent="DlgGameOver"]
-margin_right = 256.0
-margin_bottom = 256.0
-color = Color( 0.0235294, 0.00784314, 0.223529, 0 )
-
-[node name="BtnGameOver" type="Button" parent="DlgGameOver/ColorRect"]
+[node name="ColorRect" type="ColorRect" parent="DlgPause"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -17.5
-margin_top = 15.0
-margin_right = 17.5
-margin_bottom = 35.0
-text = "Exit"
+margin_left = -128.0
+margin_top = -128.0
+margin_right = 128.0
+margin_bottom = 128.0
+color = Color( 0.0235294, 0.00784314, 0.211765, 0 )
 
-[node name="lblGameOver" type="Label" parent="DlgGameOver/ColorRect"]
-margin_left = 89.0
-margin_top = 66.0
-margin_right = 165.0
-margin_bottom = 80.0
-text = "GAME OVER"
+[node name="Button" type="Button" parent="DlgPause/ColorRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = -10.0
+margin_right = 50.0
+margin_bottom = 10.0
+text = "PAUSE"
 
-[node name="lblScore" type="Label" parent="DlgGameOver/ColorRect"]
-margin_left = 70.0
-margin_top = 98.0
-margin_right = 179.0
-margin_bottom = 112.0
-text = "SCORE:00000000"
-
-[connection signal="tree_exited" from="DlgPause" to="." method="_on_DlgPause_tree_exited"]
-[connection signal="pressed" from="DlgPause/ColorRect/Button" to="DlgPause" method="_on_Button_pressed"]
 [connection signal="timeout" from="SeqTimer" to="." method="_on_SeqTimer_timeout"]
 [connection signal="timeout" from="DspShakeTimer" to="." method="_on_DspShakeTimer_timeout"]
-[connection signal="tree_exited" from="DlgGameOver" to="." method="_on_DlgGameOver_tree_exited"]
-[connection signal="pressed" from="DlgGameOver/ColorRect/BtnGameOver" to="DlgGameOver" method="_on_BtnGameOver_pressed"]
+[connection signal="tree_exited" from="DlgPause" to="." method="_on_DlgPause_tree_exited"]
+[connection signal="pressed" from="DlgPause/ColorRect/Button" to="DlgPause" method="_on_Button_pressed"]

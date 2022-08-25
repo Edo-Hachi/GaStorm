@@ -541,9 +541,29 @@ func _process(delta: float) -> void:
 
 	#Game Over			
 	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
-		#ハイスコアチェック
-		#スコア表示
-		#ハイスコア表示
+		#$GameOverScrn.visible = true
+		$CanvasGameover.visible = true
+		
+		ScoreTxt= "Score:%010d" % GlobalNode.PlayerScore
+		$CanvasGameover/lblScore.text = ScoreTxt
+		
+		#GlobalNode.PlayerScore = 100
+		#GlobalNode.HighScore = 10
+		
+		var col = OS.get_ticks_usec()
+		if col % 3 == 0:
+			col = OS.get_ticks_usec() % GlobalNode.Colormax
+			$CanvasGameover/lblHitAnyKey.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
+		
+		if GlobalNode.HighScore < GlobalNode.PlayerScore:
+			$CanvasGameover/lblHighScore.visible = true
+		else:
+			$CanvasGameover/lblHighScore.visible = false
+		
+		if Input.is_action_pressed("Shot"):	
+			get_parent().GameTitleInit()
+			queue_free()
+
 		#キー入力でタイトルへ　
 		#print("Process GameOver")
 		return
@@ -563,10 +583,10 @@ func _on_DlgPause_tree_exited() -> void:
 		get_tree().paused = false	
  
 #GameOver Dlg
-func _on_DlgGameOver_tree_exited() -> void:
-	if get_owner() != null:
-		get_tree().paused = false
-	pass # Replace with function body.
+#func _on_DlgGameOver_tree_exited() -> void:
+#	if get_owner() != null:
+#		get_tree().paused = false
+#	pass # Replace with function body.
 
 
 
