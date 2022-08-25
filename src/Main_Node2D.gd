@@ -70,8 +70,8 @@ func _ready() -> void:
 	
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 	
-	GameScene = GameMainScen.instance()
-	add_child(GameScene)
+#	GameScene = GameMainScen.instance()
+#	add_child(GameScene)
 
 #
 func GameTitleInit():
@@ -87,17 +87,21 @@ func _process(delta: float) -> void:
 	if col % 3 == 0:
 		col = OS.get_ticks_usec() % GlobalNode.Colormax
 		$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
-		
-	if Input.is_action_pressed("BTN_START"):
-		GameStart()
-	if Input.is_action_pressed("BTN_QUIT"):
-		GameQuit()
+	
+	if GlobalNode.GameState == GlobalNode.GState.TITLE:	
+		if Input.is_action_pressed("BTN_START"):
+			GameStart()
+		if Input.is_action_pressed("BTN_QUIT"):
+			GameQuit()
 	
 	#yield(get_tree().create_timer(1.0),"timeout")
 
 func GameStart():
 	GlobalNode.GameState = GlobalNode.GState.GAMEPLAY
 	
+	GameScene = GameMainScen.instance()
+	add_child(GameScene)
+
 #	var gamescn = GameMainScen.instance()
 #	add_child(gamescn)
 	GameScene.GameStartInit()

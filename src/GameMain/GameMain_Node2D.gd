@@ -323,27 +323,27 @@ func GuntretCrush():
 	#print("GuntretCrush")
 	var ret = $RestGuntret.DeleteGuntret()
 	if ret < 0:
-		#print("GameOver")
+		print("Crush GameOver")
 		#----------------------------------------------------------------------------
 		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
-		
+		GlobalNode.SubState = GlobalNode.SUBSTATE.GAMEOVER
 		#	if Input.is_action_pressed("GameOver"):
 #		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
+
+		#get_tree().paused = true
+		#$DlgGameOver.visible = true
+		#$DlgGameOver.show_modal(true)
+		#return
+
 		$CanvasGameover.visible = true
-#
+
 		var timer = get_tree().create_timer(3)
 		yield(timer , "timeout")
-#
-
-		GlobalNode.GameState == GlobalNode.GState.TITLE
-		$Guntret.visible = false
-		$RestGuntret.visible = false
-		$CanvasScore.visible = false
-		$CanvasGameover.visible = false
 		
-		#EnemyList.clear()
 		
-		get_parent().GameTitleInit()
+		#get_parent().GameTitleInit()
+		#queue_free()
+		
 		#----------------------------------------------------------------------------
 
 #GameStartInit
@@ -361,10 +361,13 @@ func GameStartInit():
 	GlobalNode.PlayerScore = 0
 	#HighScore = 0
 	GlobalNode.GameTime = 0
-
-
+	
+	#自機のホームポジション
+	$Guntret.position.x = GuntretHomePosX
+	$Guntret.position.y = GuntretHomePosY
+	
 	FlgStageClear = false
-
+	
 	LoopSeqEnd=false
 	GlobalNode.EnemyFormationFinished = false
 
@@ -375,11 +378,15 @@ func GameStartInit():
 	$RestGuntret.visible = true
 	$CanvasScore.visible = true
 	
-	#残基
+	#残機
 #	$RestGuntret.SetRestGuntert(5)
 	$RestGuntret.SetRestGuntert(2)
 	
-	EnemyList.clear()
+	#エネミーリストを初期化　
+#	if EnemyList.size() != 0:
+#		for eml in EnemyList:
+#			eml.queue_free()
+#		EnemyList.clear()
 	
 	$Sound/StartMusic.play()
 	
@@ -422,10 +429,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	GlobalNode.GameTime+=1
 	
-	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
+	#ゲームステートがプレイ中、ゲームオーバーの時いがいは弾く
+	if GlobalNode.GameState == GlobalNode.GState.TITLE:
 		return
+	
+	GlobalNode.GameTime+=1
 	
 	var ScoreTxt= "Score:%010d" % GlobalNode.PlayerScore
 	$CanvasScore/lblScore.text = ScoreTxt
@@ -440,7 +449,7 @@ func _process(delta: float) -> void:
 			
 			#debug 最終的には、Window.Height+32あたりからホームポジションにフレームインするアニメーションを実装したい　
 		
-		GlobalNode.SUBSTATE.STAGE_PLAY:
+		GlobalNode.SUBSTATE.STAGE_PLAY, GlobalNode.SUBSTATE.GAMEOVER:
 			
 			#エネミーの左右移動アニメーション	
 			#もちっとスマートに書けないか？
@@ -455,17 +464,17 @@ func _process(delta: float) -> void:
 			
 			 #エネミーのフォーメーション攻撃開始
 			if GlobalNode.EnemyFormationAttack == true:
-
-				if randi()%100 == 1:
-					var EnemyMax = EnemyList.size()
-					var EnemyId = randi()%EnemyMax
-					var EnemyObj = EnemyList[EnemyId]
-					EnemyObj.SetEnemyState(GlobalNode.EnemyStateID.STAT_ATTACK)
-					pass
-
 				#print("Attack:", EnemyId)
+				pass
+
+#				if randi()%100 == 1:
+#					var EnemyMax = EnemyList.size()
+#					var EnemyId = randi()%EnemyMax
+#					var EnemyObj = EnemyList[EnemyId]
+#					EnemyObj.SetEnemyState(GlobalNode.EnemyStateID.STAT_ATTACK)
+#					pass
+
 				
-			pass
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			$Sound/StartMusic.stop()
 			yield(get_tree().create_timer(0.5), "timeout")
@@ -530,9 +539,15 @@ func _process(delta: float) -> void:
 				yield(get_tree().create_timer(0.5), "timeout")
 				$Sound/StartMusic.play(0.0)
 
+	#Game Over			
+	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
+		#ハイスコアチェック
+		#スコア表示
+		#ハイスコア表示
+		#キー入力でタイトルへ　
+		#print("Process GameOver")
+		return
 
-
-				#----------------------------------------------------------------
 	
 	#Pause r--------------------------------------------------------------
 	if Input.is_action_pressed("Pause"):
@@ -541,28 +556,20 @@ func _process(delta: float) -> void:
 		$DlgPause.show_modal(true)
 	
 
-#debug--------------------------------------------------------------
-#	if Input.is_action_pressed("GameOver"):
-#		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
-#		$CanvasGameover/Node2D.visible = true
-#
-#		var timer = get_tree().create_timer(3) #falseにしないとポーズした時に止まってくれない
-#		yield(timer , "timeout")
-#
-#		$Guntret.visible = false
-#		$RestGuntret.visible = false
-#		$CanvasScore.visible = false
-#
-#		GlobalNode.GameState == GlobalNode.GState.TITLE
-#		get_parent().GameTitleInit()
-#debug--------------------------------------------------------------
-
 
 #ポーズダイアログを閉じた時の処理
 func _on_DlgPause_tree_exited() -> void:
 	if get_owner() != null:
 		get_tree().paused = false	
  
+#GameOver Dlg
+func _on_DlgGameOver_tree_exited() -> void:
+	if get_owner() != null:
+		get_tree().paused = false
+	pass # Replace with function body.
+
+
+
 
 # 1/60 で呼ばれます
 #各タイマカウントを更新し、シーケンス処理を呼び出します
@@ -598,3 +605,7 @@ func _on_DspShakeTimer_timeout() -> void:
 	else:
 		position.x = 0
 		position.y = 0
+
+
+
+

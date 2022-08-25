@@ -29,7 +29,11 @@ func _process(delta: float) -> void:
 
 	
 	#ゲームプレイ中でなおかつステージ実行中でなかったらリターンさせちゃう
-	if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
+	#if GlobalNode.GameState != GlobalNode.GState.GAMEPLAY:
+	if GlobalNode.GameState == GlobalNode.GState.TITLE:
+		return
+	
+	if GlobalNode.SubState == GlobalNode.SUBSTATE.GAMEOVER:
 		return
 	
 	#自機クラッシュ中　
