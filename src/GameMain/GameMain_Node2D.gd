@@ -67,12 +67,17 @@ var EnemySequence #実行中のシーケンス
 var EnemySeqList = [] #実行するシーケンスの辞書リスト
 var EnemySeqStageNum = 0	#実行中のステージ番号
 #$EnemyScript.StateSeq01, $EnemyScript.StateSeq02]
+
+#		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
+var EnemyAttackRate : int	#エネミーが攻撃耐性に入る確率
+var EnemyShotRate : int	#エネミーが弾を撃ってくる確率
+var EnemyShotAim : bool	#自機狙い弾を撃ってくるかどうか true/false
+
 #----------------------------------------------------------------------------
 
 var _GameOverTimer : float = 0.0
 
-var FormationEnemyTimer = 0	#エネミーの隊列アニメ
-
+var FormationEnemyTimer = 0	#エネミーの隊列アニメタイマ
 
 #自機のホームポジション
 const GuntretHomePosX = GlobalNode.ScreenWidth / 2
@@ -140,8 +145,21 @@ func SeqState():
 			if SeqTimerGbl == Seq["Time"]:
 				#print("GrobalTime Process ", Seq["Time"], "Time")
 				SeqPtr+=1
+
+#		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
+		"EnemyStrength":
+				EnemyAttackRate = Seq["Attack"]
+				EnemyShotRate  = Seq["Shot"]
+				EnemyShotAim  = Seq["Aim"]
+				SeqPtr+=1
+#		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
+#		var EnemyAttackRate	#エネミーが攻撃耐性に入る確率
+#		var EnemyShotRate	#エネミーが弾を撃ってくる確率
+#		var EnemyShotAim	#自機狙い弾を撃ってくるかどうか true/false
+			
+		
 		"LoopEnmy":
-			LoopEnemySpawn(Seq["LoopType"], Seq["Color"], Seq["Matrix"])
+			LoopEnemySpawn(Seq["LoopType"], Seq["Color"], Seq["Matrix"], Seq["Spd"])
 			SeqPtr+=1
 		
 		"FormationFlg":
@@ -212,8 +230,8 @@ func SeqState():
 
 
 #--------------------------------------------
-func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2) -> void:
-
+func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2, var Speed:float) -> void:
+	#print("GetSpd", Speed)
 	#オブジェクト生成	
 	var ScnLoop = EnemyLoopScene.instance()	#ループ
 	var ScnEnemy = EnemyScene.instance()	#エネミー
@@ -222,6 +240,12 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	var enid = ScnEnemy.get_instance_id()
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
+	ScnEnemy.SetEnemyAttackRate(EnemyAttackRate, EnemyShotRate, EnemyShotAim)	
+		
+#				EnemyAttackRate = Seq["Attack"]
+#				EnemyShotRate  = Seq["Shot"]
+#				EnemyShotAim  = Seq["Aim"]
+
 
 #debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
 	#var EnemyFormation # hold 1=move_outside 2=move_inner
@@ -242,6 +266,7 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	#ループ生成-------------------------------------------
 	var loopid = ScnLoop.get_instance_id()
 	ScnLoop.InitLoopEnemies(ScnEnemy,loopid, LoopType)
+	ScnLoop.SetUnifOffset(Speed)
 	add_child(ScnLoop)
 	#ループ生成-------------------------------------------
 
@@ -311,7 +336,7 @@ func GuntretCrush():
 	#print("GuntretCrush")
 	var ret = $RestGuntret.DeleteGuntret()
 	if ret < 0:
-		print("Crush GameOver")
+		#print("Crush GameOver")
 		#----------------------------------------------------------------------------
 		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
 		GlobalNode.SubState = GlobalNode.SUBSTATE.GAMEOVER
@@ -322,12 +347,17 @@ func GuntretCrush():
 		#$DlgGameOver.visible = true
 		#$DlgGameOver.show_modal(true)
 		#return
+		
+		$Sound/StartMusic.stop()
+		$Sound/BackScroll.stop()
+		
+		yield(get_tree().create_timer(0.5) , "timeout")
 
+		$Sound/GameOver.play()
+		yield(get_tree().create_timer(0.5) , "timeout")
+		
 		$CanvasGameover.visible = true
 
-		var timer = get_tree().create_timer(3)
-		yield(timer , "timeout")
-		
 		
 		#get_parent().GameTitleInit()
 		#queue_free()
@@ -370,13 +400,10 @@ func GameStartInit():
 #	$RestGuntret.SetRestGuntert(5)
 	$RestGuntret.SetRestGuntert(2)
 	
-	#エネミーリストを初期化　
-#	if EnemyList.size() != 0:
-#		for eml in EnemyList:
-#			eml.queue_free()
-#		EnemyList.clear()
 	
 	$Sound/StartMusic.play()
+#	$Sound/BackScroll.play()
+
 	
 	GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 	
@@ -458,8 +485,6 @@ func _process(delta: float) -> void:
 		#--------------------------------------------------	
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			
-			
-			
 			$Sound/StartMusic.stop()
 			yield(get_tree().create_timer(0.5), "timeout")
 			#Clear Music
@@ -512,7 +537,6 @@ func _process(delta: float) -> void:
 				LoopSeqEnd=false
 				SeqEnable = true
 				
-				
 				$CanvasStageClear.visible = false
 				
 				FlgStageClear = false
@@ -521,17 +545,16 @@ func _process(delta: float) -> void:
 				
 					
 				yield(get_tree().create_timer(0.5), "timeout")
-				$Sound/StartMusic.play(0.0)
+				#$Sound/StartMusic.play(0.0)
+				$Sound/StartMusic.play()
 
 	#Game Over	----------------------------------------------------------------		
 	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
+		#初回呼び出しの時だけハイスコア処理してる　
 		if HighScoreCheck == false:
+			$CanvasGameover/lblScore.text = "Score:%010d" % GlobalNode.PlayerScore
 			HighScoreCheck = true
 			if GlobalNode.HighScore < GlobalNode.PlayerScore:
-				#print("High Score")
-				
-				$CanvasGameover/lblScore.text = "Score:%010d" % GlobalNode.PlayerScore
-
 				$CanvasGameover/lblHighScore.visible = true
 				GlobalNode.HighScore = GlobalNode.PlayerScore
 				GlobalNode.DataSave()
@@ -539,21 +562,27 @@ func _process(delta: float) -> void:
 				#print("not High Score")
 				$CanvasGameover/lblHighScore.visible = false
 		
+		#ゲームオーバー
+		$CanvasGameover/lblHitAnyKey.visible = false
 		$CanvasGameover.visible = true
+
 		
+		yield(get_tree().create_timer(5), "timeout")
 		
+
+		$CanvasGameover/lblHitAnyKey.visible = true
+
 		var col = OS.get_ticks_usec()
 		if col % 3 == 0:
 			col = OS.get_ticks_usec() % GlobalNode.Colormax
 			$CanvasGameover/lblHitAnyKey.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 			
-		if Input.is_action_pressed("Shot"):	
+		if Input.is_action_just_pressed("Shot"):	
 			get_parent().GameTitleInit()
 			queue_free()
 		#キー入力でタイトルへ　
 		#print("Process GameOver")
 		return
-
 	
 	#Pause r--------------------------------------------------------------
 	if Input.is_action_pressed("Pause"):

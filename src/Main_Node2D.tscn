@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://asset/Font/zig.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://asset/Font/aerial.ttf" type="DynamicFontData" id=2]
@@ -20,29 +20,43 @@ font_data = ExtResource( 2 )
 font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 10
+size = 9
 font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 14
+font_data = ExtResource( 7 )
 
 [node name="MainScene" type="Node2D"]
 scale = Vector2( 1, 0.993575 )
 script = ExtResource( 3 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 256.0
-margin_bottom = 256.0
-color = Color( 0, 0, 0.0784314, 1 )
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 288.0
+margin_bottom = 288.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="BackGroundStars" parent="." instance=ExtResource( 4 )]
+[node name="CanvasBg" type="CanvasLayer" parent="."]
 
-[node name="BgImage1" type="Sprite" parent="."]
-position = Vector2( 128, 128.828 )
-scale = Vector2( 1.03516, 1.02682 )
+[node name="BgImage1" type="Sprite" parent="CanvasBg"]
+position = Vector2( 128, 128 )
+scale = Vector2( 1.03516, 1.02022 )
 texture = ExtResource( 9 )
 
-[node name="BgImage2" type="Sprite" parent="."]
+[node name="BgImage2" type="Sprite" parent="CanvasBg"]
 visible = false
-position = Vector2( 128, 128.828 )
+position = Vector2( 128, 128 )
+scale = Vector2( 1, 0.993575 )
 texture = ExtResource( 8 )
+
+[node name="BackGroundStars" parent="CanvasBg" instance=ExtResource( 4 )]
+visible = false
+scale = Vector2( 1, 0.993575 )
 
 [node name="CanvasTitle" type="CanvasLayer" parent="."]
 
@@ -50,9 +64,9 @@ texture = ExtResource( 8 )
 
 [node name="BtnStart" type="Button" parent="CanvasTitle/TitleNode"]
 margin_left = 78.0
-margin_top = 142.0
+margin_top = 152.0
 margin_right = 177.0
-margin_bottom = 168.0
+margin_bottom = 178.0
 rect_pivot_offset = Vector2( 50, 0 )
 custom_fonts/font = SubResource( 2 )
 text = "[S]tart"
@@ -62,16 +76,16 @@ flat = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = 92.0
-margin_top = 172.0
+margin_top = 182.0
 margin_right = 166.0
-margin_bottom = 198.0
+margin_bottom = 208.0
 rect_pivot_offset = Vector2( 35, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "[Q]uit"
 flat = true
 
 [node name="GastormTitle" type="Sprite" parent="CanvasTitle/TitleNode"]
-position = Vector2( 127, 84 )
+position = Vector2( 127, 92 )
 scale = Vector2( 1.04265, 0.993575 )
 texture = ExtResource( 5 )
 
@@ -95,23 +109,37 @@ text = "HIGHSCORE:0000000000"
 align = 1
 valign = 1
 
+[node name="lblVersion" type="Label" parent="CanvasTitle"]
+margin_left = 181.0
+margin_top = 3.0
+margin_right = 255.0
+margin_bottom = 22.0
+custom_colors/font_color = Color( 0, 0.0627451, 0.843137, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "Ver Txt"
+align = 2
+
+[node name="lblCopyRight" type="Label" parent="CanvasTitle"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -46.0
+margin_top = -19.0
+margin_right = 125.0
+margin_bottom = -2.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 6 )
+text = "(c)2022 Nekoya-Koubou"
+align = 1
+valign = 1
+
 [node name="GodotLogo" type="CanvasLayer" parent="."]
 visible = false
 
 [node name="GodotKun200" type="Sprite" parent="GodotLogo"]
 position = Vector2( 127, 122 )
 texture = ExtResource( 6 )
-
-[node name="lblVersion" type="Label" parent="."]
-margin_left = 179.0
-margin_top = 240.006
-margin_right = 253.0
-margin_bottom = 259.006
-custom_colors/font_color = Color( 0.0156863, 0.0117647, 0.172549, 1 )
-custom_fonts/font = SubResource( 4 )
-text = "Ver Txt"
-align = 1
-valign = 1
 
 [connection signal="button_down" from="CanvasTitle/TitleNode/BtnStart" to="." method="_on_BtnStart_button_down"]
 [connection signal="button_down" from="CanvasTitle/TitleNode/BtnQuit" to="." method="_on_BtnQuit_button_down"]

@@ -6,6 +6,10 @@ var EnemyId	#Enemy Object instance ID
 var LoopId	#Loop Object instance ID
 
 var LoopPathObj : Object
+var UnitOffset : float = 0.5
+
+func SetUnifOffset(var uofs : float):
+	UnitOffset = uofs
 
 func InitLoopEnemies(var enemy_id, var loop_id, var looptype):
 	EnemyId = enemy_id
@@ -31,17 +35,15 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#LoopPathObj = null
+	#UnitOffset = 0.5
 	pass
 
 func _process(delta: float) -> void:
-	#if typeof(LoopPathObj) != TYPE_NODE_PATH:
-	#	return
-#	if LoopPathObj == null:
-#		return
 	
-	LoopPathObj.unit_offset += 0.6 * delta
+	LoopPathObj.unit_offset += (UnitOffset * delta)
 	EnemyId.position = LoopPathObj.position
 	EnemyId.rotation_degrees = LoopPathObj.rotation_degrees - 90
+	
 	
 	if 1<= LoopPathObj.unit_offset:
 		EnemyId.rotation_degrees = 0

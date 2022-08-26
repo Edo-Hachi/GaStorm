@@ -92,8 +92,6 @@ func DataLoad():
 			hs = ret.result["HighScore"]
 			UserData["HighScore"] = hs
 			HighScore = hs
-
-			print(HighScore)
 		else:
 			DataSave()
 	else:

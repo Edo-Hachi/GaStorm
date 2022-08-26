@@ -2,6 +2,9 @@
 
 #締切は9/5だと思え!!!!!!
 
+#サウンドの変更シーケンスコマンド実装
+#BGM(バックスクロール時と切り替え)
+
 # 0828, 0829--------------------------
 #2,3,4面くらいはつくってみよう
 #4,8面はバックスクロール
@@ -27,15 +30,15 @@
 #隊列に整列時の緑は50点、赤は100点
 #攻撃中は隊列時の二倍とか
 
+#自機のリスポン時のアニメーション
 
-#音
-#BGM
 #自機の移動処理をkineticに変更
 
 #==========================================
 #Finish Task
 #==========================================
 # 0826, 0827--------------------------
+#ゲームオーバー曲
 #敵の弾発射(将来的な弾幕系の実装も視野に)
 #敵の攻撃（下に降りてくる　）
 
@@ -78,20 +81,21 @@ func _ready() -> void:
 	
 	GlobalNode.DataLoad()
 	
-	$BackGroundStars.SetStarSpeed(10,1)
+	$CanvasBg/BackGroundStars.SetStarSpeed(10,1)
 	#$BackGroundStars.StarSpeed = 10
 	
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 	
-	$lblVersion.text = GlobalNode.Version
+	$CanvasTitle/lblVersion.text = GlobalNode.Version
 #	GameScene = GameMainScen.instance()
 #	add_child(GameScene)
 
 #
 func GameTitleInit():
 	GlobalNode.GameState = GlobalNode.GState.TITLE
-	$CanvasTitle/TitleNode.visible = true
-	$BackGroundStars.SetStarSpeed(10,1)
+	$CanvasTitle.visible = true
+	$CanvasBg.visible = true
+	$CanvasBg/BackGroundStars.SetStarSpeed(10,1)
 	
 
 func _process(delta: float) -> void:
@@ -103,29 +107,31 @@ func _process(delta: float) -> void:
 
 	
 	if GlobalNode.GameState == GlobalNode.GState.TITLE:	
-		if Input.is_action_pressed("BTN_START"):
+		#if Input.is_action_pressed("BTN_START"):
+		if Input .is_action_just_pressed("BTN_START"):
 			GameStart()
-		if Input.is_action_pressed("BTN_QUIT"):
+		#if Input.is_action_pressed("BTN_QUIT"):
+		if Input.is_action_just_pressed("BTN_QUIT"):
 			GameQuit()
 
-		if Input.is_action_pressed("ui_up"):
+		if Input.is_action_just_pressed("ui_up"):
 			CmdId = 0
-		elif Input.is_action_pressed("ui_down"):
+		elif Input.is_action_just_pressed("ui_down"):
 			CmdId = 1
 
 		var col = OS.get_ticks_usec()
 		if col % 4 == 0:
 			col = OS.get_ticks_usec() % GlobalNode.Colormax
 		
-			$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color",  ColorN("navyblue"))
-			$CanvasTitle/TitleNode/BtnQuit.add_color_override("font_color", ColorN("navyblue"))
+			$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color",  ColorN("darkgray"))
+			$CanvasTitle/TitleNode/BtnQuit.add_color_override("font_color", ColorN("darkgray"))
 			
 			if  CmdId == 0:
 				$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 			elif CmdId == 1:
 					$CanvasTitle/TitleNode/BtnQuit.add_color_override("font_color",  ColorN(GlobalNode.ColorName[col]))
 		
-		if Input.is_action_pressed("Shot") or  Input.is_action_pressed("ui_accept"):
+		if Input.is_action_just_pressed("Shot") or  Input.is_action_just_pressed("ui_accept"):
 			if CmdId == 0:
 				GameStart()
 			elif CmdId == 1:
@@ -142,7 +148,8 @@ func GameStart():
 #	add_child(gamescn)
 	GameScene.GameStartInit()
 	
-	$CanvasTitle/TitleNode.visible = false
+	$CanvasTitle.visible = false
+	$CanvasBg.visible = false
 	
 	
 #	var aa= get_node("/root/GameMain/GameMain_Node2D")

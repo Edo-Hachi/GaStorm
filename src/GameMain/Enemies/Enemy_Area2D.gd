@@ -29,8 +29,9 @@ var ScoreMulti = 1	#スコア計算時の係数
 var BackScroll = false
 
 #エネミーの攻撃強度	　
-var EnemyAttackRate = 4000	
-var EnemyShotRate = 4000
+var EnemyAttackRate : int =   4000	
+var EnemyShotRate : int = 4000
+var EnemyAim : bool = false
 
 #var ReturnToHomeState = 0
 
@@ -93,8 +94,10 @@ func ActivateFormation():
 	pass
 
 #エネミーの攻撃発生強度設定　
-func SetEnemyAttackRate(var rate):
-	EnemyAttackRate = rate
+func SetEnemyAttackRate(var atack : float, var shot : float , var aim:bool):
+	EnemyAttackRate = atack
+	EnemyShotRate  = shot
+	EnemyAim  = aim
 
 func EnemyFormationMove(delta: float):
 	var x1 = 12 * 3
@@ -135,14 +138,27 @@ func EnemyFormationMove(delta: float):
 			position = position.move_toward(MatrixWorldPos, 40 * delta)
 			pass
 
+#弾発射
+func ShotBullet():
+	if EnemyShotRate == -1:
+		return
+	
+	if randi()%EnemyShotRate == 1:
+		if EnemyAim == false:
+			get_parent().ShotEnemyBullet(position, 0) #真下狙い
+		else:
+			if randi()%2:
+				get_parent().ShotEnemyBullet(position, 0) #直狙い
+			else:
+				get_parent().ShotEnemyBullet(position, 1) #真下狙い
+
 func _process(delta: float) -> void:
 	match EnemyState:
 		#出現ループ中処理
 		GlobalNode.EnemyStateID.STAT_LOOP:
 			#適当に弾をばらまく
 			if 10 < position.y:
-				if randi() % EnemyShotRate == 0:
-					get_parent().ShotEnemyBullet(position, 0)	#0=真下
+				ShotBullet()
 			
 		#ホームポジションへの移動
 		GlobalNode.EnemyStateID.STAT_GOHOME:
@@ -163,21 +179,19 @@ func _process(delta: float) -> void:
 		GlobalNode.EnemyStateID.STAT_FORMATION: # ,GlobalNode.EnemyStateID.STAT_ATTACK: 
 			EnemyFormationMove(delta)
 			
+			#エネミーの死亡フラグが立っていたら弾く	
 			if Alive == false:
 				return	
 
 			#弾を発射するか？
-			if randi()%EnemyShotRate == 1:
-				get_parent().ShotEnemyBullet(position, 1) #直狙い
-				#get_parent().ShotEnemyBullet(position, 0) #真下狙い
-				
-				pass
-
+			ShotBullet()
+			
 			#攻撃を行うか？
-			if randi()%EnemyAttackRate == 1:
-				EnemyState = GlobalNode.EnemyStateID.STAT_ATTACK
-				FlameCounter=0
-				PreparCnt = 0
+			if EnemyAttackRate != -1:
+				if randi()%EnemyAttackRate == 1:
+					EnemyState = GlobalNode.EnemyStateID.STAT_ATTACK
+					FlameCounter=0
+					PreparCnt = 0
 		
 		GlobalNode.EnemyStateID.STAT_ATTACK: #攻撃中
 			FlameCounter+=1
@@ -208,16 +222,16 @@ func _process(delta: float) -> void:
 					else:	
 						FlameCounter = 0
 					
+					#エネミーの攻撃
+					ShotBullet()
+					
 					# 画面外に出たらホームポジションへ戻す　
 					if GlobalNode.ScreenHeight + 32 <  position.y:
 						position.y = -32
 						position.x = randi()%GlobalNode.ScreenWidth + 1
 						EnemyState = GlobalNode.EnemyStateID.STAT_GOHOME
 						EnemyAtackState = ATTACKSTATE.Prepar
-
-					if randi()%EnemyShotRate == 1:
-						#get_parent().ShotEnemyBullet(position, 1) #直狙い
-						get_parent().ShotEnemyBullet(position, 0) #真下狙い
+					
 	
 #プレイヤー機、プレイヤーショットに当たった
 func _on_EnemyObject_area_entered(area: Area2D) -> void:

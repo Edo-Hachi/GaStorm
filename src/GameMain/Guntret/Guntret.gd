@@ -18,7 +18,7 @@ func _ready() -> void:
 	GuntretCrushCount=0
 
 #debug-------------------------------	
-	$CollisionShape2D.set_deferred("disabled", true)
+#	$CollisionShape2D.set_deferred("disabled", true)
 #debug-------------------------------	
 	
 	
@@ -58,7 +58,7 @@ func _process(delta: float) -> void:
 			$CollisionShape2D.set_deferred("disabled", false)
 
 #debug-------------------------------	
-			$CollisionShape2D.set_deferred("disabled", true)
+#			$CollisionShape2D.set_deferred("disabled", true)
 #debug-------------------------------	
 	
 	#ステージクリアアニメーション中はキー入力キャンセル　
@@ -125,7 +125,6 @@ func _on_Guntret_area_entered(area: Area2D) -> void:
 	#画面揺らす
 	get_parent().DispShakeStart(10, 50)
 
-
 	var explode = ExplodeScene.instance()
 	explode.SetParticle(position.x, position.y, 40)
 	get_parent().add_child(explode)	
@@ -133,7 +132,3 @@ func _on_Guntret_area_entered(area: Area2D) -> void:
 	visible = false
 	
 	get_parent().GuntretCrush()
-
-	#position.x = 128
-	#position.y = 240
-
