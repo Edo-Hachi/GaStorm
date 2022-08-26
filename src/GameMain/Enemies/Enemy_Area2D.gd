@@ -58,11 +58,11 @@ func SetEnemyColor(var enemyColor : int):
 			ScoreMulti = Life
 		GlobalNode.EnemyColor.Red:
 			$AnimatedSprite.animation = "Red"
-			Life = 1
+			Life = 2
 			ScoreMulti = Life
 		GlobalNode.EnemyColor.Purple:
 			$AnimatedSprite.animation = "Puraple"
-			Life = 1
+			Life = 3
 			ScoreMulti = Life
 			
 func SetEnemyMatrix(var matrix : Vector2, var matri_xworld : Vector2):
@@ -138,6 +138,21 @@ func EnemyFormationMove(delta: float):
 			position = position.move_toward(MatrixWorldPos, 40 * delta)
 			pass
 
+#Invader Mode!!
+func EnemyInvaderMove(delta: float):
+	if GlobalNode.InvaderDir == 0:
+		position.x -= 30 * delta
+		if position.x < 32:
+			GlobalNode.InvaderDir = 1
+			GlobalNode.EnemyOffsetY += 8
+	else:
+		position.x +=  30 * delta
+		if position.x > GlobalNode.ScreenWidth - 32:
+			GlobalNode.InvaderDir = 0
+			GlobalNode.EnemyOffsetY += 8
+		
+	position.y = MatrixWorldPos.y + GlobalNode.EnemyOffsetY
+
 #弾発射
 func ShotBullet():
 	if EnemyShotRate == -1:
@@ -177,7 +192,10 @@ func _process(delta: float) -> void:
 		
 		#隊列編成時処理
 		GlobalNode.EnemyStateID.STAT_FORMATION: # ,GlobalNode.EnemyStateID.STAT_ATTACK: 
-			EnemyFormationMove(delta)
+			if GlobalNode.EnemyInvader == true && GlobalNode.SeqState == false:
+				EnemyInvaderMove(delta)
+			else:
+				EnemyFormationMove(delta)
 			
 			#エネミーの死亡フラグが立っていたら弾く	
 			if Alive == false:

@@ -154,7 +154,6 @@ func SeqState():
 #		var EnemyAttackRate	#エネミーが攻撃耐性に入る確率
 #		var EnemyShotRate	#エネミーが弾を撃ってくる確率
 #		var EnemyShotAim	#自機狙い弾を撃ってくるかどうか true/false
-			
 		
 		"LoopEnmy":
 			LoopEnemySpawn(Seq["LoopType"], Seq["Color"], Seq["Matrix"], Seq["Spd"])
@@ -174,6 +173,8 @@ func SeqState():
 			GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.STOP
 			GlobalNode.BgScrollReverse = false
 			GlobalNode.EnemyFormationAttack = false
+			
+			GlobalNode.SeqState = true	#シーケンス実行中
 
 			#GlobalNode.EnemyFormationFinished = false #すべてのエネミーがloop後にホームポジションに戻るとこのフラグがtrueになる
 			
@@ -214,6 +215,15 @@ func SeqState():
 			#print("Sqe End")
 			SeqEnable=false		#シーケンサ処理停止
 			LoopSeqEnd = true	#出現ループ完了フラグOn
+			GlobalNode.SeqState = false	#シーケンス実行中
+			#GlobalNode.InvaderTimer = 0
+			
+			#インベーダー面　
+			#if EnemySeqStageNum == 4:
+			if EnemySeqStageNum == 0:	#debug
+				GlobalNode.EnemyInvader = true
+				GlobalNode.InvaderDir = 0
+
 			
 			#敵が0だったらステージクリアにする
 			#バックスクロール面、ブロック崩し面、インベーダー面などでこの処理が走るはず　
@@ -321,7 +331,14 @@ func GuntretCrush():
 		$CanvasGameover.visible = true
 		
 #var Inv_Move = 0
-#func Process_Invader():
+func Process_Invader(delta: float):
+	#------------------
+	GlobalNode.EnemyInvader = true
+	#GlobalNode.InvaderDir = 0
+	#var InvaderLeftX
+	#var InvaderRightX
+#------------------
+
 		
 
 
@@ -436,9 +453,9 @@ func _process(delta: float) -> void:
 		GlobalNode.SUBSTATE.STAGE_PLAY, GlobalNode.SUBSTATE.GAMEOVER:
 			
 			#if EnemySeqStageNum == 4:
-			#if EnemySeqStageNum == 0:
+			if EnemySeqStageNum == 0:	#debug
 				#print("Invador")
-				#Process_Invader()
+				Process_Invader(delta)
 			
 			#エネミーの左右移動アニメーション	
 			#もちっとスマートに書けないか？
