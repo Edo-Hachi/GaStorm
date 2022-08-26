@@ -6,8 +6,8 @@ var Speed = 100
 var velocity : Vector2
 var ToPosition : Vector2
 
-const DEG = 0
-const TOW = 1
+const DEG = 0	#真下へ
+const TOW = 1	#狙った座標へ　
 
 var MoveMode = DEG
 
@@ -17,14 +17,16 @@ func SetPos(var pos : Vector2):
 	position = pos
 
 #出現位置からの角度での移動
-func SetDegrees(var degrs):
+func SetDegrees(var degrs, var spd):
 	rotation_degrees = degrs
+	Speed = spd
 	MoveMode = DEG
 
 #出現位置から目標座標への移動
-func SetToword(var tow : Vector2):
+func SetToword(var tow : Vector2, var spd):
 	velocity = Vector2((tow.x - position.x), (tow.y - position.y))
 	velocity = velocity.normalized()
+	Speed = spd
 	MoveMode = TOW	
 
 #SpeedSet
@@ -34,25 +36,6 @@ func SetSpeed(var spd):
 func _ready() -> void:
 	#移動角度設定
 	rotation_degrees = 90
-
-
-	#debug
-	#position.x = 100
-	#position.y = 100
-	
-	#debug----------------
-	#ToPosition.x = 50
-	#ToPosition.y = 250
-	#velocity = Vector2((ToPosition.x - position.x), (ToPosition.y - position.y))
-	#debug----------------
-	
-
-	#velocity = velocity.normalized()
-	
-	
-	#velocity = Vector2(100,100).rotated(0)
-	#pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

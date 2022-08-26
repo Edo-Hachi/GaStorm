@@ -16,6 +16,12 @@ var GuntretCrushCount = 0
 func _ready() -> void:
 	GuntretCrush = false
 	GuntretCrushCount=0
+
+#debug-------------------------------	
+	$CollisionShape2D.set_deferred("disabled", true)
+#debug-------------------------------	
+	
+	
 	pass
 	
 func _process(delta: float) -> void:
@@ -50,6 +56,10 @@ func _process(delta: float) -> void:
 			GuntretCrush = false
 			visible = true
 			$CollisionShape2D.set_deferred("disabled", false)
+
+#debug-------------------------------	
+			$CollisionShape2D.set_deferred("disabled", true)
+#debug-------------------------------	
 	
 	#ステージクリアアニメーション中はキー入力キャンセル　
 	if GlobalNode.SubState ==  GlobalNode.SUBSTATE.STAGE_CLEAR:

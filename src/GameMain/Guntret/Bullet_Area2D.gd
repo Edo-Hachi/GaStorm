@@ -24,8 +24,6 @@ func _process(delta: float) -> void:
 	if position.y < -16:
 		queue_free()
 
-	
-
 #Bullet Hit Enemy
 func _on_Bullet_Area2D_area_entered(area: Area2D) -> void:
 	

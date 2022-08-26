@@ -28,10 +28,21 @@ var Life : int = 1
 var ScoreMulti = 1	#スコア計算時の係数
 var BackScroll = false
 
+#エネミーの攻撃強度	　
+var EnemyAttackRate = 4000	
+
 #var ReturnToHomeState = 0
 
 #エネミーの行動ステート
 var EnemyState = GlobalNode.EnemyStateID.STAT_LOOP
+
+enum ATTACKSTATE{
+	Prepar = 0,
+	MoveAttack = 1
+}
+var EnemyAtackState = ATTACKSTATE.Prepar
+var PreparCnt = 0
+
 
 func SetEnemyId(var enemyid):
 	EnemyID = enemyid
@@ -74,21 +85,15 @@ func SetPositon(var x, var y):
 func SetEnemyState(var stat):
 	#print("SetEnemyState Called")
 	EnemyState = stat
-	
-#	if stat == GlobalNode.EnemyStateID.STAT_ATTACK:
-#		print("Attack Modde")
-
-	#EnemyState = EnemyStateID.STAT_FORMATION
-
-#ホームポジションへの移動完了状態を返す
-#HomePosition = 0  Move = 1
-#func GetHomeState() -> int:
-#	return ReturnToHomeState
 
 #フォーメーションアニメーション開始（GameMainでの全エネミーホームポジション達成条件成立から投げられてくる）
 func ActivateFormation():
 	EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
 	pass
+
+#エネミーの攻撃発生強度設定　
+func SetEnemyAttackRate(var rate):
+	EnemyAttackRate = rate
 
 func EnemyFormationMove(delta: float):
 	var x1 = 12 * 3
@@ -136,16 +141,14 @@ func _process(delta: float) -> void:
 			#適当に弾をばらまく
 			if 10 < position.y:
 				if randi() % 100 == 0:
-					get_parent().ShotEnemyBullet(position)
+					get_parent().ShotEnemyBullet(position, 0)
 			
 		#ホームポジションへの移動
 		GlobalNode.EnemyStateID.STAT_GOHOME:
 			#print("Call Go Home")
 			position = position.move_toward(MatrixWorldPos, Speed * delta)
 			rotation += 30
-			#if 30 <= Speed:
 			Speed += 5
-				#Speed -= 2
 			
 			if position == MatrixWorldPos:
 				#EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
@@ -154,40 +157,61 @@ func _process(delta: float) -> void:
 				#フォーメーションアニメ実行ステートに移行
 				EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
 				return
-				pass
-				#ReturnToHomeState = 0	#ホームポジションに戻ったら0セット
-				
-				#get_parent().AppendEnemy(EnemyID)
-
-				#print("Touchaku")
 		
 		#隊列編成時処理
-		
-		GlobalNode.EnemyStateID.STAT_FORMATION:
+		GlobalNode.EnemyStateID.STAT_FORMATION: # ,GlobalNode.EnemyStateID.STAT_ATTACK: 
 			EnemyFormationMove(delta)
-			pass
+			
+			if Alive == false:
+				return	
+
+			#弾を発射するか？
+			if randi()%EnemyAttackRate == 1:
+				get_parent().ShotEnemyBullet(position, 1)
+				pass
+
+			#攻撃を行うか？
+			if randi()%EnemyAttackRate == 1:
+				EnemyState = GlobalNode.EnemyStateID.STAT_ATTACK
+				FlameCounter=0
+				PreparCnt = 0
 		
-		GlobalNode.EnemyStateID.STAT_ATTACK:		#攻撃中
-#debug
-			#return
+		GlobalNode.EnemyStateID.STAT_ATTACK: #攻撃中
 			FlameCounter+=1
-
-			EnemyFormationMove(delta)
-			#$AnimatedSprite.offset.y += 5 *
-			$AnimatedSprite.offset.y += 20 * delta
-			if 0 <= FlameCounter and FlameCounter < 30:
-				#print("30:",FlameCounter)
-				$AnimatedSprite.self_modulate = Color(1,0,0)
-				#$AnimatedSprite.offset.y +=2 * delta
-			elif 30<=FlameCounter and FlameCounter < 60:
-				#$AnimatedSprite.position +=2 * delta
-				#print("60:", FlameCounter)
-				$AnimatedSprite.self_modulate = Color(1,1,1)
+			match EnemyAtackState:
+				ATTACKSTATE.Prepar:
+					PreparCnt+=1
+					EnemyFormationMove(delta)
+					if 0 <= FlameCounter and FlameCounter < 30:
+						$AnimatedSprite.self_modulate = Color(1,0,0)
+					elif 30<=FlameCounter and FlameCounter < 60:
+						$AnimatedSprite.self_modulate = Color(1,1,1)
+					else:
+						FlameCounter = 0
+					
+					#2秒たったら攻撃開始
+					if (60 * 2) < PreparCnt:
+						EnemyAtackState = ATTACKSTATE.MoveAttack
+						$AnimatedSprite.self_modulate = Color(1,1,1)
+						return
 				
-			if 60 < FlameCounter:
-				FlameCounter = 0
-
-			pass
+				#左右ふらふらしながら下降
+				ATTACKSTATE.MoveAttack:
+					position.y += 100 * delta
+					if 0 <= FlameCounter and FlameCounter < 30:
+						position.x -= 30 * delta
+					elif 30<=FlameCounter and FlameCounter < 60:
+						position.x += 30 * delta
+					else:	
+						FlameCounter = 0
+					
+					# 画面外に出たらホームポジションへ戻す　
+					if GlobalNode.ScreenHeight + 32 <  position.y:
+						position.y = -32
+						position.x = randi()%GlobalNode.ScreenWidth + 1
+						EnemyState = GlobalNode.EnemyStateID.STAT_GOHOME
+						EnemyAtackState = ATTACKSTATE.Prepar
+						
 
 func _on_EnemyObject_area_entered(area: Area2D) -> void:
 	#自機、ショットに当たった場合は自分（エネミー）削除フラグを立てる
@@ -222,7 +246,3 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 		$CollisionShape2D.set_deferred("disabled", true)
 
 		get_parent().DeleteEnemy()
-
-
-#func _on_EnemyObject_StatFormation() -> void:
-#	SetEnemyState(EnemyStateID.STAT_FORMATION)

@@ -89,6 +89,7 @@ var debug_spawn = 0
 
 #Frame Counter
 var fps = 0
+var EnemyAnimCnt = 0
 
 #Display Shake
 var DispShake = false
@@ -290,32 +291,18 @@ func DeleteEnemy():
 	#bug SeqEndのタイミングで残エネミーが０の場合もステージクリアにする必要あり
 
 #エネミーからの弾発射依頼メッセージ
-func ShotEnemyBullet(var EnemyPos : Vector2):
+func ShotEnemyBullet(var EnemyPos : Vector2, var type):
 	var ScnBullet = EnemyBulletScn.instance()
 	add_child(ScnBullet)
-	ScnBullet.SetPos(EnemyPos)
-	ScnBullet.SetToword($Guntret.position)
-
-#-------------------------------------------------------------		
-#エネミーがホームポジションに戻ったかチェックする
-#func CheckEnemyReturnToHomeState():
-#	var ReturnHomeNum = 0
-#	for i in range(0, EnemyList.size()):
-#		var Enmy = EnemyList[i]
-#		if Enmy:
-#			return
-#		#is_nan(Enmy)
-#		ReturnHomeNum += Enmy.GetHomeState()
-#
-#	if ReturnHomeNum==0 && LoopSeqEnd == true && GlobalNode.EnemyFormationFinished==false: 
-#		#print("All Enemy Return Home", ReturnHomeNum)
-#		#GlobalNode.EnemyFormationFinished = true
-#		#この条件が立ったら、エネミーにフォーメーション移動を投げる
-#		for i in range(0, EnemyList.size()):
-#			var Enmy = EnemyList[i]
-#			Enmy.ActivateFormation()
-
-#GlobalNode.EnemyStateID.STAT_FORMATION
+	
+	match type:
+		0:#真下へ
+			ScnBullet.SetPos(EnemyPos)
+			ScnBullet.SetDegrees(90, 100) #90で真下ね　
+		1:#直狙い、打ち返し
+			ScnBullet.SetPos(EnemyPos)
+			ScnBullet.SetToword($Guntret.position, 100)
+		
 
 #-------------------------------------------------------------		
 
@@ -424,6 +411,7 @@ func _ready() -> void:
 	SeqEnable = true
 	
 	HighScoreCheck = false
+	EnemyAnimCnt = 0
 
 	#これでBGの星の操作できます　
 	#get_parent().get_node("BackGroundStars").SetStarSpeed(1,-1)
@@ -459,28 +447,19 @@ func _process(delta: float) -> void:
 			#エネミーの左右移動アニメーション	
 			#もちっとスマートに書けないか？
 			if GlobalNode.EnFrmState != GlobalNode.EnFrmStateID.STOP:
-				fps += 1
-				if 0 <= fps and fps<60:
+				EnemyAnimCnt += 1
+				if 0 <= EnemyAnimCnt and EnemyAnimCnt<60:
 					GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.OUTER
-				elif 60 <= fps and fps < 120:
+				elif 60 <= EnemyAnimCnt and EnemyAnimCnt < 120:
 					GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.HOME
-				elif 120<=fps:
-					fps = 0
-			
-			 #エネミーのフォーメーション攻撃開始
-			if GlobalNode.EnemyFormationAttack == true:
-				#print("Attack:", EnemyId)
-				pass
+				elif 120<=EnemyAnimCnt:
+					EnemyAnimCnt = 0
 
-#				if randi()%100 == 1:
-#					var EnemyMax = EnemyList.size()
-#					var EnemyId = randi()%EnemyMax
-#					var EnemyObj = EnemyList[EnemyId]
-#					EnemyObj.SetEnemyState(GlobalNode.EnemyStateID.STAT_ATTACK)
-#					pass
-
-				
+		#--------------------------------------------------	
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
+			
+			
+			
 			$Sound/StartMusic.stop()
 			yield(get_tree().create_timer(0.5), "timeout")
 			#Clear Music
