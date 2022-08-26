@@ -30,6 +30,7 @@ var BackScroll = false
 
 #エネミーの攻撃強度	　
 var EnemyAttackRate = 4000	
+var EnemyShotRate = 4000
 
 #var ReturnToHomeState = 0
 
@@ -140,8 +141,8 @@ func _process(delta: float) -> void:
 		GlobalNode.EnemyStateID.STAT_LOOP:
 			#適当に弾をばらまく
 			if 10 < position.y:
-				if randi() % 100 == 0:
-					get_parent().ShotEnemyBullet(position, 0)
+				if randi() % EnemyShotRate == 0:
+					get_parent().ShotEnemyBullet(position, 0)	#0=真下
 			
 		#ホームポジションへの移動
 		GlobalNode.EnemyStateID.STAT_GOHOME:
@@ -166,8 +167,10 @@ func _process(delta: float) -> void:
 				return	
 
 			#弾を発射するか？
-			if randi()%EnemyAttackRate == 1:
-				get_parent().ShotEnemyBullet(position, 1)
+			if randi()%EnemyShotRate == 1:
+				get_parent().ShotEnemyBullet(position, 1) #直狙い
+				#get_parent().ShotEnemyBullet(position, 0) #真下狙い
+				
 				pass
 
 			#攻撃を行うか？
@@ -211,8 +214,12 @@ func _process(delta: float) -> void:
 						position.x = randi()%GlobalNode.ScreenWidth + 1
 						EnemyState = GlobalNode.EnemyStateID.STAT_GOHOME
 						EnemyAtackState = ATTACKSTATE.Prepar
-						
 
+					if randi()%EnemyShotRate == 1:
+						#get_parent().ShotEnemyBullet(position, 1) #直狙い
+						get_parent().ShotEnemyBullet(position, 0) #真下狙い
+	
+#プレイヤー機、プレイヤーショットに当たった
 func _on_EnemyObject_area_entered(area: Area2D) -> void:
 	#自機、ショットに当たった場合は自分（エネミー）削除フラグを立てる
 	Life -= 1

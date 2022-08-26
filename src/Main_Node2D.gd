@@ -2,10 +2,6 @@
 
 #締切は9/5だと思え!!!!!!
 
-# 0826, 0827--------------------------
-#敵の弾発射(将来的な弾幕系の実装も視野に)
-#敵の攻撃（下に降りてくる　）
-
 # 0828, 0829--------------------------
 #2,3,4面くらいはつくってみよう
 #4,8面はバックスクロール
@@ -31,7 +27,6 @@
 #隊列に整列時の緑は50点、赤は100点
 #攻撃中は隊列時の二倍とか
 
-#メニューのStartとQuitをコントローラーで選べるように
 
 #音
 #BGM
@@ -40,6 +35,12 @@
 #==========================================
 #Finish Task
 #==========================================
+# 0826, 0827--------------------------
+#敵の弾発射(将来的な弾幕系の実装も視野に)
+#敵の攻撃（下に降りてくる　）
+
+#メニューのStartとQuitをコントローラーで選べるように
+
 #スコア保存
 #ゲームオーバーのステート
 #残機管理
@@ -68,13 +69,16 @@ var GameMainScen = preload("res://src/GameMain/GameMain_Node2D.tscn")
 var GameScene
 #var gamemain
 
+var CmdId = 0
+
+
 #Init All of Game Status
 func _ready() -> void:
 	randomize()
 	
 	GlobalNode.DataLoad()
 	
-	$CanvasTitle/TitleNode/BackGroundStars.SetStarSpeed(10,1)
+	$BackGroundStars.SetStarSpeed(10,1)
 	#$BackGroundStars.StarSpeed = 10
 	
 	GlobalNode.GameState = GlobalNode.GState.TITLE
@@ -87,7 +91,7 @@ func _ready() -> void:
 func GameTitleInit():
 	GlobalNode.GameState = GlobalNode.GState.TITLE
 	$CanvasTitle/TitleNode.visible = true
-	$CanvasTitle/TitleNode/BackGroundStars.SetStarSpeed(10,1)
+	$BackGroundStars.SetStarSpeed(10,1)
 	
 
 func _process(delta: float) -> void:
@@ -97,19 +101,36 @@ func _process(delta: float) -> void:
 	var ScoreTxt= "HighScore:%010d" % GlobalNode.HighScore
 	$CanvasTitle/TitleNode/lblHighScore.text = ScoreTxt
 
-	#Flash StartGame Text
-	var col = OS.get_ticks_usec()
-	if col % 3 == 0:
-		col = OS.get_ticks_usec() % GlobalNode.Colormax
-		$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 	
 	if GlobalNode.GameState == GlobalNode.GState.TITLE:	
 		if Input.is_action_pressed("BTN_START"):
 			GameStart()
 		if Input.is_action_pressed("BTN_QUIT"):
 			GameQuit()
-	
-	#yield(get_tree().create_timer(1.0),"timeout")
+
+		if Input.is_action_pressed("ui_up"):
+			CmdId = 0
+		elif Input.is_action_pressed("ui_down"):
+			CmdId = 1
+
+		var col = OS.get_ticks_usec()
+		if col % 4 == 0:
+			col = OS.get_ticks_usec() % GlobalNode.Colormax
+		
+			$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color",  ColorN("navyblue"))
+			$CanvasTitle/TitleNode/BtnQuit.add_color_override("font_color", ColorN("navyblue"))
+			
+			if  CmdId == 0:
+				$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
+			elif CmdId == 1:
+					$CanvasTitle/TitleNode/BtnQuit.add_color_override("font_color",  ColorN(GlobalNode.ColorName[col]))
+		
+		if Input.is_action_pressed("Shot") or  Input.is_action_pressed("ui_accept"):
+			if CmdId == 0:
+				GameStart()
+			elif CmdId == 1:
+				GameQuit()
+
 
 func GameStart():
 	GlobalNode.GameState = GlobalNode.GState.GAMEPLAY
