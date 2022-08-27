@@ -1,12 +1,16 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/GameMain/Guntret/Guntret.gd" type="Script" id=1]
 [ext_resource path="res://asset/Image/Guntret/Guntret01.png" type="Texture" id=2]
-[ext_resource path="res://asset/Image/Guntret/Exhast002.png" type="Texture" id=3]
+[ext_resource path="res://asset/Image/Guntret/v2_Exhast02.png" type="Texture" id=3]
 [ext_resource path="res://asset/Image/Guntret/Guntret03.png" type="Texture" id=4]
 [ext_resource path="res://asset/Image/Guntret/Guntret02.png" type="Texture" id=5]
 [ext_resource path="res://asset/Sound/Shot.wav" type="AudioStream" id=6]
 [ext_resource path="res://asset/Sound/crash1.wav" type="AudioStream" id=7]
+[ext_resource path="res://asset/Image/Guntret/v2_Exhast03.png" type="Texture" id=8]
+[ext_resource path="res://asset/Image/Guntret/v2_Exhast01.png" type="Texture" id=9]
+[ext_resource path="res://asset/Image/Guntret/v2_Exhast05.png" type="Texture" id=10]
+[ext_resource path="res://asset/Image/Guntret/v2_Exhast04.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -30,39 +34,9 @@ animations = [ {
 radius = 3.0
 height = 4.0
 
-[sub_resource type="AtlasTexture" id=3]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=4]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=5]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=6]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 48, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=7]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 64, 0, 16, 16 )
-
 [sub_resource type="SpriteFrames" id=8]
 animations = [ {
-"frames": [  ],
-"loop": true,
-"name": "New Anim",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 3 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "default",
 "speed": 30.0
@@ -87,7 +61,7 @@ shape = SubResource( 2 )
 [node name="Exhaust" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 15 )
 frames = SubResource( 8 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="ShotSound" type="AudioStreamPlayer" parent="."]

@@ -31,7 +31,7 @@ var HighScore : int = 10
 var GameMainSceneID = 0
 
 enum LoopType {Left01=0, Right01, Left02, Right02, RevStgLeft01, RevStgRight01}
-enum EnemyColor {Green=0, Red, Purple} 
+enum EnemyColor {Green=0, Red, Yellow, Black} 
 
 #エネミーの行動ステート
 enum EnemyStateID {

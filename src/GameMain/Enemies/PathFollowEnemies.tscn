@@ -49,6 +49,7 @@ _data = {
 script = ExtResource( 1 )
 
 [node name="Guntret01" type="Sprite" parent="."]
+visible = false
 position = Vector2( 128, 224 )
 texture = ExtResource( 3 )
 __meta__ = {
@@ -56,9 +57,14 @@ __meta__ = {
 }
 
 [node name="EnemyGrid" parent="." instance=ExtResource( 2 )]
+visible = false
 position = Vector2( 64, 32 )
 
 [node name="LeftPath01" type="Node2D" parent="."]
+visible = false
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Path2D" type="Path2D" parent="LeftPath01"]
 visible = false
@@ -111,7 +117,7 @@ curve = SubResource( 3 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="LeftPath02/Path2D"]
 position = Vector2( -3, 104 )
-rotation = -0.363291
+rotation = -0.281612
 loop = false
 
 [node name="EnemyHidden" type="Sprite" parent="LeftPath02/Path2D/PathFollow2D"]

@@ -46,9 +46,9 @@ func _ready() -> void:
 		#_star.Speed = randi()%8 + 0.1
 		star.Speed = rand_range(0, 10)
 
-		var _colr = randi()%20 * star.Speed
-		var _colg = randi()%20 * star.Speed
-		var _colb = randi()%20 * star.Speed
+		var _colr = randi()%20 * star.Speed - 20
+		var _colg = randi()%20 * star.Speed - 20
+		var _colb = randi()%20 * star.Speed - 20
 		
 		star.StarColor = Color8(_colr, _colg, _colb)
 		
