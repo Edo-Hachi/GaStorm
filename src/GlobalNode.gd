@@ -2,6 +2,7 @@ extends Node
 
 const Version = "Ver 0.01A"
 
+#画面サイズ
 const ScreenWidth = 256
 const ScreenHeight = 256
 
@@ -22,9 +23,12 @@ var GameState : int  = GState.TITLE
 enum SUBSTATE {STAGE_START=0, STAGE_PLAY, STAGE_CLEAR, STAGE_CLEAR02,GAMEOVER}
 var SubState : int = SUBSTATE.STAGE_START
 
+<<<<<<< HEAD
 #ゲームシーケンス動作状況
 var GameSeqActive  = false
 
+=======
+>>>>>>> origin/main
 var PlayerScore : int = 0
 var HighScore : int = 10
 
@@ -54,6 +58,19 @@ enum EnFrmStateID{
 	OUTER
 }
 var EnFrmState = EnFrmStateID.STOP
+
+#シーケンス実行中状態 実行中 = true / 終了 = false
+var SeqState
+
+#------------------
+var EnemyInvader = false
+var InvaderDir = 0
+var InvaderLeftX
+var InvaderRightX
+var InvaderTimer = 0
+var EnemyOffsetY=0
+#------------------
+
 
 #Color Name Like a Pico8 Colors)
 var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolivegreen", "darkgray", "cornsilk", "red", "darkorange", "yellow", "green",
