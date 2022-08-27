@@ -23,12 +23,9 @@ var GameState : int  = GState.TITLE
 enum SUBSTATE {STAGE_START=0, STAGE_PLAY, STAGE_CLEAR, STAGE_CLEAR02,GAMEOVER}
 var SubState : int = SUBSTATE.STAGE_START
 
-<<<<<<< HEAD
 #ゲームシーケンス動作状況
 var GameSeqActive  = false
 
-=======
->>>>>>> origin/main
 var PlayerScore : int = 0
 var HighScore : int = 10
 

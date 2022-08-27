@@ -43,6 +43,8 @@ func InitEnemyMatrix():
 			EnemyMatrix.append(mtmp)
 
 #配列Col,Rowから1次元配列インデックスを返す
+#var  MatrixCol = 8
+#var  MatrixRow = 5
 func Pos2Index(var x , var y):
 	return x + (MatrixCol * y)
 
@@ -50,14 +52,9 @@ func Pos2Index(var x , var y):
 #エネミーを隊列で並べる時のグリッド座標情報
 
 #画面上のエネミー管理リスト
-<<<<<<< HEAD
 var EnemyList = []
 var LoopSeqEnd = false
 
-=======
-var EnemyList = []	#スポーンしたエネミーのリスト　
-var LoopSeqEnd = false #スタート出現時のループがすべて終了していればtrueになる　
->>>>>>> origin/main
 	
 var SeqTimerGbl = 0 #グローバルタイマ
 var SeqTimerSec = 0	#シーンシーケンスの制御タイマ(1秒)
@@ -160,6 +157,7 @@ func SeqState():
 #		var EnemyAttackRate	#エネミーが攻撃耐性に入る確率
 #		var EnemyShotRate	#エネミーが弾を撃ってくる確率
 #		var EnemyShotAim	#自機狙い弾を撃ってくるかどうか true/false
+			
 		
 		"LoopEnmy":
 			LoopEnemySpawn(Seq["LoopType"], Seq["Color"], Seq["Matrix"], Seq["Spd"])
@@ -179,8 +177,6 @@ func SeqState():
 			GlobalNode.EnFrmState = GlobalNode.EnFrmStateID.STOP
 			GlobalNode.BgScrollReverse = false
 			GlobalNode.EnemyFormationAttack = false
-			
-			GlobalNode.SeqState = true	#シーケンス実行中
 
 			#シーケンス動作開始
 			GlobalNode.GameSeqActive = true
@@ -225,6 +221,8 @@ func SeqState():
 		#フォーメーションのアニメ開始／停止
 		"EnmyFormationAnim":
 			GlobalNode.EnFrmState = Seq["Flg"]
+			#GlobalNode.EnFrmStateID.OUTER
+			#print("Enemy Form Animation", GlobalNode.EnFrmState)
 			SeqPtr+=1
 		
 #		"InvaderMode":
@@ -247,31 +245,18 @@ func SeqState():
 			
 		"End":
 			#print("Sqe End")
-			SeqEnable=false		#シーケンサ処理停止
-			LoopSeqEnd = true	#出現ループ完了フラグOn
-			GlobalNode.SeqState = false	#シーケンス実行中
-			#GlobalNode.InvaderTimer = 0
+			SeqEnable=false
+			LoopSeqEnd = true
 			
-<<<<<<< HEAD
 			#シーケンス動作完了
 			#GlobalNode.GameSeqActive = false
 			#GlobalNode.InvaderCanMove = true
-=======
-			#インベーダー面　
-			#if EnemySeqStageNum == 4:
-			if EnemySeqStageNum == 0:	#debug
-				GlobalNode.EnemyInvader = true
-				GlobalNode.InvaderDir = 0
-
->>>>>>> origin/main
 			
-			#敵が0だったらステージクリアにする
-			#バックスクロール面、ブロック崩し面、インベーダー面などでこの処理が走るはず　
+			#敵が0だったらステージクリアに
 			if EnemyList.size() == 0:
 				StageClearGuntret_SpdY = 10
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
 				$CanvasStageClear.visible = true
-<<<<<<< HEAD
 
 #Audio Stream Stop
 func MusicStopAll():
@@ -280,8 +265,6 @@ func MusicStopAll():
 	$Sound/BackScroll.stop()
 	#$Sound/GameOver.stop()
 
-=======
->>>>>>> origin/main
 
 #--------------------------------------------
 func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2, var Speed:float) -> void:
@@ -295,21 +278,20 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
 	ScnEnemy.SetEnemyAttackRate(EnemyAttackRate, EnemyShotRate, EnemyShotAim)	
-<<<<<<< HEAD
 
 #debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
 	#var EnemyFormation # hold 1=move_outside 2=move_inner
 	#enum EnemyFormationState {MOVE_STOP = 0, MOVE_LOOP, MOVE_HOME, MOVE_OUTSIDE, ATTACK}
-=======
->>>>>>> origin/main
 	ScnEnemy.SetEnemyState(GlobalNode.EnemyStateID.STAT_LOOP)
+#debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
 	
 	#ここもっとスマートにかけない？
 	var tmp :ENEMY_MATRIX =	EnemyMatrix[Pos2Index(Matrix.x, Matrix.y)]
 	ScnEnemy.SetEnemyMatrix(Matrix, Vector2(tmp.WorldX, tmp.WorldY))
 	add_child(ScnEnemy)
 	
-	#エネミー管理リストに追加
+	#エネミー管理リストに追加(ステージ上の残エネミー数の管理にしか今のところ使ってない。無駄っぽい)
+	
 	AppendEnemy(ScnEnemy)
 	#エネミー生成------------------------------------------
 	
@@ -320,45 +302,51 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	add_child(ScnLoop)
 	#ループパス生成-------------------------------------------
 
-#エネミーの出現ループが完了するとこの関数がエネミー側から呼ばれる
+#FollowPath2D Seq Over!!	
 func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 	
 	#ループ処理が終わると終了したエネミーのオブジェクトIDが戻って売る
 	if EnemyId.Alive == false:	#ループ処理から戻ってきたタイミングで破壊されていたらならエネミーのオブジェクトをガベコレ
 		EnemyId.queue_free()
+		
+		#エネミーの生成リストから削除
+		#DeleteEnemy()
 	else:
-		#逆スクロール面のエネミーは画面外に出たら消す（インベーダー面、ブロック崩す面もこれ？）
+		
+		
+		#debug
+		#逆スクロール面のエネミーは画面外に出たら消す
 		if GlobalNode.BgScrollReverse == true:
 			EnemyList.pop_front()
 			EnemyId.queue_free()
 			return
 		
+		
 		#ループ終了後、ホームポジションへ移動させる
 		EnemyId.SetEnemyState(GlobalNode.EnemyStateID.STAT_GOHOME)
 		
+		#エネミーがすべてホームポジションに戻ったかチェック
+		#CheckEnemyReturnToHomeState()
+
+
 #エネミー管理リストへ追加
 func AppendEnemy(var EnemyId):
 		EnemyList.append(EnemyId)
+		#print("Active Enemy :",EnemyList.size() )
 	
 #エネミー削除（エネミークラスからも呼ばれる）
-#ステージクリア判定もここで行う　
 func DeleteEnemy():
 	EnemyList.pop_front()
-	
-	#活動中のエネミーがすべて破壊されていて、出現ループ処理が完了していればステージクリア処理
-	if EnemyList.size() == 0 and LoopSeqEnd==true:
+	#print("Enemy Delete:",EnemyList.size(), " SeqFlg=" ,LoopSeqEnd)
+	if EnemyList.size() == 0 and LoopSeqEnd==true: #hoge
 		#StageClear
+		#print("Stage Clear!!")
 		StageClearGuntret_SpdY = 10
 		GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
 		$CanvasStageClear.visible = true
-<<<<<<< HEAD
 		
 		#ステージクリア時に自機のコライダーをoffにする
 		$Guntret.CollisionSetDisable(true)
-=======
-		StageClearBgStarSpd=DEFSTARSPEED	#hoge
-
->>>>>>> origin/main
 
 #エネミーからの弾発射依頼メッセージ
 func ShotEnemyBullet(var EnemyPos : Vector2, var type):
@@ -375,36 +363,32 @@ func ShotEnemyBullet(var EnemyPos : Vector2, var type):
 		
 
 #-------------------------------------------------------------		
-#自機がやられると、この関数が呼ばれる
+
+#Guntret Crush!!
 func GuntretCrush():
-	
-	#残機ゼロならゲームオーバー
-	if 0 > $RestGuntret.DeleteGuntret():
+	#print("GuntretCrush")
+	var ret = $RestGuntret.DeleteGuntret()
+	if ret < 0:
+		#print("Crush GameOver")
+		#----------------------------------------------------------------------------
 		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
 		GlobalNode.SubState = GlobalNode.SUBSTATE.GAMEOVER
 		
-		#ステージ中音楽停止　
 		$Sound/StartMusic.stop()
 		$Sound/BackScroll.stop()
 		
 		yield(get_tree().create_timer(0.5) , "timeout")
-		
-		#ゲームオーバーサウンド再生、ゲームオーバー画面表示
+
 		$Sound/GameOver.play()
 		yield(get_tree().create_timer(0.5) , "timeout")
+		
 		$CanvasGameover.visible = true
-		
-#var Inv_Move = 0
-func Process_Invader(delta: float):
-	#------------------
-	GlobalNode.EnemyInvader = true
-	#GlobalNode.InvaderDir = 0
-	#var InvaderLeftX
-	#var InvaderRightX
-#------------------
 
 		
-
+		#get_parent().GameTitleInit()
+		#queue_free()
+		
+		#----------------------------------------------------------------------------
 
 #GameStartInit
 func GameStartInit():
@@ -428,35 +412,28 @@ func GameStartInit():
 	
 	FlgStageClear = false
 	
-	#シーケンス完了フラグを初期化
 	LoopSeqEnd=false
 	GlobalNode.EnemyFormationFinished = false
-	
-	#BGの星を初期化（バックスクロールしてたらここで戻る）
-	#StageClearBgStarSpd=DEFSTARSPEED
-	$BgColor/BackGroundStars.SetStarSpeed(DEFSTARSPEED,1)
+
+	StageClearBgStarSpd=DEFSTARSPEED
+	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 	
 	$Guntret.visible = true
 	$RestGuntret.visible = true
 	$CanvasScore.visible = true
 	
-	#残機 debug
+	#残機
 #	$RestGuntret.SetRestGuntert(5)
 	$RestGuntret.SetRestGuntert(2)
 	
-<<<<<<< HEAD
 	$Sound/StartMusic.play()
-=======
-	#ゲーム中音楽開始　	
-	$Sound/StartMusic.play()
-#	$Sound/BackScroll.play()
->>>>>>> origin/main
 	
 	GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#print("Call Ready")
 	
 	InitEnemyMatrix()
 	FormationEnemyTimer = 0
@@ -464,15 +441,14 @@ func _ready() -> void:
 	#自機のホームポジション
 	$Guntret.position.x = GuntretHomePosX
 	$Guntret.position.y = GuntretHomePosY
+	#GlobalNode.PlayerScore = 0
 	GlobalNode.GameMainSceneID = get_owner()
 	
-	#BGの星の移動速度設定
-	#StageClearBgStarSpd=DEFSTARSPEED
-	$BgColor/BackGroundStars.SetStarSpeed(DEFSTARSPEED,1)
+	#hoge
+	StageClearBgStarSpd=DEFSTARSPEED
+	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
-	#-----------------------------------------------------------
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-<<<<<<< HEAD
 	EnemySeqList.append($EnemyScript.StateSeq01)
 	EnemySeqList.append($EnemyScript.StateSeq02)
 	EnemySeqList.append($EnemyScript.StateSeq03)
@@ -480,65 +456,39 @@ func _ready() -> void:
 	EnemySeqList.append($EnemyScript.StateSeq05)
 	
 	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
-=======
-#	EnemySeqList.append($EnemyScript.StateSeq01)
-#	EnemySeqList.append($EnemyScript.StateSeq02)
-#	EnemySeqList.append($EnemyScript.StateSeq03)
-#	EnemySeqList.append($EnemyScript.StateSeq04)
-	EnemySeqList.append($EnemyScript.StateSeq05)
-	#-----------------------------------------------------------
->>>>>>> origin/main
 	
-	#ゲームステートシーケンス初期化	
 	SeqPtr=0
 	SeqTimerFps=0
 	SeqEnable = true
 	
-<<<<<<< HEAD
 	HighScoreCheck = false
 	EnemyAnimCnt = 0
-=======
-	HighScoreCheck = false	#ゲームオーバー時のハイスコアチェックワンショットフラグ
-	
-	EnemyAnimCnt = 0	#エネミーの隊列アニメーション用フレームカウンタ
-
->>>>>>> origin/main
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
 	$lblFps.text = "FPS:" + String(Engine.get_frames_per_second())
 	
-	#ゲームステートがプレイ中、ゲームオーバーの時いがいははじく
+	#ゲームステートがプレイ中、ゲームオーバーの時いがいは弾く
 	if GlobalNode.GameState == GlobalNode.GState.TITLE:
 		return
 	
 	GlobalNode.GameTime+=1
 	
-	#スコア表示　	
 	var ScoreTxt= "Score:%010d" % GlobalNode.PlayerScore
 	$CanvasScore/lblScore.text = ScoreTxt
 	
-	#実行ステート分岐　
 	match GlobalNode.SubState:
-		#Stage Start
 		GlobalNode.SUBSTATE.STAGE_START:
-#			StageClearBgStarSpd=DEFSTARSPEED	#hoge
-#			$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
-			
-			#StageClearBgStarSpd=DEFSTARSPEED	#hoge
-			$BgColor/BackGroundStars.SetStarSpeed(DEFSTARSPEED,1)
-			
+			StageClearBgStarSpd=DEFSTARSPEED
+			$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
+			#print("StageStart")
 			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
 			GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_PLAY
-		
-		#Play Gameing
-		GlobalNode.SUBSTATE.STAGE_PLAY, GlobalNode.SUBSTATE.GAMEOVER:
 			
-			#if EnemySeqStageNum == 4:
-			if EnemySeqStageNum == 0:	#debug
-				#print("Invador")
-				Process_Invader(delta)
+			#debug 最終的には、Window.Height+32あたりからホームポジションにフレームインするアニメーションを実装したい　
+		
+		GlobalNode.SUBSTATE.STAGE_PLAY, GlobalNode.SUBSTATE.GAMEOVER:
 			
 			#エネミーの左右移動アニメーション	
 			#もちっとスマートに書けないか？
@@ -552,8 +502,6 @@ func _process(delta: float) -> void:
 					EnemyAnimCnt = 0
 
 		#--------------------------------------------------	
-		#Stage clear State 01
-		#Guntret Move to Home Position & Clear Music Play
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			
 			MusicStopAll()
@@ -568,14 +516,11 @@ func _process(delta: float) -> void:
 			$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
 			if $Guntret.position == Vector2(GuntretHomePosX, GuntretHomePosY):
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR02
-			
-			#バックグランドの星の速度設定　	
+				
 			if 0.5 < StageClearBgStarSpd:
 				StageClearBgStarSpd-=0.1
 				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 		
-		#--------------------------------------------------	
-		#Guntret Worp
 		GlobalNode.SUBSTATE.STAGE_CLEAR02:
 			$Guntret.position.y -= StageClearGuntret_SpdY * delta
 			StageClearGuntret_SpdY += 5
@@ -584,6 +529,7 @@ func _process(delta: float) -> void:
 				StageClearBgStarSpd-=0.1
 				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 			
+			#if $Guntret.position.y < -64:
 			#タイミング合わせも兼ねて画面外にすっとばす
 			if $Guntret.position.y < -4096:
 				
@@ -598,42 +544,35 @@ func _process(delta: float) -> void:
 				#	return
 #----------------------------------------------------------------
 				
-				#Next Stage Init same Paramater
 				EnemySeqStageNum += 1
 				EnemySequence = EnemySeqList[EnemySeqStageNum]
+				SeqEnable = false #debug
 				
-				#Sequencer Stop
-				SeqEnable = false
-				
-				#Sqp Pointer Reset
 				SeqPtr=0
 				SeqTimerFps=0
 				FormationEnemyTimer = 0 #EnemyMoveTimer
 				StageClearBgStarSpd=DEFSTARSPEED
+				$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 				
-				#Graphic Reset
-				$BgColor/BackGroundStars.SetStarSpeed(DEFSTARSPEED,1)
 				$Guntret.position.x = GuntretHomePosX
 				$Guntret.position.y = GlobalNode.ScreenHeight + 16 #GuntretHomePosY
 				
-				#Enemy Reset
 				EnemyList.clear()
 				LoopSeqEnd=false
-				
-				#Flg Init	
 				SeqEnable = true
-				FlgStageClear = false
+				
 				$CanvasStageClear.visible = false
+				
+				FlgStageClear = false
+
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
-<<<<<<< HEAD
 				
 				#ステージクリア時にOFFにした自機のコライダーをオンにする
 				$Guntret.CollisionSetDisable(true)
 
-=======
->>>>>>> origin/main
 					
 				yield(get_tree().create_timer(0.5), "timeout")
+				#$Sound/StartMusic.play(0.0)
 				$Sound/StartMusic.play()
 
 	#Game Over	----------------------------------------------------------------		
@@ -647,25 +586,29 @@ func _process(delta: float) -> void:
 				GlobalNode.HighScore = GlobalNode.PlayerScore
 				GlobalNode.DataSave()
 			else:
+				#print("not High Score")
 				$CanvasGameover/lblHighScore.visible = false
 		
 		#ゲームオーバー
 		$CanvasGameover/lblHitAnyKey.visible = false
 		$CanvasGameover.visible = true
+
 		
 		yield(get_tree().create_timer(5), "timeout")
 		
+
 		$CanvasGameover/lblHitAnyKey.visible = true
-		
+
 		var col = OS.get_ticks_usec()
 		if col % 3 == 0:
 			col = OS.get_ticks_usec() % GlobalNode.Colormax
 			$CanvasGameover/lblHitAnyKey.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 			
-		#キー入力でタイトルへ　
 		if Input.is_action_just_pressed("Shot"):	
 			get_parent().GameTitleInit()
 			queue_free()
+		#キー入力でタイトルへ　
+		#print("Process GameOver")
 		return
 	
 	#Pause r--------------------------------------------------------------
@@ -674,10 +617,21 @@ func _process(delta: float) -> void:
 		$DlgPause.visible = true
 		$DlgPause.show_modal(true)
 	
+
+
 #ポーズダイアログを閉じた時の処理
 func _on_DlgPause_tree_exited() -> void:
 	if get_owner() != null:
 		get_tree().paused = false	
+ 
+#GameOver Dlg
+#func _on_DlgGameOver_tree_exited() -> void:
+#	if get_owner() != null:
+#		get_tree().paused = false
+#	pass # Replace with function body.
+
+
+
 
 # 1/60 で呼ばれます
 #各タイマカウントを更新し、シーケンス処理を呼び出します
@@ -713,3 +667,7 @@ func _on_DspShakeTimer_timeout() -> void:
 	else:
 		position.x = 0
 		position.y = 0
+
+
+
+

@@ -60,15 +60,12 @@ func SetEnemyColor(var enemyColor : int):
 			$AnimatedSprite.animation = "Red"
 			Life = 2
 			ScoreMulti = Life
-<<<<<<< HEAD
 		GlobalNode.EnemyColor.Yellow:
 			$AnimatedSprite.animation = "Yellow"
 			Life = 1
-=======
 		GlobalNode.EnemyColor.Purple:
 			$AnimatedSprite.animation = "Puraple"
 			Life = 3
->>>>>>> origin/main
 			ScoreMulti = Life
 		GlobalNode.EnemyColor.Black:
 			$AnimatedSprite.animation = "Black"
@@ -150,7 +147,6 @@ func EnemyFormationMove(delta: float):
 			pass
 
 #Invader Mode!!
-<<<<<<< HEAD
 #func EnemyInvaderMove(delta: float):
 #	if GlobalNode.InvaderCanMove==false:
 #		return
@@ -183,7 +179,6 @@ func EnemyFormationMove(delta: float):
 #			GlobalNode.InvaderOffsetY += 32
 #
 #	position.y = MatrixWorldPos.y + GlobalNode.InvaderOffsetY
-=======
 func EnemyInvaderMove(delta: float):
 	if GlobalNode.InvaderDir == 0:
 		position.x -= 30 * delta
@@ -197,7 +192,6 @@ func EnemyInvaderMove(delta: float):
 			GlobalNode.EnemyOffsetY += 8
 		
 	position.y = MatrixWorldPos.y + GlobalNode.EnemyOffsetY
->>>>>>> origin/main
 
 #弾発射
 func ShotBullet():
@@ -238,7 +232,6 @@ func _process(delta: float) -> void:
 				return
 		
 		#隊列編成時処理
-<<<<<<< HEAD
 		GlobalNode.EnemyStateID.STAT_FORMATION:
 #			if GlobalNode.InvaderMode == true: #if GlobalNode.GameSeqActive == false:
 #				if GlobalNode.InvaderCanMove == true:
@@ -247,13 +240,11 @@ func _process(delta: float) -> void:
 			#else:
 			#通常の編隊アニメーション
 			EnemyFormationMove(delta)
-=======
 		GlobalNode.EnemyStateID.STAT_FORMATION: # ,GlobalNode.EnemyStateID.STAT_ATTACK: 
 			if GlobalNode.EnemyInvader == true && GlobalNode.SeqState == false:
 				EnemyInvaderMove(delta)
 			else:
 				EnemyFormationMove(delta)
->>>>>>> origin/main
 			
 			#エネミーの死亡フラグが立っていたら弾く	
 			if Alive == false:
