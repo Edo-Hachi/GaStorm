@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://asset/Font/zig.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://asset/Font/aerial.ttf" type="DynamicFontData" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://asset/Image/GastormTitle.png" type="Texture" id=5]
 [ext_resource path="res://asset/Image/Godot_Kun_box200.png" type="Texture" id=6]
 [ext_resource path="res://asset/Font/Amazing Views.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://asset/Image/BgImage2.png" type="Texture" id=8]
 [ext_resource path="res://asset/Image/BgImage1.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=2]
@@ -47,12 +46,6 @@ __meta__ = {
 position = Vector2( 128, 128 )
 scale = Vector2( 1.03516, 1.02022 )
 texture = ExtResource( 9 )
-
-[node name="BgImage2" type="Sprite" parent="CanvasBg"]
-visible = false
-position = Vector2( 128, 128 )
-scale = Vector2( 1, 0.993575 )
-texture = ExtResource( 8 )
 
 [node name="BackGroundStars" parent="CanvasBg" instance=ExtResource( 4 )]
 visible = false

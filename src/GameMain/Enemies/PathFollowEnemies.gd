@@ -8,13 +8,14 @@ var LoopId	#Loop Object instance ID
 var LoopPathObj : Object
 var UnitOffset : float = 0.5
 
-func SetUnifOffset(var uofs : float):
-	UnitOffset = uofs
+#func SetUnifOffset(var uofs : float):
+#	UnitOffset = uofs
 
-func InitLoopEnemies(var enemy_id, var loop_id, var looptype):
+func InitLoopEnemies(var enemy_id, var loop_id, var looptype, var uofs):
 	EnemyId = enemy_id
 	LoopId = loop_id
 	LoopType = looptype
+	UnitOffset = uofs
 	
 	match LoopType:
 		GlobalNode.LoopType.Left01:
@@ -29,6 +30,10 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype):
 			LoopPathObj = $RevStgLeft01/Path2D/PathFollow2D
 		GlobalNode.LoopType.RevStgRight01:
 			LoopPathObj = $RevStgRight01/Path2D/PathFollow2D
+		GlobalNode.LoopType.RevStgLeft02:
+			LoopPathObj = $RevStgLeft02/Path2D/PathFollow2D	
+		GlobalNode.LoopType.RevStgRight02:
+			LoopPathObj = $RevStgRight02/Path2D/PathFollow2D	
 		#_:
 		#	LoopPathObj= null
 

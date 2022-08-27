@@ -11,11 +11,19 @@ var GameTime = 0
 enum GState {TITLE = 0, GAMEPLAY, GAMEOVER}
 var GameState : int  = GState.TITLE
 
+#インベーダーモード変数　
+#var InvaderMode = false	#Enemy_Area2Dで参照するインベーダー動作モードフラグ
+#var InvaderMove = 0		#インベーダーの進行方向管理用　0=左　1=右
+#var InvaderCanMove = false	#インベーダー移動可能フラグ
+#var InvaderOffsetX = 0	#インベーダー下方移動時のオフセット座標
+#var InvaderOffsetY = 0	#インベーダー下方移動時のオフセット座標
+
 #ゲームサブステート(GState.SUBSTATE)
 enum SUBSTATE {STAGE_START=0, STAGE_PLAY, STAGE_CLEAR, STAGE_CLEAR02,GAMEOVER}
 var SubState : int = SUBSTATE.STAGE_START
 
-
+#ゲームシーケンス動作状況
+var GameSeqActive  = false
 
 var PlayerScore : int = 0
 var HighScore : int = 10

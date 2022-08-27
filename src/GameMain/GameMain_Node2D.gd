@@ -54,6 +54,7 @@ func Pos2Index(var x , var y):
 #画面上のエネミー管理リスト
 var EnemyList = []
 var LoopSeqEnd = false
+
 	
 var SeqTimerGbl = 0 #グローバルタイマ
 var SeqTimerSec = 0	#シーンシーケンスの制御タイマ(1秒)
@@ -177,6 +178,16 @@ func SeqState():
 			GlobalNode.BgScrollReverse = false
 			GlobalNode.EnemyFormationAttack = false
 
+			#シーケンス動作開始
+			GlobalNode.GameSeqActive = true
+
+			#インベーダーモード	
+#			GlobalNode.InvaderMode = false
+#			GlobalNode.InvaderMove = 0
+#			GlobalNode.InvaderOffsetX = 0
+#			GlobalNode.InvaderOffsetY = 0
+#			GlobalNode.InvaderCanMove = false
+
 			#GlobalNode.EnemyFormationFinished = false #すべてのエネミーがloop後にホームポジションに戻るとこのフラグがtrueになる
 			
 			SeqPtr+=1
@@ -213,20 +224,46 @@ func SeqState():
 			#GlobalNode.EnFrmStateID.OUTER
 			#print("Enemy Form Animation", GlobalNode.EnFrmState)
 			SeqPtr+=1
+		
+#		"InvaderMode":
+#			GlobalNode.InvaderMode = Seq["Flg"]
+#			GlobalNode.InvaderMove = 0
+#			GlobalNode.InvaderOffsetX = 0
+#			GlobalNode.InvaderOffsetY = 0
+#
+#			SeqPtr+=1
+			
+		#サウンド変更　
+		"AudioStreamSet":
+			MusicStopAll()
+			match Seq["Music"]:
+				"StartMusic":
+					$Sound/StartMusic.play()
+				"BackScroll":
+					$Sound/BackScroll.play()
+			SeqPtr+=1
 			
 		"End":
 			#print("Sqe End")
 			SeqEnable=false
 			LoopSeqEnd = true
 			
-			#print(EnemyList.size())
+			#シーケンス動作完了
+			#GlobalNode.GameSeqActive = false
+			#GlobalNode.InvaderCanMove = true
 			
 			#敵が0だったらステージクリアに
 			if EnemyList.size() == 0:
 				StageClearGuntret_SpdY = 10
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
 				$CanvasStageClear.visible = true
-	
+
+#Audio Stream Stop
+func MusicStopAll():
+	$Sound/StartMusic.stop()
+	#$Sound/StageClear.stop()
+	$Sound/BackScroll.stop()
+	#$Sound/GameOver.stop()
 
 
 #--------------------------------------------
@@ -241,11 +278,6 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
 	ScnEnemy.SetEnemyAttackRate(EnemyAttackRate, EnemyShotRate, EnemyShotAim)	
-		
-#				EnemyAttackRate = Seq["Attack"]
-#				EnemyShotRate  = Seq["Shot"]
-#				EnemyShotAim  = Seq["Aim"]
-
 
 #debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
 	#var EnemyFormation # hold 1=move_outside 2=move_inner
@@ -263,12 +295,12 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	AppendEnemy(ScnEnemy)
 	#エネミー生成------------------------------------------
 	
-	#ループ生成-------------------------------------------
+	#ループパス生成-------------------------------------------
 	var loopid = ScnLoop.get_instance_id()
-	ScnLoop.InitLoopEnemies(ScnEnemy,loopid, LoopType)
-	ScnLoop.SetUnifOffset(Speed)
+	ScnLoop.InitLoopEnemies(ScnEnemy,loopid, LoopType, Speed)
+	#ScnLoop.SetUnifOffset(Speed)
 	add_child(ScnLoop)
-	#ループ生成-------------------------------------------
+	#ループパス生成-------------------------------------------
 
 #FollowPath2D Seq Over!!	
 func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
@@ -312,8 +344,9 @@ func DeleteEnemy():
 		StageClearGuntret_SpdY = 10
 		GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
 		$CanvasStageClear.visible = true
-	
-	#bug SeqEndのタイミングで残エネミーが０の場合もステージクリアにする必要あり
+		
+		#ステージクリア時に自機のコライダーをoffにする
+		$Guntret.CollisionSetDisable(true)
 
 #エネミーからの弾発射依頼メッセージ
 func ShotEnemyBullet(var EnemyPos : Vector2, var type):
@@ -340,13 +373,6 @@ func GuntretCrush():
 		#----------------------------------------------------------------------------
 		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
 		GlobalNode.SubState = GlobalNode.SUBSTATE.GAMEOVER
-		#	if Input.is_action_pressed("GameOver"):
-#		GlobalNode.GameState = GlobalNode.GState.GAMEOVER
-
-		#get_tree().paused = true
-		#$DlgGameOver.visible = true
-		#$DlgGameOver.show_modal(true)
-		#return
 		
 		$Sound/StartMusic.stop()
 		$Sound/BackScroll.stop()
@@ -400,10 +426,7 @@ func GameStartInit():
 #	$RestGuntret.SetRestGuntert(5)
 	$RestGuntret.SetRestGuntert(2)
 	
-	
 	$Sound/StartMusic.play()
-#	$Sound/BackScroll.play()
-
 	
 	GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 	
@@ -427,9 +450,10 @@ func _ready() -> void:
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
 	EnemySeqList.append($EnemyScript.StateSeq01)
-#	EnemySeqList.append($EnemyScript.StateSeq02)
-#	EnemySeqList.append($EnemyScript.StateSeq03)
+	EnemySeqList.append($EnemyScript.StateSeq02)
+	EnemySeqList.append($EnemyScript.StateSeq03)
 	EnemySeqList.append($EnemyScript.StateSeq04)
+	EnemySeqList.append($EnemyScript.StateSeq05)
 	
 	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 	
@@ -439,11 +463,6 @@ func _ready() -> void:
 	
 	HighScoreCheck = false
 	EnemyAnimCnt = 0
-
-	#これでBGの星の操作できます　
-	#get_parent().get_node("BackGroundStars").SetStarSpeed(1,-1)
-	#$BgColor/BackGroundStars.SetStarSpeed(1,-1)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -485,8 +504,10 @@ func _process(delta: float) -> void:
 		#--------------------------------------------------	
 		GlobalNode.SUBSTATE.STAGE_CLEAR:
 			
-			$Sound/StartMusic.stop()
-			yield(get_tree().create_timer(0.5), "timeout")
+			MusicStopAll()
+
+			yield(get_tree().create_timer(1), "timeout")
+
 			#Clear Music
 			if FlgStageClear == false:
 				$Sound/StageClear.play()
@@ -511,6 +532,9 @@ func _process(delta: float) -> void:
 			#if $Guntret.position.y < -64:
 			#タイミング合わせも兼ねて画面外にすっとばす
 			if $Guntret.position.y < -4096:
+				
+				print($Guntret.position.y)
+				
 				$Guntret.position.y = GuntretHomePosY
 				
 #----------------------------------------------------------------
@@ -543,6 +567,9 @@ func _process(delta: float) -> void:
 
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 				
+				#ステージクリア時にOFFにした自機のコライダーをオンにする
+				$Guntret.CollisionSetDisable(true)
+
 					
 				yield(get_tree().create_timer(0.5), "timeout")
 				#$Sound/StartMusic.play(0.0)

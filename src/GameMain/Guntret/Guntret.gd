@@ -12,6 +12,10 @@ var ShotBack = 0
 var GuntretCrush = false
 var GuntretCrushCount = 0
 
+#コライダーのOnOff
+func CollisionSetDisable(var param : bool):
+	$CollisionShape2D.set_deferred("disabled", param)
+
 
 func _ready() -> void:
 	GuntretCrush = false

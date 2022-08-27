@@ -138,8 +138,43 @@ func EnemyFormationMove(delta: float):
 			position = position.move_toward(MatrixWorldPos, 40 * delta)
 			pass
 
+#Invader Mode!!
+#func EnemyInvaderMove(delta: float):
+#	if GlobalNode.InvaderCanMove==false:
+#		return
+#
+#	if GlobalNode.InvaderMove == 0:
+#		GlobalNode.InvaderOffsetX -= 4 * delta
+#		if GlobalNode.InvaderOffsetX < -64:
+#			GlobalNode.InvaderMove = 1
+#			GlobalNode.InvaderOffsetY +=32
+#	else:
+#		GlobalNode.InvaderOffsetX += 4 * delta
+#		if 64 < GlobalNode.InvaderOffsetX:
+#			GlobalNode.InvaderMove = 0
+#			GlobalNode.InvaderOffsetY +=32
+#
+#	position.x = MatrixWorldPos.x + GlobalNode.InvaderOffsetX
+#	position.y = MatrixWorldPos.y + GlobalNode.InvaderOffsetY
+
+#func EnemyInvaderMove(delta: float):
+#
+#	if GlobalNode.InvaderMove == 0:
+#		position.x -= 30 * delta
+#		if position.x < 32:
+#			GlobalNode.InvaderMove = 1
+#			GlobalNode.InvaderOffsetY += 32
+#	else:
+#		position.x +=  30 * delta
+#		if position.x > GlobalNode.ScreenWidth - 32:
+#			GlobalNode.InvaderMove = 0
+#			GlobalNode.InvaderOffsetY += 32
+#
+#	position.y = MatrixWorldPos.y + GlobalNode.InvaderOffsetY
+
 #弾発射
 func ShotBullet():
+	#-1だったら弾の発射は行わない　
 	if EnemyShotRate == -1:
 		return
 	
@@ -176,16 +211,22 @@ func _process(delta: float) -> void:
 				return
 		
 		#隊列編成時処理
-		GlobalNode.EnemyStateID.STAT_FORMATION: # ,GlobalNode.EnemyStateID.STAT_ATTACK: 
+		GlobalNode.EnemyStateID.STAT_FORMATION:
+#			if GlobalNode.InvaderMode == true: #if GlobalNode.GameSeqActive == false:
+#				if GlobalNode.InvaderCanMove == true:
+#					EnemyInvaderMove(delta)
+#					return
+			#else:
+			#通常の編隊アニメーション
 			EnemyFormationMove(delta)
 			
 			#エネミーの死亡フラグが立っていたら弾く	
 			if Alive == false:
 				return	
-
+			
 			#弾を発射するか？
 			ShotBullet()
-			
+				
 			#攻撃を行うか？
 			if EnemyAttackRate != -1:
 				if randi()%EnemyAttackRate == 1:
@@ -194,11 +235,18 @@ func _process(delta: float) -> void:
 					PreparCnt = 0
 		
 		GlobalNode.EnemyStateID.STAT_ATTACK: #攻撃中
+#			if GlobalNode.InvaderMode == true: # && GlobalNode.GameSeqActive == false:
+#				return
+
 			FlameCounter+=1
 			match EnemyAtackState:
 				ATTACKSTATE.Prepar:
 					PreparCnt+=1
+
+					#通常の編隊アニメーション
 					EnemyFormationMove(delta)
+
+					#EnemyFormationMove(delta)
 					if 0 <= FlameCounter and FlameCounter < 30:
 						$AnimatedSprite.self_modulate = Color(1,0,0)
 					elif 30<=FlameCounter and FlameCounter < 60:
