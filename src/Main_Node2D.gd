@@ -110,7 +110,6 @@ var GameScene
 
 var CmdId = 0
 
-
 #Init All of Game Status
 func _ready() -> void:
 	randomize()
@@ -172,6 +171,10 @@ func _process(delta: float) -> void:
 				GameStart()
 			elif CmdId == 1:
 				GameQuit()
+				
+		#if Input.is_action_just_pressed("SpawnEnemy"):
+		#	DebugBoss = DebugBossScn.instance()
+		#	get_parent().add_child(DebugBoss)
 
 
 func GameStart():

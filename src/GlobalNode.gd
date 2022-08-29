@@ -82,6 +82,11 @@ var UserData = {
 	"HighScore"  : 0
 }
 
+#Guntret realtime Position
+var GuntretPos : Vector2
+
+#ボスがつけているアクティブなビットの数
+var BossBitNum
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

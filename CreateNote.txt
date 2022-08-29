@@ -376,3 +376,8 @@ n = wrapi(n+1, 0, 3)
 wrapiまたはwrapfで数値が繰り返されるようになる。
 
 メニューの選択状態などで使うと便利。
+
+#-------------------------------------------------------
+円回転
+https://www.youtube.com/watch?v=2Ywhk_T85Vg
+https://kidscancode.org/godot_recipes/basics/rotation/

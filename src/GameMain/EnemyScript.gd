@@ -1,5 +1,31 @@
 extends Node
 
+var StateBoss = [
+		{"Cmd" : "Init_s"},	#1秒タイマ初期化
+		{"Cmd" : "Init_f"},	#フレーム単位初期化
+		{"Cmd" : "Init_g"},	#グローバルタイマ初期化
+
+		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
+
+#		{"Cmd" : "Wait_s", "Time" : 2},
+
+		{"Cmd" : "MsgStageStart", "Num" : 10}, #ステージ開始テキスト描画
+		{"Cmd" : "BgStarScroll", "Spd" : 5, "Dir": 1},
+
+#		{"Cmd" : "Wait_s", "Time" : 2},
+
+		#export var StarSpeed = 5 #小さくすると速くなるよ / StarDirection = 1 #-1にすると逆スクロールだよ　
+		{"Cmd" : "BgStarScroll", "Spd" : 3, "Dir": -1},
+		#音楽変更　
+		{"Cmd" : "AudioStreamSet", "Music" : "BackScroll"},
+		
+#		{"Cmd" : "Wait_s", "Time" : 2},
+		
+		{"Cmd" : "SpwnLastBoss"},
+		{"Cmd" : "End"},		
+]
+
+
 var StateSeq01 = [
 		{"Cmd" : "Init_s"},	#1秒タイマ初期化
 		{"Cmd" : "Init_f"},	#フレーム単位初期化

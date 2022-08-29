@@ -4,8 +4,10 @@ var BulletScene = preload("res://src/GameMain/Guntret/Bullet_Area2D.tscn")
 var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn")
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 var EnemyBulletScn = preload("res://src/GameMain/Enemies/EnemyBullet.tscn")
+var BOSS_TSCN = preload("res://src/GameMain/Enemies/BossEnemy.tscn")
 
 var EnemyExplode = preload("res://src/GameMain/Particle/RectParticle.tscn")
+
 
 #----------------------------------------------------------------------------
 #エネミーを隊列で並べる時のグリッド座標情報
@@ -103,6 +105,11 @@ var DispShakeCount = 0
 var DispShakeWidth = 10
 
 var HighScoreCheck = false
+
+#ラスボスオブジェクト
+var BossScen
+var LastBossFlg = false
+
 #シーケンスパーサ
 #SeqTimerタイマノードからから呼ばれてます
 func SeqState():
@@ -232,6 +239,12 @@ func SeqState():
 #			GlobalNode.InvaderOffsetY = 0
 #
 #			SeqPtr+=1
+		#ラスボスステージ
+		"SpwnLastBoss":
+			var tmpBossScen = BOSS_TSCN.instance()
+			add_child(tmpBossScen)
+			LastBossFlg = true
+			SeqPtr+=1
 			
 		#サウンド変更　
 		"AudioStreamSet":
@@ -252,6 +265,10 @@ func SeqState():
 			#GlobalNode.GameSeqActive = false
 			#GlobalNode.InvaderCanMove = true
 			
+			#ラスボスです--------------------------------------------------
+			if LastBossFlg == true:
+				return
+				
 			#敵が0だったらステージクリアに
 			if EnemyList.size() == 0:
 				StageClearGuntret_SpdY = 10
@@ -449,11 +466,15 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
+	EnemySeqList.append($EnemyScript.StateBoss)
+
 	EnemySeqList.append($EnemyScript.StateSeq01)
 	EnemySeqList.append($EnemyScript.StateSeq02)
 	EnemySeqList.append($EnemyScript.StateSeq03)
 	EnemySeqList.append($EnemyScript.StateSeq04)
 	EnemySeqList.append($EnemyScript.StateSeq05)
+	
+
 	
 	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 	
@@ -463,6 +484,9 @@ func _ready() -> void:
 	
 	HighScoreCheck = false
 	EnemyAnimCnt = 0
+	
+	#ラスボスフラグ
+	LastBossFlg = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
