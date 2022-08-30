@@ -62,7 +62,7 @@ func _process(delta: float) -> void:
 			$CollisionShape2D.set_deferred("disabled", false)
 
 #debug-------------------------------	
-#			$CollisionShape2D.set_deferred("disabled", true)
+			$CollisionShape2D.set_deferred("disabled", true)
 #debug-------------------------------	
 	
 	#ステージクリアアニメーション中はキー入力キャンセル　

@@ -9,7 +9,7 @@ const ScreenHeight = 256
 var GameTime = 0
 
 #ゲームステート	
-enum GState {TITLE = 0, GAMEPLAY, GAMEOVER}
+enum GState {TITLE = 0, GAMEPLAY, GAMEOVER, GAME_CLEAR}
 var GameState : int  = GState.TITLE
 
 #インベーダーモード変数　

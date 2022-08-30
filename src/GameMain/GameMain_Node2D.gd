@@ -446,6 +446,34 @@ func GameStartInit():
 	$Sound/StartMusic.play()
 	
 	GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
+
+#ゲームクリア
+func GameClear():
+	#print("Call Game Clear")
+	
+	MusicStopAll()
+	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
+	GlobalNode.GameState = GlobalNode.GState.GAME_CLEAR
+	GlobalNode.SubState = GlobalNode.SUBSTATE.GAMEOVER
+
+	$Sound/GameOver.play()
+	yield(get_tree().create_timer(0.5) , "timeout")
+
+	$CanvasGameover.visible = true
+	#$CanvasStageClear.visible = true
+
+
+#		$Sound/StartMusic.stop()
+#		$Sound/BackScroll.stop()
+#
+#		yield(get_tree().create_timer(0.5) , "timeout")
+#
+#		$Sound/GameOver.play()
+#		yield(get_tree().create_timer(0.5) , "timeout")
+#
+#		$CanvasGameover.visible = true
+
+
 	
 
 # Called when the node enters the scene tree for the first time.
@@ -501,6 +529,7 @@ func _process(delta: float) -> void:
 	
 	var ScoreTxt= "Score:%010d" % GlobalNode.PlayerScore
 	$CanvasScore/lblScore.text = ScoreTxt
+	
 	
 	match GlobalNode.SubState:
 		GlobalNode.SUBSTATE.STAGE_START:
@@ -599,8 +628,16 @@ func _process(delta: float) -> void:
 				#$Sound/StartMusic.play(0.0)
 				$Sound/StartMusic.play()
 
+	#Game Clear	----------------------------------------------------------------
 	#Game Over	----------------------------------------------------------------		
-	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
+	if GlobalNode.GameState == GlobalNode.GState.GAMEOVER or GlobalNode.GameState == GlobalNode.GState.GAME_CLEAR:
+		$Guntret.position = $Guntret.position.move_toward(Vector2(GuntretHomePosX, GuntretHomePosY), delta * 100)
+		
+		if GlobalNode.GameState == GlobalNode.GState.GAMEOVER:
+			$CanvasGameover/GameOver.visible = true
+		elif GlobalNode.GameState == GlobalNode.GState.GAME_CLEAR:
+			$CanvasGameover/Complete.visible = true
+			
 		#初回呼び出しの時だけハイスコア処理してる　
 		if HighScoreCheck == false:
 			$CanvasGameover/lblScore.text = "Score:%010d" % GlobalNode.PlayerScore
@@ -616,10 +653,8 @@ func _process(delta: float) -> void:
 		#ゲームオーバー
 		$CanvasGameover/lblHitAnyKey.visible = false
 		$CanvasGameover.visible = true
-
 		
 		yield(get_tree().create_timer(5), "timeout")
-		
 
 		$CanvasGameover/lblHitAnyKey.visible = true
 
@@ -634,6 +669,7 @@ func _process(delta: float) -> void:
 		#キー入力でタイトルへ　
 		#print("Process GameOver")
 		return
+	
 	
 	#Pause r--------------------------------------------------------------
 	if Input.is_action_pressed("Pause"):
