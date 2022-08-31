@@ -20,6 +20,7 @@ func CollisionSetDisable(var param : bool):
 func _ready() -> void:
 	GuntretCrush = false
 	GuntretCrushCount=0
+	$MzlFlush.visible = false
 
 #debug-------------------------------	
 #	$CollisionShape2D.set_deferred("disabled", true)
@@ -97,6 +98,9 @@ func _process(delta: float) -> void:
 			var Bullet = BulletScene.instance()
 			Bullet.position = position
 			get_parent().add_child(Bullet)
+			
+			$MzlFlush.visible = true
+			$MzlFlush/AnimatedSprite.play()
 			
 			$ShotSound.play()
 			

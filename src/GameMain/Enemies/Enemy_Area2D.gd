@@ -18,6 +18,8 @@ var localCounter = 0	#タイマ計測用
 #var Speed = 150
 var Speed = 20
 
+var HitBack = 0 #弾が当たって弾き返したときのヒットバック値
+
 var MoveSeq = 0
 
 var EnemyID	#ObjectID
@@ -163,7 +165,14 @@ func ShotBullet():
 				get_parent().ShotEnemyBullet(position, 1) #真下狙い
 
 func _process(delta: float) -> void:
+	
+	$AnimatedSprite.offset.y = HitBack
+	if 0<HitBack:
+		HitBack-=1
+
+	
 	match EnemyState:
+		
 		#出現ループ中処理
 		GlobalNode.EnemyStateID.STAT_LOOP:
 			#適当に弾をばらまく
@@ -175,7 +184,7 @@ func _process(delta: float) -> void:
 			#print("Call Go Home")
 			position = position.move_toward(MatrixWorldPos, Speed * delta)
 			rotation += 30
-			Speed += 5
+			Speed += 2
 			
 			if position == MatrixWorldPos:
 				#EnemyState = GlobalNode.EnemyStateID.STAT_FORMATION
@@ -187,7 +196,6 @@ func _process(delta: float) -> void:
 		
 		#隊列編成時処理
 		GlobalNode.EnemyStateID.STAT_FORMATION: # ,GlobalNode.EnemyStateID.STAT_ATTACK: 
-
 			EnemyFormationMove(delta)
 			
 			#エネミーの死亡フラグが立っていたら弾く	
@@ -263,6 +271,9 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 		get_parent().add_child(ref)
 		
 		$SoundRefrect.play()
+		
+		#プレイヤーのたまに当たったらヒットバックする
+		HitBack=4
 	
 	elif Life < 0:
 		
