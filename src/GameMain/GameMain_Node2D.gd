@@ -71,10 +71,12 @@ var EnemySeqList = [] #実行するシーケンスの辞書リスト
 var EnemySeqStageNum = 0	#実行中のステージ番号
 #$EnemyScript.StateSeq01, $EnemyScript.StateSeq02]
 
+
+#hoge
 #		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
-var EnemyAttackRate : int	#エネミーが攻撃耐性に入る確率
-var EnemyShotRate : int	#エネミーが弾を撃ってくる確率
-var EnemyShotAim : bool	#自機狙い弾を撃ってくるかどうか true/false
+#var EnemyAttackRate : int	#エネミーが攻撃耐性に入る確率
+#var EnemyShotRate : int	#エネミーが弾を撃ってくる確率
+#var EnemyShotAim : bool	#自機狙い弾を撃ってくるかどうか true/false
 
 #----------------------------------------------------------------------------
 
@@ -155,15 +157,15 @@ func SeqState():
 				SeqPtr+=1
 
 #		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
-		"EnemyStrength":
-				EnemyAttackRate = Seq["Attack"]
-				EnemyShotRate  = Seq["Shot"]
-				EnemyShotAim  = Seq["Aim"]
-				SeqPtr+=1
-#		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
-#		var EnemyAttackRate	#エネミーが攻撃耐性に入る確率
+#		var EnemyAttackRate	#エネミーが攻撃体制に入る確率
 #		var EnemyShotRate	#エネミーが弾を撃ってくる確率
 #		var EnemyShotAim	#自機狙い弾を撃ってくるかどうか true/false
+		"EnemyStrength":
+				GlobalNode.EnemyAttackRate = Seq["Attack"]
+				GlobalNode.EnemyShotRate  = Seq["Shot"]
+				GlobalNode.EnemyShotAim  = Seq["Aim"]
+				SeqPtr+=1
+#		{"Cmd" : "EnemyStrength", "Attack" : 4000, "Shot": 4000, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
 			
 		
 		"LoopEnmy":
@@ -297,7 +299,7 @@ func LoopEnemySpawn(var LoopType : int, var EnemyColor : int, var Matrix:Vector2
 	var enid = ScnEnemy.get_instance_id()
 	ScnEnemy.SetEnemyId(enid)
 	ScnEnemy.SetEnemyColor(EnemyColor)
-	ScnEnemy.SetEnemyAttackRate(EnemyAttackRate, EnemyShotRate, EnemyShotAim)	
+	#ScnEnemy.SetEnemyAttackRate(EnemyAttackRate, EnemyShotRate, EnemyShotAim)
 
 #debug	 ここをまるっと置き換える ーーーーーーーーーーーーーーーーーーーーーーーーー
 	#var EnemyFormation # hold 1=move_outside 2=move_inner

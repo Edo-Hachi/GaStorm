@@ -56,18 +56,22 @@ enum EnFrmStateID{
 }
 var EnFrmState = EnFrmStateID.STOP
 
+#エネミーの攻撃パラメータ
+var EnemyAttackRate : int	#エネミーが攻撃耐性に入る確率 -1なら編隊状態から攻撃モードに移行しない
+var EnemyShotRate : int	#エネミーが弾を撃ってくる確率
+var EnemyShotAim : bool	#自機狙い弾を撃ってくるかどうか true/false
+
 #シーケンス実行中状態 実行中 = true / 終了 = false
 var SeqState
 
 #------------------
-var EnemyInvader = false
-var InvaderDir = 0
-var InvaderLeftX
-var InvaderRightX
-var InvaderTimer = 0
-var EnemyOffsetY=0
+#var EnemyInvader = false
+#var InvaderDir = 0
+#var InvaderLeftX
+#var InvaderRightX
+#var InvaderTimer = 0
+#var EnemyOffsetY=0
 #------------------
-
 
 #Color Name Like a Pico8 Colors)
 var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolivegreen", "darkgray", "cornsilk", "red", "darkorange", "yellow", "green",

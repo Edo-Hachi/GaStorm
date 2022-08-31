@@ -29,9 +29,9 @@ var ScoreMulti = 1	#スコア計算時の係数
 var BackScroll = false
 
 #エネミーの攻撃強度	　
-var EnemyAttackRate : int =   4000	
-var EnemyShotRate : int = 4000
-var EnemyAim : bool = false
+#var EnemyAttackRate : int =   400
+#var EnemyShotRate : int = 400
+#var EnemyAim : bool = false
 
 #var ReturnToHomeState = 0
 
@@ -102,10 +102,10 @@ func ActivateFormation():
 	pass
 
 #エネミーの攻撃発生強度設定　
-func SetEnemyAttackRate(var atack : float, var shot : float , var aim:bool):
-	EnemyAttackRate = atack
-	EnemyShotRate  = shot
-	EnemyAim  = aim
+#func SetEnemyAttackRate(var atack : float, var shot : float , var aim:bool):
+#	EnemyAttackRate = atack
+#	EnemyShotRate  = shot
+#	EnemyAim  = aim
 
 func EnemyFormationMove(delta: float):
 	var x1 = 12 * 3
@@ -146,61 +146,15 @@ func EnemyFormationMove(delta: float):
 			position = position.move_toward(MatrixWorldPos, 40 * delta)
 			pass
 
-#Invader Mode!!
-#func EnemyInvaderMove(delta: float):
-#	if GlobalNode.InvaderCanMove==false:
-#		return
-#
-#	if GlobalNode.InvaderMove == 0:
-#		GlobalNode.InvaderOffsetX -= 4 * delta
-#		if GlobalNode.InvaderOffsetX < -64:
-#			GlobalNode.InvaderMove = 1
-#			GlobalNode.InvaderOffsetY +=32
-#	else:
-#		GlobalNode.InvaderOffsetX += 4 * delta
-#		if 64 < GlobalNode.InvaderOffsetX:
-#			GlobalNode.InvaderMove = 0
-#			GlobalNode.InvaderOffsetY +=32
-#
-#	position.x = MatrixWorldPos.x + GlobalNode.InvaderOffsetX
-#	position.y = MatrixWorldPos.y + GlobalNode.InvaderOffsetY
-
-#func EnemyInvaderMove(delta: float):
-#
-#	if GlobalNode.InvaderMove == 0:
-#		position.x -= 30 * delta
-#		if position.x < 32:
-#			GlobalNode.InvaderMove = 1
-#			GlobalNode.InvaderOffsetY += 32
-#	else:
-#		position.x +=  30 * delta
-#		if position.x > GlobalNode.ScreenWidth - 32:
-#			GlobalNode.InvaderMove = 0
-#			GlobalNode.InvaderOffsetY += 32
-#
-#	position.y = MatrixWorldPos.y + GlobalNode.InvaderOffsetY
-#func EnemyInvaderMove(delta: float):
-#	if GlobalNode.InvaderDir == 0:
-#		position.x -= 30 * delta
-#		if position.x < 32:
-#			GlobalNode.InvaderDir = 1
-#			GlobalNode.EnemyOffsetY += 8
-#	else:
-#		position.x +=  30 * delta
-#		if position.x > GlobalNode.ScreenWidth - 32:
-#			GlobalNode.InvaderDir = 0
-#			GlobalNode.EnemyOffsetY += 8
-#
-#	position.y = MatrixWorldPos.y + GlobalNode.EnemyOffsetY
-
 #弾発射
 func ShotBullet():
 	#-1だったら弾の発射は行わない　
-	if EnemyShotRate == -1:
+	if GlobalNode.EnemyShotRate == -1:
 		return
 	
-	if randi()%EnemyShotRate == 1:
-		if EnemyAim == false:
+	if randi()%GlobalNode.EnemyShotRate == 1:
+		if GlobalNode.EnemyShotAim == false:
+			
 			get_parent().ShotEnemyBullet(position, 0) #真下狙い
 		else:
 			if randi()%2:
@@ -244,8 +198,8 @@ func _process(delta: float) -> void:
 			ShotBullet()
 				
 			#攻撃を行うか？
-			if EnemyAttackRate != -1:
-				if randi()%EnemyAttackRate == 1:
+			if GlobalNode.EnemyAttackRate != -1:
+				if randi()%GlobalNode.EnemyAttackRate == 1:
 					EnemyState = GlobalNode.EnemyStateID.STAT_ATTACK
 					FlameCounter=0
 					PreparCnt = 0
