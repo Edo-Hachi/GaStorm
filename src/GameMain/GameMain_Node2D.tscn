@@ -61,6 +61,7 @@ visible = false
 position = Vector2( 64, 32 )
 
 [node name="Guntret" parent="." instance=ExtResource( 2 )]
+position = Vector2( -53, -41 )
 
 [node name="RestGuntret" parent="." instance=ExtResource( 7 )]
 visible = false

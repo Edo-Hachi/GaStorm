@@ -179,19 +179,19 @@ func EnemyFormationMove(delta: float):
 #			GlobalNode.InvaderOffsetY += 32
 #
 #	position.y = MatrixWorldPos.y + GlobalNode.InvaderOffsetY
-func EnemyInvaderMove(delta: float):
-	if GlobalNode.InvaderDir == 0:
-		position.x -= 30 * delta
-		if position.x < 32:
-			GlobalNode.InvaderDir = 1
-			GlobalNode.EnemyOffsetY += 8
-	else:
-		position.x +=  30 * delta
-		if position.x > GlobalNode.ScreenWidth - 32:
-			GlobalNode.InvaderDir = 0
-			GlobalNode.EnemyOffsetY += 8
-		
-	position.y = MatrixWorldPos.y + GlobalNode.EnemyOffsetY
+#func EnemyInvaderMove(delta: float):
+#	if GlobalNode.InvaderDir == 0:
+#		position.x -= 30 * delta
+#		if position.x < 32:
+#			GlobalNode.InvaderDir = 1
+#			GlobalNode.EnemyOffsetY += 8
+#	else:
+#		position.x +=  30 * delta
+#		if position.x > GlobalNode.ScreenWidth - 32:
+#			GlobalNode.InvaderDir = 0
+#			GlobalNode.EnemyOffsetY += 8
+#
+#	position.y = MatrixWorldPos.y + GlobalNode.EnemyOffsetY
 
 #弾発射
 func ShotBullet():
@@ -232,19 +232,9 @@ func _process(delta: float) -> void:
 				return
 		
 		#隊列編成時処理
-		GlobalNode.EnemyStateID.STAT_FORMATION:
-#			if GlobalNode.InvaderMode == true: #if GlobalNode.GameSeqActive == false:
-#				if GlobalNode.InvaderCanMove == true:
-#					EnemyInvaderMove(delta)
-#					return
-			#else:
-			#通常の編隊アニメーション
-			EnemyFormationMove(delta)
 		GlobalNode.EnemyStateID.STAT_FORMATION: # ,GlobalNode.EnemyStateID.STAT_ATTACK: 
-			if GlobalNode.EnemyInvader == true && GlobalNode.SeqState == false:
-				EnemyInvaderMove(delta)
-			else:
-				EnemyFormationMove(delta)
+
+			EnemyFormationMove(delta)
 			
 			#エネミーの死亡フラグが立っていたら弾く	
 			if Alive == false:

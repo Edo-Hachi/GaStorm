@@ -187,7 +187,8 @@ func SeqState():
 
 			#シーケンス動作開始
 			GlobalNode.GameSeqActive = true
-
+			
+			
 			#インベーダーモード	
 #			GlobalNode.InvaderMode = false
 #			GlobalNode.InvaderMove = 0
@@ -248,11 +249,13 @@ func SeqState():
 			
 		#サウンド変更　
 		"AudioStreamSet":
-			MusicStopAll()
+			#MusicStopAll()
 			match Seq["Music"]:
 				"StartMusic":
+					$Sound/BackScroll.stop()
 					$Sound/StartMusic.play()
 				"BackScroll":
+					$Sound/StartMusic.stop()
 					$Sound/BackScroll.play()
 			SeqPtr+=1
 			
@@ -494,9 +497,9 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
+	EnemySeqList.append($EnemyScript.StateSeq01)
 	EnemySeqList.append($EnemyScript.StateBoss)
 
-	EnemySeqList.append($EnemyScript.StateSeq01)
 	EnemySeqList.append($EnemyScript.StateSeq02)
 	EnemySeqList.append($EnemyScript.StateSeq03)
 	EnemySeqList.append($EnemyScript.StateSeq04)
@@ -621,12 +624,12 @@ func _process(delta: float) -> void:
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_START
 				
 				#ステージクリア時にOFFにした自機のコライダーをオンにする
-				$Guntret.CollisionSetDisable(true)
-
+				$Guntret.CollisionSetDisable(false)
+				#hoge
 					
 				yield(get_tree().create_timer(0.5), "timeout")
 				#$Sound/StartMusic.play(0.0)
-				$Sound/StartMusic.play()
+				#$Sound/StartMusic.play()
 
 	#Game Clear	----------------------------------------------------------------
 	#Game Over	----------------------------------------------------------------		
@@ -666,10 +669,7 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("Shot"):	
 			get_parent().GameTitleInit()
 			queue_free()
-		#キー入力でタイトルへ　
-		#print("Process GameOver")
 		return
-	
 	
 	#Pause r--------------------------------------------------------------
 	if Input.is_action_pressed("Pause"):
@@ -684,15 +684,6 @@ func _on_DlgPause_tree_exited() -> void:
 	if get_owner() != null:
 		get_tree().paused = false	
  
-#GameOver Dlg
-#func _on_DlgGameOver_tree_exited() -> void:
-#	if get_owner() != null:
-#		get_tree().paused = false
-#	pass # Replace with function body.
-
-
-
-
 # 1/60 で呼ばれます
 #各タイマカウントを更新し、シーケンス処理を呼び出します
 func _on_SeqTimer_timeout() -> void:

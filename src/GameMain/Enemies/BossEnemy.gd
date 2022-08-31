@@ -151,7 +151,8 @@ func _process(delta: float) -> void:
 			
 			DrawBit(BitR)
 			
-			if randi() % 50 == 1:
+#			if randi() % 50 == 1:
+			if randi() % 500 == 1:
 				get_parent().ShotEnemyBullet(position, 0) #真下狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				
@@ -177,13 +178,15 @@ func _process(delta: float) -> void:
 					MoveDir = 0
 			
 			#攻撃
-			if randi() % 40 == 1:
+#			if randi() % 40 == 1:
+			if randi() % 400 == 1:
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				#内部実装
 				ShotEnemyBullet02(position)
 			
-			if randi() % 50 == 1:
+			if randi() % 500 == 1:
+#			if randi() % 50 == 1:
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				ShotEnemyBullet03(position)
