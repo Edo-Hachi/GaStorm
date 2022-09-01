@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://asset/Font/zig.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://asset/Font/aerial.ttf" type="DynamicFontData" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://asset/Image/GastormTitle.png" type="Texture" id=5]
 [ext_resource path="res://asset/Image/Godot_Kun_box200.png" type="Texture" id=6]
 [ext_resource path="res://asset/Font/Amazing Views.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://asset/Sound/Select.wav" type="AudioStream" id=8]
 [ext_resource path="res://asset/Image/BgImage1.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=2]
@@ -133,6 +134,9 @@ visible = false
 [node name="GodotKun200" type="Sprite" parent="GodotLogo"]
 position = Vector2( 127, 122 )
 texture = ExtResource( 6 )
+
+[node name="GameStart" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
 
 [connection signal="button_down" from="CanvasTitle/TitleNode/BtnStart" to="." method="_on_BtnStart_button_down"]
 [connection signal="button_down" from="CanvasTitle/TitleNode/BtnQuit" to="." method="_on_BtnQuit_button_down"]

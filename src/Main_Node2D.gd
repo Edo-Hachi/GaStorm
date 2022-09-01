@@ -93,6 +93,8 @@ var GameScene
 
 var CmdId = 0
 
+var GameStartBtnEnable = true
+
 #Init All of Game Status
 func _ready() -> void:
 	randomize()
@@ -148,7 +150,9 @@ func _process(delta: float) -> void:
 				$CanvasTitle/TitleNode/BtnStart.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 			elif CmdId == 1:
 					$CanvasTitle/TitleNode/BtnQuit.add_color_override("font_color",  ColorN(GlobalNode.ColorName[col]))
-		
+
+
+#debug ここスタート入力二発とか入ってきちゃうので弾くようにしないとまずい　		
 		if Input.is_action_just_pressed("Shot") or  Input.is_action_just_pressed("ui_accept"):
 			if CmdId == 0:
 				GameStart()
@@ -159,8 +163,18 @@ func _process(delta: float) -> void:
 		#	DebugBoss = DebugBossScn.instance()
 		#	get_parent().add_child(DebugBoss)
 
-
+#Game Start
 func GameStart():
+	if GameStartBtnEnable == false:
+		return
+	
+	#連続してスタートボタンおせないようにしてるフラグ
+	GameStartBtnEnable = false
+	
+	$GameStart.play()
+	yield(get_tree().create_timer(2), "timeout")
+
+	
 	GlobalNode.GameState = GlobalNode.GState.GAMEPLAY
 	
 	GameScene = GameMainScen.instance()
@@ -173,10 +187,13 @@ func GameStart():
 	$CanvasTitle.visible = false
 	$CanvasBg.visible = false
 	
-	
+	#ゲームボタン連続おせないフラグを戻す
+	GameStartBtnEnable = true
+
 #	var aa= get_node("/root/GameMain/GameMain_Node2D")
 #	aa.GameStartInit()
 
+#Quit
 func GameQuit():
 	get_tree().quit()
 	

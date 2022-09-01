@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://asset/Image/Enemy/Boss02.png" type="Texture" id=1]
-[ext_resource path="res://asset/Image/Enemy/Boss03.png" type="Texture" id=2]
-[ext_resource path="res://asset/Image/Enemy/Boss01.png" type="Texture" id=3]
+[ext_resource path="res://asset/Image/Enemy/Boss_v2_02.png" type="Texture" id=1]
+[ext_resource path="res://asset/Image/Enemy/Boss_v2_03.png" type="Texture" id=2]
+[ext_resource path="res://asset/Image/Enemy/Boss_v2_01.png" type="Texture" id=3]
 [ext_resource path="res://src/GameMain/Enemies/BossEnemy.gd" type="Script" id=4]
+[ext_resource path="res://asset/Sound/BossExpllde.wav" type="AudioStream" id=5]
+[ext_resource path="res://asset/Sound/se_ama02.wav" type="AudioStream" id=6]
+[ext_resource path="res://asset/Sound/zap01.wav" type="AudioStream" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -25,18 +28,27 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 1.1, 1 )
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource( 2 )
-disabled = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
 [node name="TimerExplode" type="Timer" parent="."]
 wait_time = 0.2
+
+[node name="Explode" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Refrect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Zap" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
 
 [connection signal="area_entered" from="." to="." method="_on_BossEnemy_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

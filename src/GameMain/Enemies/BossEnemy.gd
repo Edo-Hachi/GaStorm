@@ -6,6 +6,8 @@ var BULLET_TSCN = preload("res://src/GameMain/Enemies/EnemyBullet.tscn")
 var EXPBOSS_TSCN = preload("res://src/GameMain/Particle/BossExplode.tscn")
 var EXCP_MINI_TSCN =preload("res://src/GameMain/Particle/EnemyExplode.tscn")
 
+var REFRECT_TSCN = preload("res://src/GameMain/Particle/EnemyRefrect.tscn")
+
 
 #ビットのアニメーション情報-----------------------------
 const rad30 : float = 0.52359
@@ -163,7 +165,8 @@ func _process(delta: float) -> void:
 			if GlobalNode.BossBitNum ==0:
 				BossState = State.State04
 				#コリジョンをONに（やっと攻撃できるぞ）
-				$CollisionShape2D.disabled = false
+				#$CollisionShape2D.disabled = false
+				#$CollisionShape2D_barrier.disabled = true
 		
 		#最終形態	----------------------------------------------------------
 		State.State04:
@@ -220,12 +223,22 @@ func _draw():
 		if 0<GlobalNode.BossBitNum:
 			draw_circle(Vector2(0,0), 20, ColorN("yellow",0.3))
 
+#コライダー処理　
 func _on_BossEnemy_area_entered(area: Area2D) -> void:
+	
+	if BossState == State.State01 or BossState == State.State02 or BossState == State.State03:
+		var refrect = REFRECT_TSCN.instance()
+		refrect.SetParticle(position.x, position.y + 16, 20)
+		get_parent().add_child(refrect)
+		$Refrect.play()
+		return
+		pass
+	
 	var explo = EXCP_MINI_TSCN.instance()
 	explo.SetParticle(position.x, position.y, 100)
 	get_parent().add_child(explo)
 	
-	
+	$Zap.play()
 	#print("Boss Hit")
 	BossLife -= 1
 	
@@ -235,6 +248,8 @@ func _on_BossEnemy_area_entered(area: Area2D) -> void:
 	#$CollisionShape2D.set_deferred("disabled", true)
 	$CollisionShape2D.set_deferred("disabled", true)
 #	$CollisionShape2D.disabled = true
+	
+
 	$Timer.start()
 	#print("Timer Start")
 	
@@ -242,7 +257,12 @@ func _on_BossEnemy_area_entered(area: Area2D) -> void:
 	if BossLife <= 0:
 		#print("Boss Dead")
 		BossState = State.StateDead
+		
+		BossExpodeCount = 30
+
 		$TimerExplode.start()
+		yield(get_tree().create_timer(0.8), "timeout")
+		$Explode.play()
 
 
 #1秒単位で飛んでくるタイマ
