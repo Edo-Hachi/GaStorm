@@ -26,6 +26,12 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype, var uofs):
 			LoopPathObj = $LeftPath02/Path2D/PathFollow2D
 		GlobalNode.LoopType.Right02:
 			LoopPathObj = $RightPath02/Path2D/PathFollow2D
+
+		GlobalNode.LoopType.Left03:
+			LoopPathObj = $LeftPath03/Path2D/PathFollow2D
+		GlobalNode.LoopType.Right03:
+			LoopPathObj = $RightPath03/Path2D/PathFollow2D
+			
 		GlobalNode.LoopType.RevStgLeft01:
 			LoopPathObj = $RevStgLeft01/Path2D/PathFollow2D
 		GlobalNode.LoopType.RevStgRight01:
@@ -49,8 +55,7 @@ func _process(delta: float) -> void:
 	EnemyId.position = LoopPathObj.position
 	EnemyId.rotation_degrees = LoopPathObj.rotation_degrees - 90
 	
-	
-	if 1<= LoopPathObj.unit_offset:
+	if 0.95<= LoopPathObj.unit_offset:
 		EnemyId.rotation_degrees = 0
 
 		get_parent().LoopEnemyOver(EnemyId, LoopPathObj.position, EnemyId.MatrixWorldPos)

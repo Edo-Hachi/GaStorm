@@ -56,7 +56,8 @@ func ShotEnemyBullet02(var pos):
 		ScnBullet.SetToword(BitList[i].position, 100)
 		get_parent().add_child(ScnBullet)
 
-#ビット方向に弾をばらまく
+#ビット方向に弾をばらまく()ちょっと速い
+
 func ShotEnemyBullet03(var pos):
 	for i in range(BitMax):
 		var ScnBullet = BULLET_TSCN.instance()
@@ -153,8 +154,8 @@ func _process(delta: float) -> void:
 			
 			DrawBit(BitR)
 			
-#			if randi() % 50 == 1:
-			if randi() % 500 == 1:
+			if randi() % 50 == 1:
+#			if randi() % 500 == 1:
 				get_parent().ShotEnemyBullet(position, 0) #真下狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				
@@ -181,31 +182,26 @@ func _process(delta: float) -> void:
 					MoveDir = 0
 			
 			#攻撃
-#			if randi() % 40 == 1:
-			if randi() % 400 == 1:
+			if randi() % 40 == 1:
+#			if randi() % 400 == 1:
+
+				get_parent().ShotEnemyBullet(position, 0) #真下狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				#内部実装
 				ShotEnemyBullet02(position)
 			
-			if randi() % 500 == 1:
-#			if randi() % 50 == 1:
+#			if randi() % 500 == 1:
+			if randi() % 50 == 1:
+				get_parent().ShotEnemyBullet(position, 0) #真下狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				get_parent().ShotEnemyBullet(position, 1) #自機狙い
 				ShotEnemyBullet03(position)
 
 			#ダメージに応じた色変更	
-			match BossLife / 2:
-				5:
-					$AnimatedSprite.self_modulate = Color(1, 1, 1)
-				4:
-					$AnimatedSprite.self_modulate = Color(0.9, 0, 0)
-				3:
-					$AnimatedSprite.self_modulate = Color(0.6, 0, 0)
-				2:
-					$AnimatedSprite.self_modulate = Color(0.4, 0, 0)
-				1:
-					$AnimatedSprite.self_modulate = Color(0.2, 0, 0)
+			var col = BossLife * 1.05
+
+			$AnimatedSprite.self_modulate = Color(col, 0, 0)
 		
 		#Boss Dead---------------------------------------------------------------
 		State.StateDead:
@@ -239,10 +235,8 @@ func _on_BossEnemy_area_entered(area: Area2D) -> void:
 	get_parent().add_child(explo)
 	
 	$Zap.play()
-	#print("Boss Hit")
 	BossLife -= 1
 	
-	#BossLife -= 10
 	
 	#$CollisionShape2D.disabled(true)
 	#$CollisionShape2D.set_deferred("disabled", true)
