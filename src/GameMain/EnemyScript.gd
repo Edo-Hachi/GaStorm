@@ -56,13 +56,14 @@ var StateSeq01 = [
 
 
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1), "Spd":Spd_05},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.LeftPath04A, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,1), "Spd":Spd_05},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(6,1), "Spd":Spd_05},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.LeftPath04B, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(6,1), "Spd":Spd_05},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,1), "Spd":Spd_05},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RightPath04A, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,1), "Spd":Spd_05},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,1), "Spd":Spd_05},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RightPath04B, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,1), "Spd":Spd_05},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RightPath04B, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,1), "Spd":Spd_05},
 #
 #		{"Cmd" : "Wait_s", "Time" : 2},
 #

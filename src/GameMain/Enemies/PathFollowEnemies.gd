@@ -32,6 +32,19 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype, var uofs):
 		GlobalNode.LoopType.Right03:
 			LoopPathObj = $RightPath03/Path2D/PathFollow2D
 			
+
+		GlobalNode.LoopType.LeftPath04A:
+			LoopPathObj = $LeftPatth04A/Path2D/PathFollow2D
+		GlobalNode.LoopType.LeftPath04B:
+			LoopPathObj = $LeftPatth04B/Path2D/PathFollow2D
+
+		GlobalNode.LoopType.RightPath04A:
+			LoopPathObj = $RightPatth04A/Path2D/PathFollow2D
+		GlobalNode.LoopType.RightPath04B:
+			LoopPathObj = $RightPatth04B/Path2D/PathFollow2D
+			
+			
+			
 		GlobalNode.LoopType.RevStgLeft01:
 			LoopPathObj = $RevStgLeft01/Path2D/PathFollow2D
 		GlobalNode.LoopType.RevStgRight01:

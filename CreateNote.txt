@@ -381,3 +381,12 @@ wrapiまたはwrapfで数値が繰り返されるようになる。
 円回転
 https://www.youtube.com/watch?v=2Ywhk_T85Vg
 https://kidscancode.org/godot_recipes/basics/rotation/
+
+
+#Ctrl+Dでコピーしたノードグループが、コピー元のノードグループを継承してしまう
+Path2Dなんかをコピーすると子をいじると親も変更されてしまう
+
+　→　ノードを選択して、インスペクタの「ドライバーとスパナ」みたいなツールアイコンから　　Make SubResouce Uniqueを選択すると
+　親と子が切り離される
+　変な仕様
+
