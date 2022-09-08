@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://src/GameMain/Enemies/PathFollowEnemies.gd" type="Script" id=1]
 [ext_resource path="res://src/GameMain/Enemies/EnemyGrid.tscn" type="PackedScene" id=2]
@@ -87,6 +87,16 @@ _data = {
 [sub_resource type="Curve2D" id=17]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 272, 48, 0, 0, 0, 0, 43, 48, 0, 0, 0, 0, 43, 192, 0, 0, 0, 0, 85, 193, 0, 0, 0, 0, 162, 85, 0, 0, 0, 0, 162, 192, 0, 0, 0, 0, 200, 192, 0, 0, 0, 0, 199, 84, 0, 0, 0, 0, 278, 84 )
+}
+
+[sub_resource type="Curve2D" id=18]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -24, 24, 0, 0, 0, 0, 208, 24, 0, 0, 0, 0, 208, 184, 0, 0, 0, 0, 28, 184, 0, 0, 0, 0, 28, 52, 0, 0, 0, 0, 176, 52, 0, 0, 0, 0, 176.455, 151.812, 0, 0, 0, 0, 60, 152, 0, 0, 0, 0, 60, 76, 0, 0, 0, 0, 275.569, 78.9469 )
+}
+
+[sub_resource type="Curve2D" id=19]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 279.349, 24.3503, 0, 0, 0, 0, 40, 24, 0, 0, 0, 0, 40, 160, 0, 0, 0, 0, 224, 160, 0, 0, 0, 0, 224, 48, 0, 0, 0, 0, 64, 48, 0, 0, 0, 0, 64, 128, 0, 0, 0, 0, 192, 128, 0, 0, 0, 0, 192, 80, 0, 0, 0, 0, -25.1322, 78.9469 )
 }
 
 [node name="EnemyPath" type="Node"]
@@ -392,5 +402,31 @@ position = Vector2( 272, 48 )
 rotation = 3.14159
 
 [node name="EnemyHidden" type="Sprite" parent="RevStgRight03/Path2D/PathFollow2D"]
+rotation = -1.5708
+texture = ExtResource( 4 )
+
+[node name="RevStgLeft04" type="Node2D" parent="."]
+visible = false
+
+[node name="Path2D" type="Path2D" parent="RevStgLeft04"]
+curve = SubResource( 18 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RevStgLeft04/Path2D"]
+position = Vector2( -24, 24 )
+
+[node name="EnemyHidden" type="Sprite" parent="RevStgLeft04/Path2D/PathFollow2D"]
+rotation = -1.5708
+texture = ExtResource( 4 )
+
+[node name="RevStgRight04" type="Node2D" parent="."]
+
+[node name="Path2D" type="Path2D" parent="RevStgRight04"]
+curve = SubResource( 19 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RevStgRight04/Path2D"]
+position = Vector2( 279.349, 24.3503 )
+rotation = -3.14013
+
+[node name="EnemyHidden" type="Sprite" parent="RevStgRight04/Path2D/PathFollow2D"]
 rotation = -1.5708
 texture = ExtResource( 4 )

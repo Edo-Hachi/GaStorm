@@ -33,7 +33,7 @@ var GameMainSceneID = 0
 
 enum LoopType {Left01=0, Right01, Left02, Right02, Left03, Right03,
 				 LeftPath04A, LeftPath04B, RightPath04A, RightPath04B,
-				 RevStgLeft01, RevStgRight01, RevStgLeft02, RevStgRight02, RevStgLeft03, RevStgRight03}
+				 RevStgLeft01, RevStgRight01, RevStgLeft02, RevStgRight02, RevStgLeft03, RevStgRight03, RevStgLeft04, RevStgRight04}
 
 enum EnemyColor {Green=0, Red, Yellow, Black} 
 
