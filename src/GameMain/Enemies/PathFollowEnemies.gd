@@ -43,17 +43,20 @@ func InitLoopEnemies(var enemy_id, var loop_id, var looptype, var uofs):
 		GlobalNode.LoopType.RightPath04B:
 			LoopPathObj = $RightPatth04B/Path2D/PathFollow2D
 			
-			
-			
 		GlobalNode.LoopType.RevStgLeft01:
 			LoopPathObj = $RevStgLeft01/Path2D/PathFollow2D
 		GlobalNode.LoopType.RevStgRight01:
 			LoopPathObj = $RevStgRight01/Path2D/PathFollow2D
 		GlobalNode.LoopType.RevStgLeft02:
+			
 			LoopPathObj = $RevStgLeft02/Path2D/PathFollow2D	
 		GlobalNode.LoopType.RevStgRight02:
-			LoopPathObj = $RevStgRight02/Path2D/PathFollow2D	
-		#_:
+			LoopPathObj = $RevStgRight02/Path2D/PathFollow2D
+
+		GlobalNode.LoopType.RevStgLeft03:
+			LoopPathObj = $RevStgLeft03/Path2D/PathFollow2D	
+		GlobalNode.LoopType.RevStgRight03:
+			LoopPathObj = $RevStgRight03/Path2D/PathFollow2D
 		#	LoopPathObj= null
 
 # Called when the node enters the scene tree for the first time.

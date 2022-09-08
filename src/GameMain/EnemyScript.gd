@@ -393,6 +393,33 @@ var StateSeq04 = [
 		#音楽変更　
 		{"Cmd" : "AudioStreamSet", "Music" : "BackScroll"},
 		
+
+		{"Cmd" : "Wait_s", "Time" : 3},
+
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgLeft03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgLeft03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgLeft03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgLeft03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgLeft03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+
+		{"Cmd" : "Wait_s", "Time" : 3},
+
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgRight03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgRight03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgRight03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgRight03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgRight03, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
+		{"Cmd" : "Wait_f", "Time" : 5},
+
 		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgLeft01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":0.4},
