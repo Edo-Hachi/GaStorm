@@ -52,6 +52,8 @@ func SetEnemyId(var enemyid):
 	EnemyID = enemyid
 	#$AnimatedSprite.animation = "Green"
 
+#enum EnemyColor {Green=0, Red, Yellow, Black} 
+
 func SetEnemyColor(var enemyColor : int):
 	match enemyColor:
 		GlobalNode.EnemyColor.Green:
@@ -64,14 +66,11 @@ func SetEnemyColor(var enemyColor : int):
 			ScoreMulti = Life
 		GlobalNode.EnemyColor.Yellow:
 			$AnimatedSprite.animation = "Yellow"
-			Life = 1
-		GlobalNode.EnemyColor.Purple:
-			$AnimatedSprite.animation = "Puraple"
 			Life = 3
 			ScoreMulti = Life
 		GlobalNode.EnemyColor.Black:
 			$AnimatedSprite.animation = "Black"
-			Life = 1
+			Life = 4
 			ScoreMulti = Life
 
 			
