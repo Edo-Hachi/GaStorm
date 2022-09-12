@@ -224,17 +224,25 @@ func _process(delta: float) -> void:
 					EnemyFormationMove(delta)
 
 					#EnemyFormationMove(delta)
-					if 0 <= FlameCounter and FlameCounter < 30:
-						$AnimatedSprite.self_modulate = Color(1,0,0)
-					elif 30<=FlameCounter and FlameCounter < 60:
-						$AnimatedSprite.self_modulate = Color(1,1,1)
-					else:
-						FlameCounter = 0
+
+#					if 0 <= FlameCounter and FlameCounter < 20:
+#						#visible = false
+#						$AnimatedSprite.self_modulate = Color(0.2,0.2,0.2)
+#					elif 30<=FlameCounter and FlameCounter < 60:
+#						$AnimatedSprite.self_modulate = Color(1,1,1)
+#						#visible = true
+#					else:
+#						FlameCounter = 0
+
+					$AnimatedSprite.visible = true
+					if sin(FlameCounter/3)<0.1:
+						$AnimatedSprite.visible = false
 					
 					#2秒たったら攻撃開始
 					if (60 * 2) < PreparCnt:
 						EnemyAtackState = ATTACKSTATE.MoveAttack
 						$AnimatedSprite.self_modulate = Color(1,1,1)
+						$AnimatedSprite.visible = true
 						return
 				
 				#左右ふらふらしながら下降

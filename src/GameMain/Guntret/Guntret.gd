@@ -12,6 +12,8 @@ var ShotBack = 0
 var GuntretCrush = false
 var GuntretCrushCount = 0
 
+var GuntretRoll = 0
+
 #コライダーのOnOff
 func CollisionSetDisable(var param : bool):
 	$CollisionShape2D.set_deferred("disabled", param)
@@ -71,12 +73,30 @@ func _process(delta: float) -> void:
 		return
 	if GlobalNode.SubState ==  GlobalNode.SUBSTATE.STAGE_CLEAR02:
 		return
-		
+	
+	#Roll Recorvary	
+	$AnimatedSprite.animation = "Top"
+	if GuntretRoll < 0:
+		GuntretRoll +=0.5
+		$AnimatedSprite.animation = "Left"
+	elif 0 <GuntretRoll:
+		GuntretRoll -=0.5
+		$AnimatedSprite.animation = "Right"
+	
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
-
+	
+	if input_vector.x < 0:
+		GuntretRoll -=1
+		if GuntretRoll < -10:
+			GuntretRoll = -10
+	elif 0<input_vector.x:
+		GuntretRoll +=1
+		if 10<GuntretRoll:
+			GuntretRoll=10
+	
 	position += input_vector* Speed * delta
 		
 	position.x = clamp(position.x, 16, GlobalNode.ScreenWidth - 16)
