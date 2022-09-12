@@ -70,8 +70,10 @@ func _process(delta: float) -> void:
 	
 	#ステージクリアアニメーション中はキー入力キャンセル　
 	if GlobalNode.SubState ==  GlobalNode.SUBSTATE.STAGE_CLEAR:
+		$AnimatedSprite.animation = "Top"
 		return
 	if GlobalNode.SubState ==  GlobalNode.SUBSTATE.STAGE_CLEAR02:
+		$AnimatedSprite.animation = "Top"
 		return
 	
 	#Roll Recorvary	
