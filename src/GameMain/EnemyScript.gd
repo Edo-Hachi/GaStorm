@@ -616,75 +616,187 @@ var StateSeq06 = [
 
 		{"Cmd" : "Wait_f", "Time" : 3},
 		
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(7,2), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,1), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,2), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,3), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,3), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,3), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,4), "Spd":Spd_08},
 
 		#{"Cmd" : "Wait_s", "Time" : 1},
 		
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,3), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,1), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,4), "Spd":Spd_08},
 
 		{"Cmd" : "Wait_s", "Time" : 1},
 
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(0,2), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(1,1), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,2), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,1), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,3), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,3), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(6,1), "Spd":Spd_08},
 
 		#{"Cmd" : "Wait_s", "Time" : 1},
 
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,4), "Spd":Spd_08},
-		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,4), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,4), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(4,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(3,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,4), "Spd":Spd_08},
+
+		{"Cmd" : "Wait_s", "Time" : 1},
+
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(1,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(2,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(2,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,3), "Spd":Spd_08},
+
+		{"Cmd" : "Wait_s", "Time" : 1},
+
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(6,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(5,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,3), "Spd":Spd_08},
+
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(5,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+
+		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
+		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
+		{"Cmd" : "EnmyFormationAttack", "Flg" : true}, #エネミーフォーメイション攻撃開始 
+
+		#Attack(編隊攻撃開始フラグ兼、攻撃率) #Shot(敵弾発射フラグ兼、攻撃率) #自機狙い弾を撃つか それぞれ-1ならfalse
+		{"Cmd" : "EnemyStrength", "Attack" : 800, "Shot": 800, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
+
+		{"Cmd" : "End"}
+]
+
+var StateSeq07 = [
+		{"Cmd" : "Init_s"},	#1秒タイマ初期化
+		{"Cmd" : "Init_f"},	#フレーム単位初期化
+		{"Cmd" : "Init_g"},	#グローバルタイマ初期化
+
+		{"Cmd" : "BgStarScroll", "Spd" : 5, "Dir": 1},
+		#音楽変更　
+		{"Cmd" : "AudioStreamSet", "Music" : "StartMusic"},
+		
+		{"Cmd" : "MsgStageStart", "Num" : 7}, #ステージ開始テキスト描画
+		{"Cmd" : "EnmyFormationActive", "Flg" : false}, #エネミーフォーメイションスタンバイ　 
+		
+		#Attack(編隊攻撃開始フラグ兼、攻撃率) #Shot(敵弾発射フラグ兼、攻撃率) #自機狙い弾を撃つか それぞれ-1ならfalse
+		{"Cmd" : "EnemyStrength", "Attack" : 800, "Shot": 800, "Aim":true},
+#		{"Cmd" : "EnemyStrength", "Attack" : -1, "Shot": 800, "Aim":true},
+
+		{"Cmd" : "Wait_s", "Time" : 3},
+
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(5,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(2,4), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,4), "Spd":Spd_08},
 
 		{"Cmd" : "Wait_s", "Time" : 1},
 
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,4), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,4), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,4), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,4), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,3), "Spd":Spd_08},
+
+		{"Cmd" : "Wait_f", "Time" : 3},
+		
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(7,4), "Spd":Spd_08},
+
+		{"Cmd" : "Wait_s", "Time" : 1},
+		
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,2), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Yellow, "Matrix":Vector2(0,4), "Spd":Spd_08},
 
 		{"Cmd" : "Wait_s", "Time" : 1},
 
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(2,2), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,2), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(2,3), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,2), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,3), "Spd":Spd_08},
-
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(5,2), "Spd":Spd_08},
-		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,2), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,3), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(5,3), "Spd":Spd_08},
 		{"Cmd" : "Wait_f", "Time" : 5},
-		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,3), "Spd":Spd_08},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,3), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Black, "Matrix":Vector2(2,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(3,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(4,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Black, "Matrix":Vector2(5,1), "Spd":Spd_08},
+		{"Cmd" : "Wait_f", "Time" : 5},
+		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,1), "Spd":Spd_08},
+
+		{"Cmd" : "Wait_s", "Time" : 1},
+
 
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
