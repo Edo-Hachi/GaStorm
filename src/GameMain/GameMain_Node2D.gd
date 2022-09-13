@@ -262,19 +262,15 @@ func SeqState():
 			SeqPtr+=1
 			
 		"End":
-			#print("Sqe End")
 			SeqEnable=false
 			LoopSeqEnd = true
-			
-			#シーケンス動作完了
-			#GlobalNode.GameSeqActive = false
-			#GlobalNode.InvaderCanMove = true
 			
 			#ラスボスです--------------------------------------------------
 			if LastBossFlg == true:
 				return
 				
 			#敵が0だったらステージクリアに
+			#print(EnemyList.size())
 			if EnemyList.size() == 0:
 				StageClearGuntret_SpdY = 10
 				GlobalNode.SubState = GlobalNode.SUBSTATE.STAGE_CLEAR
@@ -339,6 +335,7 @@ func LoopEnemyOver(var EnemyId, var NowPos : Vector2, var ToPos : Vector2):
 		#debug
 		#逆スクロール面のエネミーは画面外に出たら消す
 		if GlobalNode.BgScrollReverse == true:
+			#print("EnemyOver")
 			EnemyList.pop_front()
 			EnemyId.queue_free()
 			return
@@ -505,22 +502,20 @@ func _ready() -> void:
 	EnemySeqList.append($EnemyScript.StateSeq01)
 	EnemySeqList.append($EnemyScript.StateSeq02)
 	EnemySeqList.append($EnemyScript.StateSeq03)
+
+#	#BackScroll
 	EnemySeqList.append($EnemyScript.StateSeq04)
-	
+
 	EnemySeqList.append($EnemyScript.StateSeq05)
 	EnemySeqList.append($EnemyScript.StateSeq06)
 	EnemySeqList.append($EnemyScript.StateSeq07)
 	EnemySeqList.append($EnemyScript.StateSeq08)
 
-
-
+	#BackScroll
+	EnemySeqList.append($EnemyScript.StateSeq09)
+	
+	#LastStage
 	EnemySeqList.append($EnemyScript.StateBoss)
-
-
-	
-
-	
-	#EnemySequence = $EnemyScript.StateSeq01	#実行するシーケンスの辞書リスト
 	
 	SeqPtr=0
 	SeqTimerFps=0
@@ -602,12 +597,12 @@ func _process(delta: float) -> void:
 			#タイミング合わせも兼ねて画面外にすっとばす
 			if $Guntret.position.y < -4096:
 				
-				print($Guntret.position.y)
+				#print($Guntret.position.y)
 				
 				$Guntret.position.y = GuntretHomePosY
 				
 #----------------------------------------------------------------
-				print("next Stage")
+				#print("next Stage")
 				#debug ０，１面しかまだないのでここで弾いてます　
 				#if 1 <= EnemySeqStageNum:
 				#	return
@@ -638,7 +633,6 @@ func _process(delta: float) -> void:
 				
 				#ステージクリア時にOFFにした自機のコライダーをオンにする
 				$Guntret.CollisionSetDisable(false)
-				#hoge
 					
 				yield(get_tree().create_timer(0.5), "timeout")
 				#$Sound/StartMusic.play(0.0)

@@ -17,17 +17,19 @@ var GuntretRoll = 0
 #コライダーのOnOff
 func CollisionSetDisable(var param : bool):
 	$CollisionShape2D.set_deferred("disabled", param)
+	#Debug Mode
+	if GlobalNode._DEBUG_ == true:
+		$CollisionShape2D.set_deferred("disabled", true)
 
 
 func _ready() -> void:
 	GuntretCrush = false
 	GuntretCrushCount=0
 	$MzlFlush.visible = false
-
-#debug-------------------------------	
-#	$CollisionShape2D.set_deferred("disabled", true)
-#debug-------------------------------	
 	
+	#Debug Mode
+	if GlobalNode._DEBUG_ == true:
+		$CollisionShape2D.set_deferred("disabled", true)
 	
 	pass
 	
@@ -63,11 +65,10 @@ func _process(delta: float) -> void:
 			GuntretCrush = false
 			visible = true
 			$CollisionShape2D.set_deferred("disabled", false)
+			#Debug Mode
+			if GlobalNode._DEBUG_ == true:
+				$CollisionShape2D.set_deferred("disabled", true)
 
-#debug-------------------------------	
-			#$CollisionShape2D.set_deferred("disabled", true)
-#debug-------------------------------	
-	
 	#ステージクリアアニメーション中はキー入力キャンセル　
 	if GlobalNode.SubState ==  GlobalNode.SUBSTATE.STAGE_CLEAR:
 		$AnimatedSprite.animation = "Top"

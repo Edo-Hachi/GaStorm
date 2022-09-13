@@ -1,6 +1,7 @@
 extends Node
 
 const Version = "Ver 0.01A"
+const _DEBUG_ = true
 
 #画面サイズ
 const ScreenWidth = 256
