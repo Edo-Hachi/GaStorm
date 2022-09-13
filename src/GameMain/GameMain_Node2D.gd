@@ -679,7 +679,7 @@ func _process(delta: float) -> void:
 		return
 	
 	#Pause r--------------------------------------------------------------
-	if Input.is_action_pressed("Pause"):
+	if Input.is_action_just_pressed("Pause"):
 		get_tree().paused = true
 		$DlgPause.visible = true
 		$DlgPause.show_modal(true)
