@@ -3,6 +3,7 @@ extends Area2D
 
 var EnemyExplodeParticle = preload("res://src/GameMain/Particle/EnemyExplode.tscn") 
 var EnemyRefrectParticle = preload("res://src/GameMain/Particle/EnemyRefrect.tscn") 
+var SCORE_LABEL = preload("res://src/GameMain/Enemies/ScoreMulti.tscn")
 
 enum MoveTypeID  {
 	Type01=0,
@@ -292,12 +293,55 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 		$SoundExplode.play()
 			
 		#画面を揺らす
-		get_parent().DispShakeStart(3,10)		
+		get_parent().DispShakeStart(3,10)
 		
 		Alive = false	
 		visible = false
 		
-		GlobalNode.PlayerScore += 100 * ScoreMulti
+		
+		#ループ中、待機中、攻撃中、バックスクロール面でスコア計算率を変える
+		var ScoreString = "x1"
+		var mul = 1
+		match EnemyState:
+			GlobalNode.EnemyStateID.STAT_LOOP:
+				ScoreString="x1"
+				mul=1
+				#print("Loop")
+			GlobalNode.EnemyStateID.STAT_FORMATION:
+				ScoreString="x1"
+				mul=1
+				#print("Formation")
+			GlobalNode.EnemyStateID.STAT_ATTACK:
+				ScoreString="x2"
+				mul=2
+		
+		if GlobalNode.BgScrollReverse == true:
+			ScoreString="x3"
+			mul=3
+
+		#Score
+		var score = (100 * ScoreMulti) * mul
+		GlobalNode.PlayerScore += score
+		
+		if ScoreString != "x1":
+			#スコア表示　
+			var scorelabel = SCORE_LABEL.instance()
+			scorelabel.SetStr(ScoreString)
+			scorelabel.position = position
+			get_parent().add_child(scorelabel)
+			
+
+		var scorelabel2 = SCORE_LABEL.instance()
+		#var scoretext = String.format("%d", score)
+			
+		var ScoreTxt= "+%d" % score
+		
+		#print(ScoreTxt)
+		scorelabel2.SetStr(ScoreTxt)
+		scorelabel2.position.x = GlobalNode.ScreenWidth/2
+		scorelabel2.position.y = 16
+		get_parent().add_child(scorelabel2)
+			
 
 		#コリジョンも不使用にする disabled = true
 		$CollisionShape2D.set_deferred("disabled", true)

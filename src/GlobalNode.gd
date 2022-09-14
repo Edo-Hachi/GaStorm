@@ -1,13 +1,16 @@
 extends Node
 
-const Version = "Ver 0.01A"
-const _DEBUG_ = true
+const Version = "Ver1.0"
+const _DEBUG_ = false
 
 #画面サイズ
 const ScreenWidth = 256
 const ScreenHeight = 256
 
 var GameTime = 0
+
+#自機残機数
+var GuntretRestNum = 5
 
 #ゲームステート	
 enum GState {TITLE = 0, GAMEPLAY, GAMEOVER, GAME_CLEAR}

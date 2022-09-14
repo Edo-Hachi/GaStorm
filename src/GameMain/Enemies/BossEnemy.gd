@@ -8,6 +8,8 @@ var EXCP_MINI_TSCN =preload("res://src/GameMain/Particle/EnemyExplode.tscn")
 
 var REFRECT_TSCN = preload("res://src/GameMain/Particle/EnemyRefrect.tscn")
 
+var SCORE_MULT = preload("res://src/GameMain/Enemies/ScoreMulti.tscn")
+
 
 #ビットのアニメーション情報-----------------------------
 const rad30 : float = 0.52359
@@ -71,8 +73,7 @@ func ShotEnemyBullet03(var pos):
 func State01(var delta:float) -> bool:
 
 #最終的には100くらいの速度で
-#	Stg01Scl += (Stg01TgtScl - Stg01Scl) / 100
-	Stg01Scl += (Stg01TgtScl - Stg01Scl) / 10
+	Stg01Scl += (Stg01TgtScl - Stg01Scl) / 100
 
 	if 1<= Stg01Scl:
 		Stg01Scl -= Stg01Scl * delta
@@ -251,6 +252,12 @@ func _on_BossEnemy_area_entered(area: Area2D) -> void:
 	if BossLife <= 0:
 		#print("Boss Dead")
 		BossState = State.StateDead
+		
+		var score = SCORE_MULT.instance()
+		score.SetStr("Bonus 10000pts")
+		score.position = Vector2(GlobalNode.ScreenWidth/2, 16)
+		get_parent().add_child(score)
+		GlobalNode.PlayerScore += 10000
 		
 		BossExpodeCount = 30
 

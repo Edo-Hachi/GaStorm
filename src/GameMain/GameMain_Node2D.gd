@@ -5,7 +5,6 @@ var EnemyLoopScene = preload("res://src/GameMain/Enemies/PathFollowEnemies.tscn"
 var EnemyScene = preload("res://src/GameMain/Enemies/Enemy_Area2D.tscn")
 var EnemyBulletScn = preload("res://src/GameMain/Enemies/EnemyBullet.tscn")
 var BOSS_TSCN = preload("res://src/GameMain/Enemies/BossEnemy.tscn")
-
 var EnemyExplode = preload("res://src/GameMain/Particle/RectParticle.tscn")
 
 
@@ -442,8 +441,7 @@ func GameStartInit():
 	$CanvasScore.visible = true
 	
 	#残機
-#	$RestGuntret.SetRestGuntert(5)
-	$RestGuntret.SetRestGuntert(2)
+	$RestGuntret.SetRestGuntert(GlobalNode.GuntretRestNum)
 	
 	$Sound/StartMusic.play()
 	
@@ -496,7 +494,6 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-	#EnemySeqList.append($EnemyScript.StateSeq08)
 #---------------------------------------------------
 	EnemySeqList.append($EnemyScript.StateSeq01)
 	EnemySeqList.append($EnemyScript.StateSeq02)
@@ -510,7 +507,7 @@ func _ready() -> void:
 	EnemySeqList.append($EnemyScript.StateSeq07)
 	EnemySeqList.append($EnemyScript.StateSeq08)
 
-	#BackScroll
+	#BackScroll2
 	EnemySeqList.append($EnemyScript.StateSeq09)
 	
 	#LastStage
@@ -672,12 +669,14 @@ func _process(delta: float) -> void:
 			col = OS.get_ticks_usec() % GlobalNode.Colormax
 			$CanvasGameover/lblHitAnyKey.add_color_override("font_color", ColorN(GlobalNode.ColorName[col]))
 			
-		if Input.is_action_just_pressed("Shot"):	
+#		if Input.is_action_just_pressed("Shot"):	
+		if Input.is_action_just_pressed("Shot") or  Input.is_action_just_pressed("ui_accept"):
+
 			get_parent().GameTitleInit()
 			queue_free()
 		return
 	
-	#Pause r--------------------------------------------------------------
+	#Pause --------------------------------------------------------------
 	if Input.is_action_just_pressed("Pause"):
 		get_tree().paused = true
 		$DlgPause.visible = true
