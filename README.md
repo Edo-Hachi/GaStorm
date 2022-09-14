@@ -12,7 +12,7 @@
  Fire the bullet with the space key.
  Possibly also supports XBOX gamepad (Windows)
 
-[Enemies.png](https://github.com/Edo-Hachi/GaStorm/blob/main/ReadMe/Enemies.png)
+ ![Enemies](https://user-images.githubusercontent.com/39523001/190196937-722dbec7-0b1d-4b27-b8ea-afdf46c05353.png)
         
 
 # Credit
