@@ -12,11 +12,8 @@
  Fire the bullet with the space key.
  Possibly also supports XBOX gamepad (Windows)
 
-
-
-
-            Enemies.png
-          
+[Enemies.png](https://github.com/Edo-Hachi/GaStorm/blob/main/ReadMe/Enemies.png)
+        
 
 # Credit
 このゲームはGodot Game Engineで作成されています。
