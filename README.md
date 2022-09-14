@@ -17,7 +17,7 @@
 
 # Credit
 このゲームはGodot Game Engineで作成されています。
-このゲームを作成するGameJamを開催してくれたLazyDevs(https://www.youtube.com/c/LazyDevs)のKrystian、そして参加したすべてのプログラマー達に感謝します。
+このゲームを作成するGameJamを開催してくれたLazyDevs( https://www.youtube.com/c/LazyDevs )のKrystian、そして参加したすべてのプログラマー達に感謝します。
 
 This game is created with the Godot Game Engine.
 Thanks to Krystian at LazyDevs(https://www.youtube.com/c/LazyDevs) and all the programmers who participated for giving us the opportunity to use GameJam to create this game.
