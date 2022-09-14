@@ -496,8 +496,7 @@ func _ready() -> void:
 	$BgColor/BackGroundStars.SetStarSpeed(StageClearBgStarSpd,1)
 
 	#シーケンスリスト作成（なんかスマートに書けないかな？）
-#のこり9面（バックスクロール
-#10面ボス　
+	EnemySeqList.append($EnemyScript.StateSeq04)
 
 	EnemySeqList.append($EnemyScript.StateSeq01)
 	EnemySeqList.append($EnemyScript.StateSeq02)

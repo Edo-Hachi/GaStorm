@@ -390,7 +390,7 @@ var StateSeq04 = [
 
 		{"Cmd" : "Wait_s", "Time" : 2},
 
-		{"Cmd" : "EnemyStrength", "Attack" : -1, "Shot": -1, "Aim":false}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
+		{"Cmd" : "EnemyStrength", "Attack" : -1, "Shot": 400, "Aim":true}, #-1なら弾を撃たない Aim==trueだと狙って撃ってくる事がある
 		
 		#バックスクロール開始
 		#export var StarSpeed = 5 #小さくすると速くなるよ / StarDirection = 1 #-1にすると逆スクロールだよ　
