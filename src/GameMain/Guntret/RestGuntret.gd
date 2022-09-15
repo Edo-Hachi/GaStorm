@@ -1,12 +1,8 @@
 extends Node2D
 
-var RestGuntret = 5
+var RestGuntret = 3
 
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
-#var RestGuntretList = [] #$sp01,$sp02,$sp03,$sp04,$sp05]
-onready var RestGuntretList = [$sp01,$sp02,$sp03,$sp04,$sp05]
+onready var RestGuntretList = [$sp01,$sp02,$sp03,$sp04,$sp05,$sp06,$sp07,$sp08]
 
 func SetRestGuntert(var rest):
 	RestGuntret = rest

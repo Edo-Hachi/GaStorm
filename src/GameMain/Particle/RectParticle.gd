@@ -13,8 +13,6 @@ class PARTICLE :
 	var age		#EnemyLifeParam
 	var color
 
-
-
 var ColorList_yelw = ["white", "yellow", "orange", "saddlebrown", "dimgray"]
 var ColorList_blue = ["lightblue", "lightskyblue", "cyan", "dodgerblue", "navyblue"]
 
@@ -24,16 +22,15 @@ export var PrtMax = 40
 var PosX = 128
 var PosY = 128
 
+var radius = 5
+var point = 20
+func DrawCircle(var rad, var point):
+	var pos = Vector2(PosX, PosY)
+	#draw_circle(pos, rad, ColorN("white"))
+	draw_arc(pos, rad, 0, 2*PI, 15, ColorN("white"), point)
 
 func DrawRect(var prt : PARTICLE):
 	var rect :Rect2
-	
-#	rect.position.x = prt.x - prt.size
-#	rect.position.y = prt.y - prt.size
-#	rect.size.x = prt.size / 2
-#	rect.size.y = prt.size / 2
-#	draw_rect(rect, prt.color)
-	
 	
 	rect.position.x = prt.x
 	rect.position.y = prt.y
@@ -48,14 +45,11 @@ func InitRect(var x, var y):
 		_prt.x = x
 		_prt.y = y
 
-#		_prt.spdx  = rand_range(-1,1) * (randi() % 400 + 20)
-#		_prt.spdy  = rand_range(-1,1) * (randi() % 400 + 20)
 		_prt.spdx  = rand_range(-1,1) * (randi() % 300 + 200)
 		_prt.spdy  = rand_range(-1,1) * (randi() % 300 + 200)
 		
 		_prt.size = randi()%30 + 1
 		
-		#_prt.age = randi()%25 + 10
 		_prt.age = randi()%40 + 10
 		_prt.color = ColorN("white")
 		
@@ -107,6 +101,11 @@ func _draw():
 		if 0 < prt.age:
 			DrawRect(prt)
 			cnt+=1
+
+	if radius < 90:
+		radius += 3
+		point -=1
+		DrawCircle(radius, point)
 	
 	#すべてのパーティクルがなくなったらオブジェクト破棄　
 	if cnt == 0:

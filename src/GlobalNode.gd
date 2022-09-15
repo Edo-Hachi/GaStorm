@@ -7,21 +7,15 @@ const _DEBUG_ = false
 const ScreenWidth = 256
 const ScreenHeight = 256
 
+#Game Start inc timer
 var GameTime = 0
 
 #自機残機数
-var GuntretRestNum = 5
+var GuntretRestNum = 3 # max=8
 
 #ゲームステート	
 enum GState {TITLE = 0, GAMEPLAY, GAMEOVER, GAME_CLEAR}
 var GameState : int  = GState.TITLE
-
-#インベーダーモード変数　
-#var InvaderMode = false	#Enemy_Area2Dで参照するインベーダー動作モードフラグ
-#var InvaderMove = 0		#インベーダーの進行方向管理用　0=左　1=右
-#var InvaderCanMove = false	#インベーダー移動可能フラグ
-#var InvaderOffsetX = 0	#インベーダー下方移動時のオフセット座標
-#var InvaderOffsetY = 0	#インベーダー下方移動時のオフセット座標
 
 #ゲームサブステート(GState.SUBSTATE)
 enum SUBSTATE {STAGE_START=0, STAGE_PLAY, STAGE_CLEAR, STAGE_CLEAR02,GAMEOVER}
@@ -35,6 +29,7 @@ var HighScore : int = 10
 
 var GameMainSceneID = 0
 
+#Spawn Loop Type List
 enum LoopType {Left01=0, Right01, Left02, Right02, Left03, Right03,
 				 LeftPath04A, LeftPath04B, RightPath04A, RightPath04B,
 				 RevStgLeft01, RevStgRight01, RevStgLeft02, RevStgRight02, RevStgLeft03, RevStgRight03, RevStgLeft04, RevStgRight04}
@@ -45,7 +40,7 @@ enum EnemyColor {Green=0, Red, Yellow, Black}
 enum EnemyStateID {
 		STAT_LOOP=0,	#現れた時のループ
 		STAT_GOHOME,	#ホームポジションへの移動
-		STAT_FORMATION,
+		STAT_FORMATION,		#編隊編成時
 		STAT_ATTACK		#攻撃中
 }
 
@@ -71,15 +66,6 @@ var EnemyShotAim : bool	#自機狙い弾を撃ってくるかどうか true/fals
 #シーケンス実行中状態 実行中 = true / 終了 = false
 var SeqState
 
-#------------------
-#var EnemyInvader = false
-#var InvaderDir = 0
-#var InvaderLeftX
-#var InvaderRightX
-#var InvaderTimer = 0
-#var EnemyOffsetY=0
-#------------------
-
 #Color Name Like a Pico8 Colors)
 var ColorName = ["black", "navyblue", "maroon", "darkgreen", "brown", "darkolivegreen", "darkgray", "cornsilk", "red", "darkorange", "yellow", "green",
 					 "deepskyblue",  "dimgray", "hotpink",  "lightsalmon"]
@@ -87,8 +73,8 @@ var Colormax = ColorName.size()
 
 #スクロールリバース面フラグ trueになってたらリバース面処理中
 var BgScrollReverse = false
-#var DspShake = false
 
+#Save Data
 var UserData = {
 	"HighScore"  : 0
 }
@@ -102,9 +88,6 @@ var BossBitNum
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
-
-func InitData(var fuga):
-	PlayerScore = fuga
 	
 #C:\Users\-username-\AppData\Roaming\Godot\app_userdata\GaStorm\gastorm.json
 func DataSave():
@@ -125,7 +108,6 @@ func DataLoad():
 		var ret = JSON.parse(dat)
 		if ret.error == OK:
 			#Convert Success
-			#print("Score: %s"  %ret.result["HighScore"])
 			var hs : int
 			hs = ret.result["HighScore"]
 			UserData["HighScore"] = hs

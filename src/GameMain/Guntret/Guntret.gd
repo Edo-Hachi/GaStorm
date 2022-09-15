@@ -103,7 +103,7 @@ func _process(delta: float) -> void:
 	position += input_vector* Speed * delta
 		
 	position.x = clamp(position.x, 16, GlobalNode.ScreenWidth - 16)
-	position.y = clamp(position.y, 0, GlobalNode.ScreenHeight - 32)
+	position.y = clamp(position.y, 0, GlobalNode.ScreenHeight - 24)
 	
 	#自機の座標はグローバルに保存しておく（ボスから位置参照とかするかも）
 	GlobalNode.GuntretPos = position

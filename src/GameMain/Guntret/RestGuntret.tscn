@@ -20,3 +20,12 @@ position = Vector2( 30, -1 )
 
 [node name="sp05" parent="." instance=ExtResource( 1 )]
 position = Vector2( 40, -1 )
+
+[node name="sp06" parent="." instance=ExtResource( 1 )]
+position = Vector2( 50, -1 )
+
+[node name="sp07" parent="." instance=ExtResource( 1 )]
+position = Vector2( 60, -1 )
+
+[node name="sp08" parent="." instance=ExtResource( 1 )]
+position = Vector2( 70, -1 )
