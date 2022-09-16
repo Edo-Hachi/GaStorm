@@ -282,6 +282,10 @@ func _on_EnemyObject_area_entered(area: Area2D) -> void:
 		
 		#プレイヤーのたまに当たったらヒットバックする
 		HitBack=4
+		
+		#ライズ残０でスプライト色を赤っぽくする	
+		if Life==0:
+			$AnimatedSprite.self_modulate = Color8(255, 0, 0, 255)
 	
 	elif Life < 0:
 		
