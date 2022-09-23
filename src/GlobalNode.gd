@@ -1,6 +1,13 @@
 extends Node
 
-const Version = "Ver1.0"
+const Version = "Ver1.3"
+
+#Ver1.1
+#Lifeが残1のエネミーの色を赤に変更するようにした
+#ver 1.3
+#7,8面でエネミーのスポーン数と破壊数がずれる可能性があったので、スクリプトの終了処理のタイマをすこし長めにした
+
+
 const _DEBUG_ = false
 
 #画面サイズ
@@ -11,7 +18,7 @@ const ScreenHeight = 256
 var GameTime = 0
 
 #自機残機数
-var GuntretRestNum = 3 # max=8
+var GuntretRestNum = 5 # max=8
 
 #ゲームステート	
 enum GState {TITLE = 0, GAMEPLAY, GAMEOVER, GAME_CLEAR}

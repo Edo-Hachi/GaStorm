@@ -141,7 +141,7 @@ var StateSeq01 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,0), "Spd":Spd_05},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
@@ -254,7 +254,7 @@ var StateSeq02 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(4,0), "Spd":Spd_06},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
@@ -365,7 +365,7 @@ var StateSeq03 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Black, "Matrix":Vector2(4,0), "Spd":Spd_06},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
@@ -503,7 +503,7 @@ var StateSeq04 = [
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgRight01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1), "Spd":0.2},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		
-		{"Cmd" : "Wait_s", "Time" : 7},	#BG面は終了タイマを長めに取らないとEndコマンド後にループアウトしてしまうので注意
+		{"Cmd" : "Wait_s", "Time" : 8},	#BG面は終了タイマを長めに取らないとEndコマンド後にループアウトしてしまうので注意
 		{"Cmd" : "End"}
 	]
 
@@ -531,8 +531,6 @@ var StateSeq05 = [
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,3), "Spd":Spd_07},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(6,3), "Spd":Spd_07},
-
-		#{"Cmd" : "Wait_s", "Time" : 1},
 		
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,1), "Spd":Spd_07},
 		{"Cmd" : "Wait_f", "Time" : 5},
@@ -552,8 +550,6 @@ var StateSeq05 = [
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(0,3), "Spd":Spd_07},
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,3), "Spd":Spd_07},
-
-		#{"Cmd" : "Wait_s", "Time" : 1},
 
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Left01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(7,4), "Spd":Spd_07},
 		{"Cmd" : "Wait_f", "Time" : 5},
@@ -575,7 +571,6 @@ var StateSeq05 = [
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(3,4), "Spd":Spd_07},
 
 		{"Cmd" : "Wait_s", "Time" : 1},
-
 
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.LeftPath04A, "Color": GlobalNode.EnemyColor.Red, "Matrix":Vector2(2,2), "Spd":Spd_07},
 #		{"Cmd" : "Wait_f", "Time" : 5},
@@ -602,7 +597,7 @@ var StateSeq05 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right03, "Color": GlobalNode.EnemyColor.Black, "Matrix":Vector2(2,0), "Spd":Spd_06},
 
-		{"Cmd" : "Wait_s", "Time" : 2},
+		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
@@ -717,7 +712,8 @@ var StateSeq06 = [
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right03, "Color": GlobalNode.EnemyColor.Black, "Matrix":Vector2(5,0), "Spd":Spd_06},
 		{"Cmd" : "Wait_f", "Time" : 5},
 
-
+		{"Cmd" : "Wait_s", "Time" : 3},
+		
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
 		{"Cmd" : "EnmyFormationAttack", "Flg" : true}, #エネミーフォーメイション攻撃開始 
@@ -829,7 +825,7 @@ var StateSeq07 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right01, "Color": GlobalNode.EnemyColor.Black, "Matrix":Vector2(6,0), "Spd":Spd_07},
 
-		{"Cmd" : "Wait_s", "Time" : 1},
+		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
@@ -938,6 +934,7 @@ var StateSeq08 = [
 		{"Cmd" : "Wait_f", "Time" : 5},
 		{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.Right02, "Color": GlobalNode.EnemyColor.Black, "Matrix":Vector2(4,0), "Spd":Spd_08},
 
+		{"Cmd" : "Wait_s", "Time" : 3},
 
 		{"Cmd" : "EnmyFormationActive", "Flg" : true}, #エネミーフォーメイション実行 
 		{"Cmd" : "EnmyFormationAnim", "Flg" : GlobalNode.EnFrmStateID.OUTER}, #エネミーフォーメイションアニメ開始 
@@ -1073,7 +1070,7 @@ var StateSeq09 = [
 	{"Cmd" : "LoopEnmy", "LoopType" : GlobalNode.LoopType.RevStgRight01, "Color": GlobalNode.EnemyColor.Green, "Matrix":Vector2(1,1), "Spd":Spd_02},
 	{"Cmd" : "Wait_f", "Time" : 5},
 	
-	{"Cmd" : "Wait_s", "Time" : 7},	#BG面は終了タイマを長めに取らないとEndコマンド後にループアウトしてしまうので注意
+	{"Cmd" : "Wait_s", "Time" : 8},	#BG面は終了タイマを長めに取らないとEndコマンド後にループアウトしてしまうので注意
 
 	{"Cmd" : "End"}
 ]
